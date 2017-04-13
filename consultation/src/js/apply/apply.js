@@ -54,6 +54,9 @@ export default class Apply extends Component{
           title: '会诊时间',
           dataIndex: 'startTime',
           key: 'startTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
           title: '会诊对象',
@@ -69,6 +72,9 @@ export default class Apply extends Component{
             title: '创建时间',
             dataIndex: 'creatAt',
             key: 'creatAt',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '操作',
@@ -80,8 +86,8 @@ export default class Apply extends Component{
                 pathname: 'apply/editCnsulation/'+record.id,
                 query: record.id
               }}>编辑</Link>*/}
-                <Link to="" onClick={()=>this.push(record.id,index)} className="apply_link">提交</Link>
-                {/*提交按钮有问题，需要后端返回一个状态值，前端根据这个状态值渲染需要的显示的按钮*/}
+                {/*<Link to="" onClick={()=>this.push(record.id,index)} className="apply_link">提交</Link>
+                提交按钮有问题，需要后端返回一个状态值，前端根据这个状态值渲染需要的显示的按钮*/}
               <Link to="" className="apply_link" onClick={()=>this.deleteRecord(record.id)}>删除</Link>
               <Link className="apply_link" to={"apply/addConsultation/"+record.id} >创建副本</Link>
             </span>

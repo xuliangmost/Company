@@ -59,6 +59,9 @@ export default class Checked extends Component{
           title: '会诊时间',
           dataIndex: 'startTime',
           key: 'startTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
           },
           {
           title: '所属医院',
@@ -79,6 +82,9 @@ export default class Checked extends Component{
             title: '审核时间',
             dataIndex: 'modifyTime',
             key: 'modifyTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '操作',

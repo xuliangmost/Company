@@ -926,7 +926,6 @@ export default class NewConsultation extends Component{
       return false
     }
 
-
     if(!tool.mobileValidate(postConsulation.phone)){
       alert("手机号不能为空或手机号格式错误!");
       return false
@@ -1450,7 +1449,7 @@ export default class NewConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">出生日期</span>
-              <DatePicker placeholder="必填" allowClear={false} format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
+              <DatePicker placeholder="出生日期" allowClear={false} format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
             </li>
           </ul>
 

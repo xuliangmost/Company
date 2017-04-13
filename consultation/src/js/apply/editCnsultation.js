@@ -1220,8 +1220,10 @@ export default class EditCnsulation extends Component{
                 </li>
 
               </ul>
+
               <Button onClick={this.closePrescription.bind(this)} className="transfer_btn1" type="primary">保存处方</Button>
               <Button onClick={this.cancelSaveCF.bind(this)} className="transfer_btn1" type="primary">取消保存</Button>
+
             </div>
           </div>:""
         }

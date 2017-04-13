@@ -54,6 +54,9 @@ export default class DaiShen extends Component{
             title: '会诊时间',
             dataIndex: 'startTime',
             key: 'startTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '会诊对象',
@@ -69,6 +72,9 @@ export default class DaiShen extends Component{
             title: '提交时间',
             dataIndex: 'creatAt',
             key: 'creatAt',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '操作',

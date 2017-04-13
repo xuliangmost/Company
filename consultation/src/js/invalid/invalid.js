@@ -69,7 +69,7 @@ export default class Invalid extends Component{
             key: 'phone',
           },
           {
-            title: '创建时间',
+            title: '作废时间',
             dataIndex: 'creatAt',
             key: 'creatAt',
             render: (text) => (

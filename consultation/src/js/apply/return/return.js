@@ -54,6 +54,9 @@ export default class ReturnRecord extends Component{
             title: '会诊时间',
             dataIndex: 'startTime',
             key: 'startTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '会诊对象',
@@ -69,6 +72,9 @@ export default class ReturnRecord extends Component{
             title: '被退时间',
             dataIndex: 'creatAt',
             key: 'creatAt',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '操作',
@@ -76,7 +82,7 @@ export default class ReturnRecord extends Component{
             render: (text, record,index) => (
               <span  key={record.id}>
                 <Link to={"apply/return/ReturnRecord/editReturn/"+record.id}>编辑</Link>
-                <Link to="" onClick={()=>this.push(record.id,index)} className="apply_link">提交</Link>
+                {/*<Link to="" onClick={()=>this.push(record.id,index)} className="apply_link">提交</Link>*/}
                 <Link to="" className="apply_link" onClick={()=>this.invalid(record.id)}>作废</Link>
             </span>
             )
