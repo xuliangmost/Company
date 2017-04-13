@@ -63,6 +63,9 @@ export default class ConsultationTask extends Component{
           title: '会诊时间',
           dataIndex: 'startTime',
           key: 'startTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '所属医院',
@@ -98,6 +101,9 @@ export default class ConsultationTask extends Component{
           title: '确认时间',
           dataIndex: 'modifyTime',
           key: 'modifyTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作',
@@ -106,7 +112,7 @@ export default class ConsultationTask extends Component{
             <span  key={record.id}>
               <Link to={"task/lookConsultationTask/"+record.id}>查看</Link>&nbsp;
               {
-                record.conId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/checkMeeting/"+record.conId} target="blank">参加</a>:""
+                record.conId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId} target="blank">参加</a>:""
               }
               </span>
           )
@@ -118,54 +124,7 @@ export default class ConsultationTask extends Component{
 
 
   }
-  // push(id,index){
-  //
-  //   let that=this;
-  //   axios.request({
-  //     url: '/api/conference/commit',
-  //     method: 'get',
-  //     params:{
-  //       id:id
-  //     },
-  //     headers: {
-  //       'Authorization': 'Bearer '+token,
-  //       'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-  //     },
-  //   }).then(function(response) {
-  //     if(response.data.code==200){
-  //       axios.request({
-  //         url: '/api/conference/applyPageList',
-  //         method: 'get',
-  //         params:this.state.applyPage,
-  //         headers: {
-  //           'Authorization': 'Bearer '+token,
-  //           'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-  //         },
-  //       }).then(function(response) {
-  //         let dataSource=response.data.result.data;
-  //         console.log(dataSource)
-  //         that.setState({
-  //           dataSource:dataSource
-  //         })
-  //       });
-  //
-  //
-  //     }
-  //
-  //
-  //
-  //
-  //   }).catch(function () {
-  //     alert("数据提交失败，请检查网络!")
-  //   });
-  //
-  // }
 
-  deleteRecord(index){
-
-    alert("删除了id是" + index + "的数据")
-
-  }
   componentDidMount(){
     this.query(1)
   }
@@ -310,19 +269,12 @@ export default class ConsultationTask extends Component{
               <Input value={this.state.applyPage.aPhone} onChange={this.changeaPhone.bind(this)}  className="search_input" size="large" placeholder="手机号" />
             </li>
             <li>
-              {/*<span className="most_flex">会诊状态</span>*/}
-              {/*<select value={this.state.applyPage.stat} onChange={this.changeStat.bind(this)} id="select_id" className="search_input" size="large">*/}
-                {/*<option>未开始</option>*/}
-                {/*<option>进行中</option>*/}
-                {/*<option>已结束</option>*/}
-              {/*</select>*/}
                <span className="most_flex">会诊状态</span>
                 <Select defaultValue="未开始" className="search_input" onChange={this.handleChange.bind(this)}>
                   <Option value="未开始">未开始</Option>
                   <Option value="进行中">进行中</Option>
                   <Option value="已结束">已结束</Option>
                 </Select>
-
             </li>
           </ul>
         </div>

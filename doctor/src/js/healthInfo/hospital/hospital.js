@@ -10,30 +10,24 @@ export default class Apply extends Component{
     constructor(props){
         super(props);
 
-      let startTime=(function getNowFormatDate() {
-        let date = new Date();
-        let seperator1 = "-";
-        let month = date.getMonth() + 1;
-        let strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-          month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-          strDate = "0" + strDate;
-        }
-        return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
-
-      })();
 
       this.state={
         applyPage:{
           pageSize:10,
-          consultationName:"",
-          username:"",
-          phone:"",
-          status:"1",
-          startTime:""
+          name:null,
+          level:null,
+          linkman:null,
+          linkmanPhone:null,
+          province:null,
+          city:null,
+          county:null
         },
+        province:[],
+        levels:[],
+        city:[],
+        county:[],
+        selectCity:"",
+        selectCountry:"",
         total:10,
         current:1,
         columns : [
@@ -47,35 +41,35 @@ export default class Apply extends Component{
           },
           {
           title: '医院名称',
-          dataIndex: 'title',
-          key: 'title',
+          dataIndex: 'name',
+          key: 'name',
           },
           {
           title: '等级',
-          dataIndex: 'startTime',
-          key: 'startTime',
+          dataIndex: 'level',
+          key: 'level',
           },
           {
           title: '所在地（省-市-县）',
-          dataIndex: 'username',
-          key: 'username',
+          dataIndex: 'location',
+          key: 'location',
           },
           {
             title: '联系人',
-            dataIndex: 'phone',
-            key: 'phone',
+            dataIndex: 'linkman',
+            key: 'linkman',
           },
           {
             title: '联系电话',
-            dataIndex: 'creatAt',
-            key: 'creatAt',
+            dataIndex: 'linkmanPhone',
+            key: 'linkmanPhone',
           },
           {
             title: '操作',
             key: 'action',
             render: (text, record,index) => (
               <span  key={record.id}>
-              <Link to="">编辑</Link>
+              <Link to={"healthInfo/hospital/editHospital/"+record.id}>编辑</Link>
             </span>
             )
           }
@@ -85,16 +79,16 @@ export default class Apply extends Component{
     }
 
     componentDidMount(){
-      // this.query(1)
+      this.query(1)
     }
 
 
-  changePage(page){
-    this.query(page);
-    this.setState({
-      current:page
-    })
-  }
+    changePage(page){
+      this.query(page);
+      this.setState({
+        current:page
+      })
+    }
 
 
     query(num){
@@ -102,7 +96,7 @@ export default class Apply extends Component{
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
       axios.request({
-        url: '/api/conference/applyPageList',
+        url: '/api/user/hospital/pageList',
         method: 'get',
         params:applyPage,
         headers: {
@@ -114,8 +108,145 @@ export default class Apply extends Component{
         that.setState({
           dataSource:dataSource,
           total:response.data.result.count
+        });
+        //获取医院等级
+        that.getLevel();
+        //获取省
+        that.getProvince()
+      });
+    }
+    getLevel(){
+      let that=this;
+      axios.request({
+        url: '/api/user/hospital/level',
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer '+token,
+          'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+        },
+      }).then(function(response) {
+        that.setState({
+          levels:response.data.result
         })
       });
+    }
+
+  getProvince(){
+    let that=this;
+    axios.request({
+      url: '/api/user/hospital/province',
+      method: 'get',
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function(response) {
+      that.setState({
+        province:response.data.result
+      })
+    });
+  }
+    getCity(id){
+      let that=this;
+      axios.request({
+        url: '/api/user/hospital/city',
+        method: 'get',
+        params:{
+          provinceId:id
+        },
+        headers: {
+          'Authorization': 'Bearer '+token,
+          'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+        },
+      }).then(function(response) {
+        that.setState({
+          city:response.data.result
+        })
+      });
+    }
+    getCountry(id){
+      let that=this;
+      axios.request({
+        url: '/api/user/hospital/county',
+        method: 'get',
+        params:{
+          cityId:id
+        },
+        headers: {
+          'Authorization': 'Bearer '+token,
+          'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+        },
+      }).then(function(response) {
+        that.setState({
+          county:response.data.result
+        })
+      });
+    }
+
+    changeName(e){
+        let applyPage=this.state.applyPage;
+        applyPage.name=e.target.value;
+        this.setState({
+          applyPage
+        })
+    }
+    changeLevel(value){
+      let applyPage=this.state.applyPage;
+      applyPage.level=Number(value);
+      this.setState({
+        applyPage
+      })
+    }
+    changeLinkman(e){
+      let applyPage=this.state.applyPage;
+      applyPage.linkman=e.target.value;
+      this.setState({
+        applyPage
+      })
+    }
+    changeLinkmanPhone(e){
+      let applyPage=this.state.applyPage;
+      applyPage.linkmanPhone=e.target.value;
+      this.setState({
+        applyPage
+      })
+    }
+    changeProvince(value){
+      let applyPage=this.state.applyPage;
+      applyPage.province=Number(value);
+      applyPage.city=null;
+      applyPage.county=null;
+      this.getCity(Number(value));
+      this.setState({
+        applyPage,
+        selectCity:"",
+        selectCountry:""
+      })
+    }
+    changeCity(value){
+      let city=this.state.city.filter(function (ele) {
+        return ele.cityId==Number(value)
+      });
+      let applyPage=this.state.applyPage;
+      console.log(city)
+      applyPage.city=Number(value);
+      this.getCountry(Number(value));
+      this.setState({
+        applyPage,
+        selectCity:city[0].cityName,
+        selectCountry:""
+      })
+    }
+    changeCounty(value){
+      let country=this.state.county.filter(function (ele) {
+        return ele.countyId==Number(value)
+      });
+      let applyPage=this.state.applyPage;
+      applyPage.county=Number(value);
+      this.setState({
+        applyPage,
+        selectCountry:country[0].countyName
+      })
     }
     render(){
       return (
@@ -123,34 +254,30 @@ export default class Apply extends Component{
           <div className="apple_top">
           <h1>
             医院信息查询区
-            <Button type="primary" onClick={()=>this.query()} className="search_btn1">查询</Button>
+            <Button type="primary" onClick={()=>this.query(1)} className="search_btn1">查询</Button>
           </h1>
           <ul className="search_ul">
             <li>
               <span className="most_flex">医院名称</span>
-              <Input value={this.state.applyPage.consultationName} className="search_input" size="large" placeholder="医院名称" />
+              <Input onChange={this.changeName.bind(this)} className="search_input" size="large" placeholder="医院名称" />
             </li>
             <li>
               <span className="most_flex">等级</span>
-              <Select optionFilterProp="children" className="search_input"  defaultValue="请选择">
-                <Option value="0">-请选择-</Option>
-                <Option value="1">特甲</Option>
-                <Option value="2">三甲</Option>
-                <Option value="3">三乙</Option>
-                <Option value="4">三丙</Option>
-                <Option value="5">二甲</Option>
-                <Option value="6">二乙</Option>
-                <Option value="7">二丙</Option>
-                <Option value="8">一级</Option>
+              <Select  onChange={this.changeLevel.bind(this)} optionFilterProp="children" className="search_input"  defaultValue="请选择">
+                {
+                  this.state.levels.map((ele,index)=>{
+                    return  (<Option key={index} value={ele.levelId.toString()}>{ele.levelName}</Option>)
+                  })
+                }
               </Select>
             </li>
             <li>
               <span className="most_flex">联系人</span>
-              <Input value={this.state.applyPage.username}  className="search_input" size="large" placeholder="联系人" />
+              <Input  onChange={this.changeLinkman.bind(this)}  className="search_input" size="large" placeholder="联系人" />
             </li>
             <li>
               <span className="most_flex">电话</span>
-              <Input value={this.state.applyPage.phone} className="search_input" size="large" placeholder="电话" />
+              <Input  onChange={this.changeLinkmanPhone.bind(this)}  className="search_input" size="large" placeholder="电话" />
             </li>
           </ul>
 
@@ -158,25 +285,33 @@ export default class Apply extends Component{
           <ul className="search_ul">
             <li>
               <span className=" flex_padding">省</span>
-              <Select optionFilterProp="children" className="search_input"  defaultValue="">
-
-                <Option value="1">特甲</Option>
-
+              <Select  onChange={this.changeProvince.bind(this)} optionFilterProp="children" className="search_input"  defaultValue="请选择">
+                {
+                  this.state.province.map((ele,index)=>{
+                    return  (<Option key={index} value={ele.provinceId.toString()}>{ele.provinceName}</Option>)
+                  })
+                }
               </Select>
             </li>
             <li>
               <span className="most_flex">市</span>
-              <Select optionFilterProp="children" className="search_input"  defaultValue="">
-
-                <Option value="1">特甲</Option>
-
+              <Select  onChange={this.changeCity.bind(this)} optionFilterProp="children" className="search_input"  value={this.state.selectCity}>
+                {
+                  this.state.city.map((ele,index)=>{
+                    return  (<Option key={index} value={ele.cityId.toString()}>{ele.cityName}</Option>)
+                  })
+                }
               </Select>
             </li>
             <li>
               <span className=" flex_padding">县</span>
-              <Select optionFilterProp="children" className="search_input"  defaultValue="">
+              <Select  onChange={this.changeCounty.bind(this)} optionFilterProp="children" className="search_input"  value={this.state.selectCountry}>
+                {
+                  this.state.county.map((ele,index)=>{
+                    return  (<Option key={index} value={ele.countyId.toString()}>{ele.countyName}</Option>)
+                  })
+                }
 
-                <Option value="1">特甲</Option>
 
               </Select>
             </li>

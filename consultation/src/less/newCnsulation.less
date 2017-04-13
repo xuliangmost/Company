@@ -30,7 +30,6 @@
       flex:1;
       //margin-left: 12px;
     }
-
   }
 }
 .search_ul2{
@@ -83,27 +82,35 @@
   text-align: center!important;
 }
 
-
-
-.transfer{
+.transfer_box{
+  width:100%;
+  background: rgba(196,196,196,0.5);
   position: fixed;
-  width:650px;
-  z-index: 10;
-  background: rgba(255,255,255,1);
-  left:50%;
-  bottom:264px;
-  transform: translateX(-50%);
+  top:0;
+  left:0;
+  z-index: 8;
+  .transfer{
+    position: fixed;
+    width:650px;
+    z-index: 10;
+    background: rgba(255,255,255,1);
+    left:50%;
+    bottom:264px;
+    transform: translateX(-50%);
+  }
+
+  .transfer_btn{
+    margin-left:4%;
+    margin-top:6px;
+
+  }
+  .transfer_btn1{
+    margin-left:38%;
+    margin-top:6px;
+  }
 }
 
-.transfer_btn{
-  margin-left:4%;
-  margin-top:6px;
 
-}
-.transfer_btn1{
-  margin-left:38%;
-  margin-top:6px;
-}
 
 
 .history,.prescribe,.record{

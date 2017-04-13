@@ -51,6 +51,7 @@ let allData={
         {
           "hospital": "",
           "doctor": "",
+          "statusId":'1',
           "adviceTime": startTime,
           "advice": "",
           "prescription": [
@@ -94,14 +95,18 @@ export default class EditCnsulation extends Component{
       targetKeys: [],//会诊医生弹出框右边的选项
       //以上是  呵呵呵呵呵
       history1:allData.case[0],//当前显示的病历
+      history2:allData.case[0].advice[0]?allData.case[0].advice[0]:[],//当前显示的医嘱
       history1Index:0,//当前显示的病历的下标
       history2Index:0,//当前显示的医嘱的下标
-      history2:allData.case[0].advice[0]?allData.case[0].advice[0]:[],//当前显示的医嘱
+
       columns :[
           {
             title: '开方时间',
             dataIndex: 'prescriptionTime',
-            key: 'prescriptionTime'
+            key: 'prescriptionTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '开方医生姓名',
@@ -171,6 +176,9 @@ export default class EditCnsulation extends Component{
             title: '上传时间',
             dataIndex: 'uploadAt',
             key: 'uploadAt',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '操作',
@@ -259,12 +267,13 @@ export default class EditCnsulation extends Component{
       let data=[];
       let caseId=false;
       let fileList=[];
-      if(getData.case&&getData.case!=false&&getData.case[0].advice){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
-
-        fileList=getData.case[0].file?getData.case[0].file:null
+      if(getData.case&&getData.case!=false){
+        if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+          getData.case[0].advice[0].prescription.map((ele)=>{
+            data.push(ele);
+          });
+        }
+        fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
         caseId=true;
         getData.case=allData.case;
@@ -272,7 +281,6 @@ export default class EditCnsulation extends Component{
           data.push(ele);
         }):"";
       }
-
       // let getData=response.data.case&&response.data.case!=false?response.data:allData;
       getData.consultationId=that.props.params.id;
 
@@ -360,7 +368,11 @@ export default class EditCnsulation extends Component{
       })
     }
   }
-
+  cancelSaveCF(){
+      this.setState({
+        showPrescription:false,
+      })
+  }
   deleteFile(id,index){
     let that=this;
     axios.request({
@@ -466,8 +478,13 @@ export default class EditCnsulation extends Component{
   ///////////////////////////
 
   send() {
+
     if(this.state.saveCase){
       if(this.state.saveAdvice){
+        if(this.state.targetdoc==false){
+          alert("会诊医生未选择!");
+          return false
+        }
         axios.request({
           url: '/api/conference/commit',
           method: 'get',
@@ -763,7 +780,9 @@ export default class EditCnsulation extends Component{
     postCase.consultationId=this.state.consultationId;
     postCase.userId=this.state.getData.consultation.userId.toString();
     if(postCase.id){
-      postCase.id=postCase.id.toString()
+      postCase.id=postCase.id.toString();
+      delete postCase.consultationId;
+      delete postCase.userId;
     }
     let url=postCase.id?"/api/conference/edit/case":"/api/conference/add/case";
     let that=this;
@@ -812,7 +831,9 @@ export default class EditCnsulation extends Component{
           'Content-Type': 'application/json'
         },
       }).then(function(response) {
-        postAdvice.id=response.data.id;
+        if(response.data.id){
+          postAdvice.id=response.data.id
+        }
         postAdvice.prescription=prescription;
         let getData=JSON.parse(JSON.stringify(that.state.getData));
         getData.case[that.state.history1Index].advice[that.state.history2Index]=postAdvice;
@@ -1129,6 +1150,8 @@ export default class EditCnsulation extends Component{
     let style={"height":document.body.clientHeight};
     let that=this;
     let caseId=null;
+    let Hidden={"overflowY":"hidden"};
+    let Width={"width":document.body.clientWidth,"height":document.body.clientHeight};
     if(this.state.history1.id){
       caseId=this.state.history1.id.toString();
     }
@@ -1162,7 +1185,7 @@ export default class EditCnsulation extends Component{
 
     return(
 
-      <div className="newHidden">
+      <div style={this.state.showPrescription?Hidden:this.state.isShow?Hidden:null} className="newHidden">
 
         {
           this.state.showPrescription?<div style={style} className="Prescription">
@@ -1198,6 +1221,7 @@ export default class EditCnsulation extends Component{
 
               </ul>
               <Button onClick={this.closePrescription.bind(this)} className="transfer_btn1" type="primary">保存处方</Button>
+              <Button onClick={this.cancelSaveCF.bind(this)} className="transfer_btn1" type="primary">取消保存</Button>
             </div>
           </div>:""
         }
@@ -1206,23 +1230,26 @@ export default class EditCnsulation extends Component{
 
 
         {
-          this.state.isShow?<div className="transfer">
-            <Transfer
-              dataSource={this.state.mockData}
-              listStyle={
-                {
-                  width: 300,
-                  height: 500
-                }
-              }
-              rowKey={record => record.key}
-              targetKeys={this.state.targetKeys}
-              onChange={this.handleChange.bind(this)}
-              render={this.renderItem.bind(this)}
-            />
-            <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
-            <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
-          </div>:""
+          this.state.isShow?
+            <div style={Width} className="transfer_box">
+              <div className="transfer">
+                <Transfer
+                  dataSource={this.state.mockData}
+                  listStyle={
+                    {
+                      width: 300,
+                      height: 500
+                    }
+                  }
+                  rowKey={record => record.key}
+                  targetKeys={this.state.targetKeys}
+                  onChange={this.handleChange.bind(this)}
+                  render={this.renderItem.bind(this)}
+                />
+                <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
+                <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
+              </div>
+            </div>:""
         }
 
         <div className="cnsultation_top">
@@ -1418,13 +1445,13 @@ export default class EditCnsulation extends Component{
               </ul>
 
 
-                {
-                  this.state.history2.statusId?<div className="btn_save">
-                    <div className="btn_save_index">
-                      <Button onClick={this.saveAdvice.bind(this)} className="btn_save_index_2" type="primary">保存医嘱</Button>
-                    </div>
-                  </div>:""
-                }
+              {
+                this.state.history2.statusId?<div className="btn_save">
+                  <div className="btn_save_index">
+                    <Button onClick={this.saveAdvice.bind(this)} className="btn_save_index_2" type="primary">保存医嘱</Button>
+                  </div>
+                </div>:""
+              }
 
 
 

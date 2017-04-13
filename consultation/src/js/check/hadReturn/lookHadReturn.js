@@ -143,7 +143,10 @@ export default class LookHadReturn extends Component{
         {
           title: '开方时间',
           dataIndex: 'prescriptionTime',
-          key: 'prescriptionTime'
+          key: 'prescriptionTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '开方医生姓名',
@@ -187,6 +190,9 @@ export default class LookHadReturn extends Component{
           title: '上传时间',
           dataIndex: 'uploadAt',
           key: 'uploadAt',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作',
@@ -200,20 +206,7 @@ export default class LookHadReturn extends Component{
         }
       ],
 
-      fileList:[//病历资料集合,拿到后台数据后清空
-        // {
-        //   "fileName" : "shadow.png",//文件名
-        //   "uploadTime" : "2030-3-24 14:46:59",//上传时间
-        //   "fileSize" : "1467",//文件大小（字节）
-        //   "url" : "/upload/2017/3/44/13/shadow.png",//url 即病例中的doc
-        // },
-        // {
-        //   "fileName" : "shadow.png",//文件名
-        //   "uploadTime" : "2017-3-24 14:46:59",//上传时间
-        //   "fileSize" : "1443",//文件大小（字节）
-        //   "url" : "/upload/2017/3/44/13/shadow.png",//url 即病例中的doc
-        // }
-      ],
+      fileList:[],
       //会诊医生表头
       doctor :[
         {
@@ -232,7 +225,10 @@ export default class LookHadReturn extends Component{
         {
           title: '时间',
           dataIndex: 'checkTime',
-          key: 'checkTime'
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作人',
@@ -255,7 +251,10 @@ export default class LookHadReturn extends Component{
         {
           title: '时间',
           dataIndex: 'creatTime',
-          key: 'creatTime'
+          key: 'creatTime',render: (text) => (
+          <span>{ text.split("T").join(" ") }</span>
+        )
+
         },
         {
           title: '操作人',
@@ -344,15 +343,15 @@ export default class LookHadReturn extends Component{
         // console.log(response.data.case[i].file);
       }
       console.log(response.data);
-      let allDataaa=that.state.getData;
+      let getAllData=that.state.getData;
       let targetdoc=that.state.targetdoc;
       let checkdata=that.state.checkData;
       let doctorlist=that.state.doctorList;
       //let  filelist=that.state.fileList;
       let responsedata=response.data;
-      allDataaa.consultation=response.data.consultation;
-      allDataaa.case=response.data.case;
-      allDataaa.doctor=response.data.doctor;
+      getAllData.consultation=response.data.consultation;
+      getAllData.case=response.data.case;
+      getAllData.doctor=response.data.doctor;
       doctorlist=response.data.doctor;
       checkdata=response.data.check;
       // filelist=response.data.case[0].file;
@@ -360,7 +359,7 @@ export default class LookHadReturn extends Component{
       console.log("gcydsugcydsufcydusfcyxdscfxyusfcxdysucfgxdys");
       console.log(response.data.case[1].file[1]);
       that.setState({
-        getData: allDataaa,
+        getData: getAllData,
         targetdoc:targetdoc,
         checkData:checkdata,
         doctorList:doctorlist,

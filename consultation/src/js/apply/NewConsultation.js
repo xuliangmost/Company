@@ -22,7 +22,7 @@ let startTime=(function getNowFormatDate() {
 
 })();
 let token=localStorage.getItem("robertUserName");
-let allData={
+const allData={
   //会诊
   "consultation": {
     "hospital": "", //隶属医院
@@ -93,15 +93,17 @@ export default class NewConsultation extends Component{
       caseId:false,//是否显示添加医嘱按钮
       showPrescription:false,//是否显示新增处方弹出框
       getData:allData,
+      history1:allData.case[0],//当前显示的病历
+      history2:allData.case[0].advice[0]?allData.case[0].advice[0]:[],//当前显示的医嘱
       centerPrescription:null,
       mockData: [],//会诊医生弹出框左边的选项
       targetTitle:[],//确定按钮的中间变量，点击确定才把医生放到input框
       targetKeys: [],//会诊医生弹出框右边的选项
       //以上是  呵呵呵呵呵
-      history1:allData.case[0],//当前显示的病历
+
       history1Index:0,//当前显示的病历的下标
       history2Index:0,//当前显示的医嘱的下标
-      history2:allData.case[0].advice[0]?allData.case[0].advice[0]:[],//当前显示的医嘱
+
       columns :[
           {
             title: '开方时间',
@@ -213,7 +215,7 @@ export default class NewConsultation extends Component{
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
-      fileList:null//显示的上传文件集合
+      fileList:[]//显示的上传文件集合
     }
   }
 
@@ -221,6 +223,7 @@ export default class NewConsultation extends Component{
 
   getPeople(){
     let that = this;
+    let getData=this.state.getData;
     axios.request({
       url: '/api/conference/selectHosAndApply',
       method: 'get',
@@ -229,22 +232,18 @@ export default class NewConsultation extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      let getData=that.state.getData;
-       getData.consultation.hospital=response.data.result[0].hospitalName;
-       getData.consultation.applicant=response.data.result[0].applyName;
-       console.log(getData.consultation.hospital);
-       console.log(getData.consultation.applicant);
+      getData.consultation.hospital=response.data.result[0].hospitalName;
+      getData.consultation.applicant=response.data.result[0].applyName;
       that.setState({
         getData
       })
     }).catch(function () {
-
+      alert("医院信息获取失败，请刷新页面!")
     });
   }
   getMsg(){
     let that=this;
     let responseDoc=[];
-    this.getPeople();
     axios.request({
       url: '/api/conference/doctor',
       method: 'get',
@@ -285,80 +284,81 @@ export default class NewConsultation extends Component{
       let obj={};//这里是生成医生接口的格式
       obj.consultationId=that.state.consultationId;
       obj.doctorId=docId;
-
-
       that.setState({
         mockData,
         targetKeys,
         docList:docArr,
         docId:obj,
-        docKeys:targetKeys
+        docKeys:targetKeys,
       })
     });
   }
   getValue(){
-    let that=this;
-    let responseDoc=[];
-    axios.request({
-      url: '/api/conference/page',
-      method: 'get',
-      params: {
-        id:that.props.params.id.toString()
+    let data={
+      //会诊
+      "consultation": {
+        "hospital": "", //隶属医院
+        "applicant": "", //会诊申请人
+        "consultationName": "", //会诊名称
+        "startTime": startTime, //会诊时间
+        "username": "", //会诊对象
+        "phone": "", //会诊对象的手机号
+        "identification": "", //身份证号
+        "birthday": startTime, //出生日期
+        "famliyName": "", //陪护家属
+        "familyPhone": "", //家属手机号
+        "content": "" //会诊描述
       },
-      headers: {
-        'Authorization': 'Bearer '+token,
-        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-      },
-    }).then(function(response) {
-      response.data.doctor.map((ele)=>{
-        responseDoc.push(ele.id)
-      });
-
-      let getData=response.data;
-      let data=[];
-      let caseId=false;
-      let fileList=[];
-      if(getData.case&&getData.case!=false&&getData.case[0].advice){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
-
-        fileList=getData.case[0].file?getData.case[0].file:null
-      }else{
-        caseId=true;
-        getData.case=allData.case;
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
-      }
-
-      // let getData=response.data.case&&response.data.case!=false?response.data:allData;
-      getData.consultationId=that.props.params.id;
-
-      that.setState({
-        // getData:getData,
-        // history1:getData.case[0],
-        // history2:getData.case[0].advice?getData.case[0].advice[0]:null,
-        targetdoc:getData.doctor,//加载页面时，会诊医生栏显示的内容
-        // data:data,
-        // fileList,
-        // caseId
-      });
-      //因为异步的原因，所以只能在回调函数里面放数据请求了
-
-
-
-    }).catch(function () {
-
+      //病历
+      "case": [
+        {
+          "sn": "", //case编号
+          "hospital": "",  //case医院
+          "doctor": "", //主治医生
+          "name": "", //病例名称
+          "diagnosisTime": startTime, //诊治时间
+          "diagnosis": "", //临床诊断
+          "doc": "", //病例资料
+          "file":[],
+          "statusId":'1',
+          "advice": [
+            {
+              "hospital": "",
+              "statusId":'1',
+              "doctor": "",
+              "adviceTime": startTime,
+              "advice": "",
+              "prescription": [
+                {
+                  "id":"0",
+                  "prescriptionTime":startTime, //开方时间
+                  "doctorName": "", //开方医生姓名
+                  "medicineTime": "",//药品名称
+                  "total": "", //总量
+                  "singleDose": "",//单次用量
+                  "frequency": ""//次/日
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      //医生
+      "doctor": [
+      ],
+      "code": 200
+    };
+    this.setState({
+      getData:data,
+      history1:data.case[0],
+      history2:data.case[0].advice[0]
     });
-
-    //页面加载时获取医生列表
+    this.getPeople()
   }
 
   componentDidMount() {
     this.getMsg();
-
-
+    this.getValue();
     window.addEventListener('keydown', this.handleKeyDown.bind(this))
   }
   handleKeyDown(e){
@@ -476,6 +476,10 @@ export default class NewConsultation extends Component{
   send() {
     if(this.state.saveCase){
       if(this.state.saveAdvice){
+        if(this.state.targetdoc==false){
+          alert("会诊医生未选择!");
+          return false
+        }
         axios.request({
           url: '/api/conference/commit',
           method: 'get',
@@ -792,8 +796,9 @@ export default class NewConsultation extends Component{
         'Content-Type': 'application/json'
       },
     }).then(function(response) {
-      postCase.id=response.data.id;
-      console.log(response.data)
+      if(response.data.id){
+        postCase.id=response.data.id;
+      }
       postCase.advice=advice;
       let getData=JSON.parse(JSON.stringify(that.state.getData));
       getData.case[that.state.history1Index]=postCase;
@@ -916,6 +921,11 @@ export default class NewConsultation extends Component{
       alert("会诊名称不能为空!");
       return false
     }
+    if(tool.isEmpty(postConsulation.startTime)){
+      alert("会诊时间不能为空!");
+      return false
+    }
+
 
     if(!tool.mobileValidate(postConsulation.phone)){
       alert("手机号不能为空或手机号格式错误!");
@@ -931,6 +941,10 @@ export default class NewConsultation extends Component{
       return false
     }
 
+    if(tool.isEmpty(postConsulation.birthday)){
+      alert("出生日期不能为空!");
+      return false
+    }
 
     postConsulation.userId=this.state.userId?this.state.userId.toString().toString():"";
     delete postConsulation.id;
@@ -972,7 +986,6 @@ export default class NewConsultation extends Component{
       if(postAdvice.id){
         postAdvice.id=postAdvice.id.toString()
       }
-      console.log(this.state.history1)
       postAdvice.caseId=this.state.history1.id.toString();
       let url=postAdvice.id?"/api/conference/edit/advice":"/api/conference/add/advice";
       let that=this;
@@ -985,7 +998,9 @@ export default class NewConsultation extends Component{
           'Content-Type': 'application/json'
         },
       }).then(function(response) {
-        postAdvice.id=response.data.id;
+        if(response.data.id){
+          postAdvice.id=response.data.id
+        }
         postAdvice.prescription=prescription;
         let getData=JSON.parse(JSON.stringify(that.state.getData));
         getData.case[that.state.history1Index].advice[that.state.history2Index]=postAdvice;
@@ -1141,10 +1156,15 @@ export default class NewConsultation extends Component{
     });
   }
 
-
+  cancelSaveCF(){
+    this.setState({
+      showPrescription:false,
+    })
+  }
   closePrescription(){//保存处方并关闭处方弹出框
 
       let postData=this.state.centerPrescription;
+      console.log(this.state.history2)
       postData.adId=this.state.history2.id.toString();
       let that=this;
       axios.request({
@@ -1260,10 +1280,6 @@ export default class NewConsultation extends Component{
         saveCase:true
       })
     }
-
-
-
-
   }
   deleteHistory2(index){           //删除医嘱
     let getData=JSON.parse(JSON.stringify(this.state.getData));
@@ -1292,6 +1308,8 @@ export default class NewConsultation extends Component{
     let style={"height":document.body.clientHeight};
     let that=this;
     let caseId=null;
+    let Hidden={"overflowY":"hidden"};
+    let Width={"width":document.body.clientWidth,"height":document.body.clientHeight};
     if(this.state.history1.id){
       caseId=this.state.history1.id.toString();
     }
@@ -1325,7 +1343,7 @@ export default class NewConsultation extends Component{
 
     return(
 
-      <div className="newHidden">
+      <div style={this.state.showPrescription?Hidden:this.state.isShow?Hidden:null} className="newHidden">
 
         {
           this.state.showPrescription?<div style={style} className="Prescription">
@@ -1361,6 +1379,7 @@ export default class NewConsultation extends Component{
 
               </ul>
               <Button onClick={this.closePrescription.bind(this)} className="transfer_btn1" type="primary">保存处方</Button>
+              <Button onClick={this.cancelSaveCF.bind(this)} className="transfer_btn1" type="primary">取消保存</Button>
             </div>
           </div>:""
         }
@@ -1369,23 +1388,26 @@ export default class NewConsultation extends Component{
 
 
         {
-          this.state.isShow?<div className="transfer">
-            <Transfer
-              dataSource={this.state.mockData}
-              listStyle={
-                {
-                  width: 300,
-                  height: 500
-                }
-              }
-              rowKey={record => record.key}
-              targetKeys={this.state.targetKeys}
-              onChange={this.handleChange.bind(this)}
-              render={this.renderItem.bind(this)}
-            />
-            <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
-            <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
-          </div>:""
+          this.state.isShow?
+            <div style={Width} className="transfer_box">
+              <div className="transfer">
+                <Transfer
+                  dataSource={this.state.mockData}
+                  listStyle={
+                    {
+                      width: 300,
+                      height: 500
+                    }
+                  }
+                  rowKey={record => record.key}
+                  targetKeys={this.state.targetKeys}
+                  onChange={this.handleChange.bind(this)}
+                  render={this.renderItem.bind(this)}
+                />
+                <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
+                <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
+              </div>
+            </div>:""
         }
 
         <div className="cnsultation_top">
@@ -1407,7 +1429,7 @@ export default class NewConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
-              <DatePicker showTime  allowClear={false}  value={moment(this.state.getData.consultation.startTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.changesStartTime.bind(this)} />
+              <DatePicker placeholder="必填" showTime  allowClear={false} format={dateFormat} size="large" className="search_input" onChange={this.changesStartTime.bind(this)} />
 
             </li>
           </ul>
@@ -1428,7 +1450,7 @@ export default class NewConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">出生日期</span>
-              <DatePicker  allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
+              <DatePicker placeholder="必填" allowClear={false} format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
             </li>
           </ul>
 
@@ -1518,7 +1540,7 @@ export default class NewConsultation extends Component{
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>
-                <DatePicker   allowClear={false} value={moment(this.state.history1.diagnosisTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
+                <DatePicker   allowClear={false}  format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
               </li>
             </ul>
 
@@ -1554,6 +1576,8 @@ export default class NewConsultation extends Component{
                   )
                 }):""
               }
+
+              {/*这里就是控制医嘱的增加*/}
             {
               this.state.caseId?<Button onClick={this.addHistory2.bind(this)} className="history_btn1" type="primary" >
                 <Icon type="plus" />
@@ -1577,7 +1601,7 @@ export default class NewConsultation extends Component{
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
-                  <DatePicker  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
+                  <DatePicker  allowClear={false} format={dateFormat}  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
                 </li>
                 <li>
                 </li>

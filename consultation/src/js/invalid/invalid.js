@@ -54,11 +54,14 @@ export default class Invalid extends Component{
             title: '会诊时间',
             dataIndex: 'startTime',
             key: 'startTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '会诊对象',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'username',
+            key: 'username',
           },
           {
             title: '手机号',
@@ -69,6 +72,9 @@ export default class Invalid extends Component{
             title: '创建时间',
             dataIndex: 'creatAt',
             key: 'creatAt',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '操作',
@@ -94,6 +100,29 @@ export default class Invalid extends Component{
       current:page
     })
   }
+  changeConsultationName(e){
+    let applyPage=this.state.applyPage;
+    applyPage.consultationName=e.target.value;
+    this.setState({
+      applyPage
+    })
+  }
+  changePhone(e){
+    let applyPage=this.state.applyPage;
+    applyPage.username=e.target.value;
+    this.setState({
+      applyPage
+    })
+  }
+  changeUserName(e){
+    let applyPage=this.state.applyPage;
+    applyPage.phone=e.target.value;
+    this.setState({
+      applyPage
+    })
+  }
+
+
   query(num){
     let that=this;
     let applyPage=this.state.applyPage;
@@ -138,7 +167,7 @@ export default class Invalid extends Component{
           <ul className="search_ul">
             <li>
               <span className="most_flex">会诊名称</span>
-              <Input className="search_input" size="large" placeholder="会诊名称" />
+              <Input onChange={this.changeConsultationName.bind(this)} className="search_input" size="large" placeholder="会诊名称" />
             </li>
             <li>
               <span className="most_flex">会诊时间</span>
@@ -146,11 +175,11 @@ export default class Invalid extends Component{
             </li>
             <li>
               <span className="most_flex">会诊对象</span>
-              <Input className="search_input" size="large" placeholder="会诊对象" />
+              <Input onChange={this.changeUserName.bind(this)}  className="search_input" size="large" placeholder="会诊对象" />
             </li>
             <li>
               <span className="most_flex">手机号</span>
-              <Input className="search_input" size="large" placeholder="手机号" />
+              <Input onChange={this.changePhone.bind(this)}  className="search_input" size="large" placeholder="手机号" />
             </li>
 
           </ul>

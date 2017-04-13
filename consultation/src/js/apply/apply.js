@@ -113,7 +113,7 @@ export default class Apply extends Component{
           that.query();
 
       }).catch(function () {
-        alert("数据提交失败，请检查网络!")
+        alert("数据提交失败!")
       });
 
     }
@@ -196,7 +196,6 @@ export default class Apply extends Component{
         })
       });
     }
-
     render(){
       return (
         <div>
@@ -229,7 +228,7 @@ export default class Apply extends Component{
             <h1 className="most_h1">
               列表区
               <Link to="apply/newConsultation">
-                <Button type="primary" className="search_btn2">新增</Button>
+                <Button type="primary"  className="search_btn2">新增</Button>
               </Link>
 
             </h1>

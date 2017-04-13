@@ -78,7 +78,10 @@ export default class EditCnsulation extends Component{
         {
           title: '开方时间',
           dataIndex: 'prescriptionTime',
-          key: 'prescriptionTime'
+          key: 'prescriptionTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '开方医生姓名',
@@ -122,6 +125,9 @@ export default class EditCnsulation extends Component{
           title: '上传时间',
           dataIndex: 'diagnosisTime',
           key: 'diagnosisTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作',
@@ -139,7 +145,10 @@ export default class EditCnsulation extends Component{
         {
           title: '审核时间',
           dataIndex: 'checkTime',
-          key: 'checkTime'
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作人',
@@ -162,7 +171,10 @@ export default class EditCnsulation extends Component{
         {
           title: '时间',
           dataIndex: 'creatTime',
-          key: 'creatTime'
+          key: 'creatTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作人',

@@ -84,6 +84,7 @@ export default class AddConsultation extends Component{
   constructor(props){
     super(props);
     this.state={
+      isShow:false,
       consultationId:null,
       saveCase:true,//是否保存了病历
       userId:null,
@@ -261,16 +262,17 @@ export default class AddConsultation extends Component{
       });
       let getData=response.data;
       let data=[];
-
+      let caseId=false;
       let fileList=[];
-      if(getData.case&&getData.case!=false&&getData.case[0].advice){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
-
-        fileList=getData.case[0].file?getData.case[0].file:null
+      if(getData.case&&getData.case!=false){
+        if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+          getData.case[0].advice[0].prescription.map((ele)=>{
+            data.push(ele);
+          });
+        }
+        fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
-
+        caseId=true;
         getData.case=allData.case;
         getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
           data.push(ele);
@@ -469,12 +471,19 @@ export default class AddConsultation extends Component{
   ///////////////////////////
 
   send() {
+
+
+
     if(!this.state.consultationId){
       alert("请先保存您的会诊资料!");
       return false
     }
     if(this.state.saveCase){
       if(this.state.saveAdvice){
+        if(this.state.targetdoc==false){
+          alert("会诊医生未选择!");
+          return false
+        }
         axios.request({
           url: '/api/conference/commit',
           method: 'get',
@@ -776,7 +785,9 @@ export default class AddConsultation extends Component{
     postCase.id=this.state.consultationId;
     postCase.userId=this.state.getData.consultation.userId.toString();
     if(postCase.id){
-      postCase.id=postCase.id.toString()
+      postCase.id=postCase.id.toString();
+      delete postCase.consultationId;
+      delete postCase.userId;
     }
     let url=postCase.id?"/api/conference/edit/case":"/api/conference/add/case";
     let that=this;
@@ -789,7 +800,9 @@ export default class AddConsultation extends Component{
         'Content-Type': 'application/json'
       },
     }).then(function(response) {
-      postCase.id=response.data.id;
+      if(response.data.id){
+        postCase.id=response.data.id;
+      }
       postCase.advice=advice;
       let getData=JSON.parse(JSON.stringify(that.state.getData));
       getData.case[that.state.history1Index]=postCase;
@@ -931,6 +944,11 @@ export default class AddConsultation extends Component{
       alert("会诊名称不能为空!");
       return false
     }
+    if(tool.isEmpty(postConsulation.startTime)){
+      alert("会诊时间不能为空!");
+      return false
+    }
+
 
     if(!tool.mobileValidate(postConsulation.phone)){
       alert("手机号不能为空或手机号格式错误!");
@@ -943,6 +961,11 @@ export default class AddConsultation extends Component{
 
     if(!tool.cardValidate(postConsulation.identification)){
       alert("身份证号不能为空或身份证号格式填写错误!");
+      return false
+    }
+
+    if(tool.isEmpty(postConsulation.birthday)){
+      alert("出生日期不能为空!");
       return false
     }
 
@@ -978,7 +1001,7 @@ export default class AddConsultation extends Component{
   saveAdvice(){//保存医嘱
     if(this.state.saveCase){
       let postAdvice=JSON.parse(JSON.stringify(this.state.getData.case[this.state.history1Index].advice[this.state.history2Index]));
-      let prescription=JSON.parse(JSON.stringify(postAdvice.prescription));
+      let prescription=JSON.parse(JSON.stringify(postAdvice.prescription))
       delete postAdvice.prescription;
       if(postAdvice.id){
         postAdvice.id=postAdvice.id.toString()
@@ -995,7 +1018,9 @@ export default class AddConsultation extends Component{
           'Content-Type': 'application/json'
         },
       }).then(function(response) {
-        postAdvice.id=response.data.id;
+        if(response.data.id){
+          postAdvice.id=response.data.id
+        }
         postAdvice.prescription=prescription;
         let getData=JSON.parse(JSON.stringify(that.state.getData));
         getData.case[that.state.history1Index].advice[that.state.history2Index]=postAdvice;
@@ -1151,7 +1176,11 @@ export default class AddConsultation extends Component{
     });
   }
 
-
+  cancelSaveCF(){
+    this.setState({
+      showPrescription:false,
+    })
+  }
   closePrescription(){//保存处方并关闭处方弹出框
 
       let postData=this.state.centerPrescription;
@@ -1298,6 +1327,8 @@ export default class AddConsultation extends Component{
   }
   render(){
     let style={"height":document.body.clientHeight};
+    let Width={"height":document.body.offsetHeight};
+    let Hidden={"overflowY":"hidden"};
     let that=this;
     let caseId=null;
     if(this.state.history1.id){
@@ -1333,7 +1364,7 @@ export default class AddConsultation extends Component{
 
     return(
 
-      <div className="newHidden">
+      <div style={this.state.showPrescription?Hidden:this.state.isShow?Hidden:null} className="newHidden">
 
         {
           this.state.showPrescription?<div style={style} className="Prescription">
@@ -1369,6 +1400,7 @@ export default class AddConsultation extends Component{
 
               </ul>
               <Button onClick={this.closePrescription.bind(this)} className="transfer_btn1" type="primary">保存处方</Button>
+              <Button onClick={this.cancelSaveCF.bind(this)} className="transfer_btn1" type="primary">取消保存</Button>
             </div>
           </div>:""
         }
@@ -1377,23 +1409,26 @@ export default class AddConsultation extends Component{
 
 
         {
-          this.state.isShow?<div className="transfer">
-            <Transfer
-              dataSource={this.state.mockData}
-              listStyle={
-                {
-                  width: 300,
-                  height: 500
-                }
-              }
-              rowKey={record => record.key}
-              targetKeys={this.state.targetKeys}
-              onChange={this.handleChange.bind(this)}
-              render={this.renderItem.bind(this)}
-            />
-            <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
-            <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
-          </div>:""
+          this.state.isShow?
+            <div style={Width} className="transfer_box">
+                <div className="transfer">
+                  <Transfer
+                    dataSource={this.state.mockData}
+                    listStyle={
+                      {
+                        width: 300,
+                        height: 500
+                      }
+                    }
+                    rowKey={record => record.key}
+                    targetKeys={this.state.targetKeys}
+                    onChange={this.handleChange.bind(this)}
+                    render={this.renderItem.bind(this)}
+                  />
+                  <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
+                  <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
+                </div>
+            </div>:""
         }
 
         <div className="cnsultation_top">
@@ -1617,22 +1652,19 @@ export default class AddConsultation extends Component{
 
 
 
-          {
-            this.state.fileList?<div className="record">
+          <div className="record">
+            <span onClick={this.alertMsg.bind(this)} className="history_sp1 record_sp1"> 病历资料 </span>
+            <Upload   {...props}>
+              <Button className="history_btn1">
+                <Icon type="upload" />
+              </Button>
+            </Upload>
+            {
+              this.state.fileList?<Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />:""
+            }
 
-                <span onClick={this.alertMsg.bind(this)} className="history_sp1 record_sp1"> 病历资料 </span>
-              {
-                this.state.caseId?<Upload   {...props}>
-                  <Button className="history_btn1">
-                    <Icon type="upload" />
-                  </Button>
-                </Upload>:""
-              }
+            </div>
 
-
-              <Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />
-            </div>:""
-          }
 
 
           <ul className="search_ul2">

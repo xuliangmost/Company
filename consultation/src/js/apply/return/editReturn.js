@@ -280,11 +280,13 @@ export default class EditCnsulation extends Component{
       let data=[];
       let caseId=false;
       let fileList=[];
-      if(getData.case&&getData.case!=false&&getData.case[0].advice!=false){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
-        fileList=getData.case[0].file?getData.case[0].file:null
+      if(getData.case&&getData.case!=false){
+        if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+          getData.case[0].advice[0].prescription.map((ele)=>{
+            data.push(ele);
+          });
+        }
+        fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
         caseId=true;
         getData.case=allData.case;
@@ -489,8 +491,15 @@ export default class EditCnsulation extends Component{
   ///////////////////////////
 
   send() {
+
+
+
     if(this.state.saveCase){
       if(this.state.saveAdvice){
+        if(this.state.targetdoc==false){
+          alert("会诊医生未选择!");
+          return false
+        }
         axios.request({
           url: '/api/conference/commit',
           method: 'get',
@@ -772,10 +781,10 @@ export default class EditCnsulation extends Component{
 
   saveCase(){//保存病历
     let postCase=JSON.parse(JSON.stringify(this.state.getData.case[this.state.history1Index]));
-    /*if(!postCase.sn){
+    if(!postCase.sn){
      alert("病历编号不能为空!!!");
      return false
-     }*/
+     }
     if(!postCase.hospital){
       alert("病例医院不能为空!!!");
       return false
@@ -810,9 +819,9 @@ export default class EditCnsulation extends Component{
         getData:getData,
         history2:postCase.advice?postCase.advice[0]:null
       });
-
+      alert("保存病历成功!");
     }).catch(function () {
-      alert("网络异常，请检查您的宽带是否已欠费!");
+      alert("保存病历失败!");
     });
   }
   saveAdvice(){//保存医嘱
@@ -835,7 +844,9 @@ export default class EditCnsulation extends Component{
           'Content-Type': 'application/json'
         },
       }).then(function(response) {
-        postAdvice.id=response.data.id;
+        if(response.data.id){
+          postAdvice.id=response.data.id
+        }
         postAdvice.prescription=prescription;
         let getData=JSON.parse(JSON.stringify(that.state.getData));
         getData.case[that.state.history1Index].advice[that.state.history2Index]=postAdvice;
@@ -845,8 +856,9 @@ export default class EditCnsulation extends Component{
           getData:getData,
           history2:postAdvice
         });
+        alert("保存医嘱成功!");
       }).catch(function () {
-        alert("网络异常，请检查您的宽带是否已欠费!");
+        alert("保存医嘱失败!");
       });
 
       this.setState({
@@ -977,7 +989,11 @@ export default class EditCnsulation extends Component{
       data:data1
     })
   }
-
+  cancelSaveCF(){
+    this.setState({
+      showPrescription:false,
+    })
+  }
 
   closePrescription(){//保存处方并关闭处方弹出框
 
@@ -1006,7 +1022,7 @@ export default class EditCnsulation extends Component{
       })
 
     }).catch(function () {
-      alert("保存处方失败，请检查网络!");
+      alert("保存处方失败!");
     })
 
 
@@ -1130,6 +1146,8 @@ export default class EditCnsulation extends Component{
     let style={"height":document.body.clientHeight};
     let that=this;
     let caseId=null;
+    let Hidden={"overflowY":"hidden"};
+    let Width={"width":document.body.clientWidth,"height":document.body.clientHeight};
     if(this.state.history1.id){
       caseId=this.state.history1.id.toString();
     }
@@ -1163,7 +1181,7 @@ export default class EditCnsulation extends Component{
 
     return(
 
-      <div className="newHidden">
+      <div style={this.state.showPrescription?Hidden:this.state.isShow?Hidden:null} className="newHidden">
 
         {
           this.state.showPrescription?<div style={style} className="Prescription">
@@ -1199,6 +1217,7 @@ export default class EditCnsulation extends Component{
 
               </ul>
               <Button onClick={this.closePrescription.bind(this)} className="transfer_btn1" type="primary">保存处方</Button>
+              <Button onClick={this.cancelSaveCF.bind(this)} className="transfer_btn1" type="primary">取消保存</Button>
             </div>
           </div>:""
         }
@@ -1207,23 +1226,26 @@ export default class EditCnsulation extends Component{
 
 
         {
-          this.state.isShow?<div className="transfer">
-            <Transfer
-              dataSource={this.state.mockData}
-              listStyle={
-                {
-                  width: 300,
-                  height: 500
-                }
-              }
-              rowKey={record => record.key}
-              targetKeys={this.state.targetKeys}
-              onChange={this.handleChange.bind(this)}
-              render={this.renderItem.bind(this)}
-            />
-            <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
-            <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
-          </div>:""
+          this.state.isShow?
+            <div style={Width} className="transfer_box">
+              <div className="transfer">
+                <Transfer
+                  dataSource={this.state.mockData}
+                  listStyle={
+                    {
+                      width: 300,
+                      height: 500
+                    }
+                  }
+                  rowKey={record => record.key}
+                  targetKeys={this.state.targetKeys}
+                  onChange={this.handleChange.bind(this)}
+                  render={this.renderItem.bind(this)}
+                />
+                <Button onClick={()=>this.queDing()} className="transfer_btn1" type="primary">保存</Button>
+                <Button onClick={()=>this.quxiaohuizhenyisheng()} className="transfer_btn" type="primary">取消</Button>
+              </div>
+            </div>:""
         }
 
         <div className="cnsultation_top">

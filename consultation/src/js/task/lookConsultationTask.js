@@ -142,7 +142,10 @@ export default class EditCnsulation extends Component{
         {
           title: '审核时间',
           dataIndex: 'checkTime',
-          key: 'checkTime'
+          key: 'checkTime',render: (text) => (
+          <span>{ text.split("T").join(" ") }</span>
+        )
+
         },
         {
           title: '操作人',
@@ -165,7 +168,10 @@ export default class EditCnsulation extends Component{
         {
           title: '时间',
           dataIndex: 'creatTime',
-          key: 'creatTime'
+          key: 'creatTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作人',
@@ -764,7 +770,7 @@ export default class EditCnsulation extends Component{
           <div className="btn_save">
             <div className="btn_save_index">
               {
-                this.state.meetingId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/checkMeeting/"+this.state.meetingId} target="blank">
+                this.state.meetingId?<a href={"http:/192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId} target="blank">
                   <Button type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }

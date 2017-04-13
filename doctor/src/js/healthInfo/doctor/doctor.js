@@ -5,34 +5,21 @@ import "../../../less/hospital.less"
 import axios from "axios";
 const Option = Select.Option;
 
+const doctorTitle=["","主任医师","副主任医师","主治医师"];
 let token=localStorage.getItem("robertUserName");
 export default class Doctor extends Component{
     constructor(props){
         super(props);
 
-      let startTime=(function getNowFormatDate() {
-        let date = new Date();
-        let seperator1 = "-";
-        let month = date.getMonth() + 1;
-        let strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-          month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-          strDate = "0" + strDate;
-        }
-        return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
-
-      })();
 
       this.state={
         applyPage:{
           pageSize:10,
-          consultationName:"",
-          username:"",
-          phone:"",
-          status:"1",
-          startTime:""
+          doctorName:"",
+          doctorPhone:"",
+          hospitalName:"",
+          departmentName:"",
+          doctorTitle:""
         },
         total:10,
         current:1,
@@ -47,35 +34,35 @@ export default class Doctor extends Component{
           },
           {
           title: '姓名',
-          dataIndex: 'title',
-          key: 'title',
+          dataIndex: 'doctorName',
+          key: 'doctorName',
           },
           {
           title: '手机号',
-          dataIndex: 'startTime',
-          key: 'startTime',
+          dataIndex: 'doctorPhone',
+          key: 'doctorPhone',
           },
           {
           title: '医院',
-          dataIndex: 'username',
-          key: 'username',
+          dataIndex: 'hospitalName',
+          key: 'hospitalName',
           },
           {
             title: '科室',
-            dataIndex: 'phone',
-            key: 'phone',
+            dataIndex: 'departmentName',
+            key: 'departmentName',
           },
           {
             title: '职称',
-            dataIndex: 'creatAt',
-            key: 'creatAt',
+            dataIndex: 'doctorTitle',
+            key: 'doctorTitle',
           },
           {
             title: '操作',
             key: 'action',
             render: (text, record,index) => (
               <span  key={record.id}>
-              <Link to="">编辑</Link>
+              <Link to={"healthInfo/doctor/editDoctor/"+record.id}>编辑</Link>
             </span>
             )
           }
@@ -85,17 +72,15 @@ export default class Doctor extends Component{
     }
 
     componentDidMount(){
-      // this.query(1)
+      this.query(1)
     }
 
-
-
-  changePage(page){
-    this.query(page);
-    this.setState({
-      current:page
-    })
-  }
+    changePage(page){
+      this.query(page);
+      this.setState({
+        current:page
+      })
+    }
 
 
     query(num){
@@ -103,7 +88,7 @@ export default class Doctor extends Component{
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
       axios.request({
-        url: '/api/conference/applyPageList',
+        url: '/api/user/doctor/pageList',
         method: 'get',
         params:applyPage,
         headers: {
@@ -118,38 +103,64 @@ export default class Doctor extends Component{
         })
       });
     }
+
+
+
+    changeDoctorName(e){
+      let applyPage=this.state.applyPage;
+      applyPage.doctorName=e.target.value
+    }
+
+    changeDoctorPhone(e){
+      let applyPage=this.state.applyPage;
+      applyPage.doctorPhone=e.target.value
+    }
+    changeHospitalName(e){
+      let applyPage=this.state.applyPage;
+      applyPage.hospitalName=e.target.value
+    }
+    changeDepartmentName(e){
+      let applyPage=this.state.applyPage;
+      applyPage.departmentName=e.target.value
+    }
+
+    changeDoctorTitle(value){
+      let applyPage=this.state.applyPage;
+      applyPage.doctorTitle=doctorTitle[value]
+    }
+
+
     render(){
       return (
         <div>
           <div className="apple_top">
           <h1>
             医生信息查询区
-            <Button type="primary" onClick={()=>this.query()} className="search_btn1">查询</Button>
+            <Button type="primary" onClick={this.query.bind(this,1)} className="search_btn1">查询</Button>
           </h1>
           <ul className="search_ul">
             <li>
               <span className="most_flex">姓名</span>
-              <Input   className="search_input" size="large" placeholder="姓名" />
+              <Input onChange={this.changeDoctorName.bind(this)} className="search_input" size="large" placeholder="姓名" />
             </li>
             <li>
               <span className="most_flex">手机号</span>
-              <Input   className="search_input" size="large" placeholder="手机号" />
+              <Input  onChange={this.changeDoctorPhone.bind(this)}  className="search_input" size="large" placeholder="手机号" />
             </li>
             <li>
               <span className="most_flex">医院</span>
-              <Input   className="search_input" size="large" placeholder="医院" />
+              <Input   onChange={this.changeHospitalName.bind(this)} className="search_input" size="large" placeholder="医院" />
             </li>
             <li>
               <span className="most_flex">科室</span>
-              <Input  className="search_input" size="large" placeholder="科室" />
+              <Input  onChange={this.changeDepartmentName.bind(this)} className="search_input" size="large" placeholder="科室" />
             </li>
           </ul>
 
-
             <ul className="search_ul">
               <li>
-                <span className="flex_padding ">职称</span>
-                <Select optionFilterProp="children" className="search_input"  defaultValue="请选择">
+                <span className="flex_padding">职称</span>
+                <Select  onChange={this.changeDoctorTitle.bind(this)} optionFilterProp="children" className="search_input"  defaultValue="请选择">
                   <Option value="0">-请选择-</Option>
                   <Option value="1">主任医师</Option>
                   <Option value="2">副主任医师</Option>
@@ -169,7 +180,7 @@ export default class Doctor extends Component{
           <div className="apple_bottom">
             <h1 className="most_h1">
               列表区
-              <Link to="apply/newConsultation">
+              <Link to="healthInfo/doctor/addDoctor">
                 <Button type="primary"  className="search_btn2">新增</Button>
               </Link>
 

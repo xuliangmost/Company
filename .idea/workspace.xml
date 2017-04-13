@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bf0a397e-7b26-46c3-a3de-ac789fc7b810" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/server.js" afterPath="$PROJECT_DIR$/consultation/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/common/content.js" afterPath="$PROJECT_DIR$/consultation/src/common/content.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/common/header.js" afterPath="$PROJECT_DIR$/consultation/src/common/header.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/common/left.js" afterPath="$PROJECT_DIR$/consultation/src/common/left.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/NewConsultation.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/NewConsultation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/addConsultation.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/addConsultation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/apply.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/apply.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/daiShen/daiShen.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/daiShen/daiShen.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/daiShen/looked.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/daiShen/looked.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/editCnsultation.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/editCnsultation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/return/editReturn.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/return/editReturn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/return/return.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/return/return.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/checked/checked.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/checked/checked.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/checked/lookChecked.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/checked/lookChecked.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/hadReturn.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/hadReturn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/lookHadReturn.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/lookHadReturn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/lookWaitCheck.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/lookWaitCheck.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/lookWaitCheck1.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/lookWaitCheck1.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/waitCheck.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/waitCheck.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/consulationTables/consulation.js" afterPath="$PROJECT_DIR$/consultation/src/js/consulationTables/consulation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/consulationTables/lookConsulation.js" afterPath="$PROJECT_DIR$/consultation/src/js/consulationTables/lookConsulation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/invalid/invalid.js" afterPath="$PROJECT_DIR$/consultation/src/js/invalid/invalid.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/invalid/lookInvalid.js" afterPath="$PROJECT_DIR$/consultation/src/js/invalid/lookInvalid.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/login/login.js" afterPath="$PROJECT_DIR$/consultation/src/js/login/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/task/consultationTask.js" afterPath="$PROJECT_DIR$/consultation/src/js/task/consultationTask.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js" afterPath="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask1.js" afterPath="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask1.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/less/apply.less" afterPath="$PROJECT_DIR$/consultation/src/less/apply.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/less/common.less" afterPath="$PROJECT_DIR$/consultation/src/less/common.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/less/editCnsulation.less" afterPath="$PROJECT_DIR$/consultation/src/less/editCnsulation.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/less/login.less" afterPath="$PROJECT_DIR$/consultation/src/less/login.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/less/lookWaitCheck.less" afterPath="$PROJECT_DIR$/consultation/src/less/lookWaitCheck.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/less/looked.less" afterPath="$PROJECT_DIR$/consultation/src/less/looked.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/less/newCnsulation.less" afterPath="$PROJECT_DIR$/consultation/src/less/newCnsulation.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/routes/output.js" afterPath="$PROJECT_DIR$/consultation/src/routes/output.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/tools/Action.js" afterPath="$PROJECT_DIR$/consultation/src/tools/Action.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/tools/checked.js" afterPath="$PROJECT_DIR$/consultation/src/tools/checked.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/doctor.js" afterPath="$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/doctor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/addHospital.js" afterPath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/addHospital.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/editHospital.js" afterPath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/editHospital.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js" afterPath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/less/common.less" afterPath="$PROJECT_DIR$/doctor/src/less/common.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/less/editHospital.less" afterPath="$PROJECT_DIR$/doctor/src/less/editHospital.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/routes/output.js" afterPath="$PROJECT_DIR$/doctor/src/routes/output.js" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/consultation/server.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="22" column="2" lean-forward="true" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addRoleMgmt.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/addRoleMgmt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="528">
+              <caret line="139" column="3" lean-forward="true" selection-start-line="134" selection-start-column="2" selection-end-line="139" selection-end-column="3" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+                <element signature="e#733#1522#0" expanded="false" />
+                <element signature="e#1545#1835#0" expanded="false" />
+                <element signature="e#5490#8239#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editRoleMgmt.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/editRoleMgmt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="158" column="20" lean-forward="false" selection-start-line="152" selection-start-column="11" selection-end-line="158" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+                <element signature="e#593#1382#0" expanded="false" />
+                <element signature="e#1405#1695#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addUsrMgmt.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/addUsrMgmt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="33" column="12" lean-forward="true" selection-start-line="24" selection-start-column="10" selection-end-line="33" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editUsrMgmt.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/editUsrMgmt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="33" column="12" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+              <folding>
+                <element signature="e#1271#1561#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="invalid.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/consultation/src/js/invalid/invalid.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="51" column="12" lean-forward="true" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="usrMgmt.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/usrMgmt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="50" column="24" lean-forward="false" selection-start-line="50" selection-start-column="24" selection-end-line="50" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rolemgmt.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/rolemgmt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="433">
+              <caret line="137" column="127" lean-forward="false" selection-start-line="137" selection-start-column="127" selection-end-line="137" selection-end-column="127" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/server.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="39" lean-forward="true" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="memuauthority.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/src/js/memuauthority/memuauthority.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="126" column="50" lean-forward="false" selection-start-line="126" selection-start-column="50" selection-end-line="126" selection-end-column="50" />
+              <caret line="127" column="131" lean-forward="false" selection-start-line="127" selection-start-column="131" selection-end-line="127" selection-end-column="131" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>role_save</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/system/src/common/left.js" />
+        <option value="$PROJECT_DIR$/system/src/js/rolemgmt/giveAuthorization.js" />
+        <option value="$PROJECT_DIR$/system/src/routes/output.js" />
+        <option value="$PROJECT_DIR$/system/src/js/memuauthority/editMmemuauthority.js" />
+        <option value="$PROJECT_DIR$/system/src/less/memuauthority.less" />
+        <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js" />
+        <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/addHospital.js" />
+        <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/editHospital.js" />
+        <option value="$PROJECT_DIR$/doctor/src/less/editHospital.less" />
+        <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/addDoctorl.js" />
+        <option value="$PROJECT_DIR$/doctor/src/routes/output.js" />
+        <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/editDoctorl.js" />
+        <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/doctor.js" />
+        <option value="$PROJECT_DIR$/doctor/src/less/doctor.less" />
+        <option value="$PROJECT_DIR$/consultation/server.js" />
+        <option value="$PROJECT_DIR$/consultation/src/js/invalid/invalid.js" />
+        <option value="$PROJECT_DIR$/system/src/js/usrmgmt/usrMgmt.js" />
+        <option value="$PROJECT_DIR$/system/src/js/rolemgmt/rolemgmt.js" />
+        <option value="$PROJECT_DIR$/system/src/js/memuauthority/memuauthority.js" />
+        <option value="$PROJECT_DIR$/system/src/js/rolemgmt/addRoleMgmt.js" />
+        <option value="$PROJECT_DIR$/system/src/js/rolemgmt/editRoleMgmt.js" />
+        <option value="$PROJECT_DIR$/system/src/js/usrmgmt/addUsrMgmt.js" />
+        <option value="$PROJECT_DIR$/system/src/js/usrmgmt/editUsrMgmt.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/consultation/node_modules" />
+    <handled-path value="$PROJECT_DIR$/doctor/node_modules" />
+    <handled-path value="$PROJECT_DIR$/system/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-1928" />
+    <option name="y" value="119" />
+    <option name="width" value="1936" />
+    <option name="height" value="1096" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource ProjectPane="false" />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="usrmgmt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rolemgmt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="memuauthority" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="nodejs_interpreter_path" value="D:/Program Files/nodejs/node" />
+    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
+    <property name="JavaScriptPreferStrict" value="false" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Desktop\Company\system\src\js\memuauthority" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartTestRunConfigurationType" factoryName="Dart Test">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="cucumber.js" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" value="" />
+      <option name="executablePath" />
+      <option name="filePath" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bf0a397e-7b26-46c3-a3de-ac789fc7b810" name="Default" comment="" />
+      <created>1491989324149</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1491989324149</updated>
+      <workItem from="1491989325556" duration="26691000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="26691000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-1928" y="119" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1671875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js</url>
+          <line>286</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js</url>
+          <line>296</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js</url>
+          <line>306</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="7" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/doctor/src/common/left.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/common/left.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="61" column="52" lean-forward="false" selection-start-line="61" selection-start-column="52" selection-end-line="61" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/less/rolemgmt.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="72" column="5" lean-forward="true" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/less/memuauthority.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="151" column="12" lean-forward="false" selection-start-line="151" selection-start-column="12" selection-end-line="151" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/memuauthority/editMmemuauthority.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="91" column="5" lean-forward="true" selection-start-line="91" selection-start-column="5" selection-end-line="91" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/src/js/apply/apply.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="146" column="14" lean-forward="true" selection-start-line="146" selection-start-column="14" selection-end-line="146" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/static/lib/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="47481" column="10" lean-forward="false" selection-start-line="47481" selection-start-column="10" selection-end-line="47481" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/editHospital.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="124" column="9" lean-forward="false" selection-start-line="124" selection-start-column="9" selection-end-line="124" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/addHospital.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="327" column="23" lean-forward="true" selection-start-line="320" selection-start-column="14" selection-end-line="327" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/less/hospital.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-678">
+          <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/addDoctorl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="126" column="23" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="277" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/less/editHospital.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="35" column="6" lean-forward="false" selection-start-line="35" selection-start-column="6" selection-end-line="36" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/editDoctorl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="101" column="39" lean-forward="true" selection-start-line="101" selection-start-column="39" selection-end-line="101" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/routes/output.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/routes/output.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="58" column="61" lean-forward="false" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/giveAuthorization.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="110" column="44" lean-forward="true" selection-start-line="110" selection-start-column="44" selection-end-line="110" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#413#1561#0" expanded="false" />
+            <element signature="e#1584#1874#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/doctor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="61" column="26" lean-forward="true" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/less/doctor.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="2" lean-forward="true" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/src/js/invalid/invalid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="51" column="12" lean-forward="true" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="39" lean-forward="true" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/usrMgmt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="50" column="24" lean-forward="false" selection-start-line="50" selection-start-column="24" selection-end-line="50" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/rolemgmt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="137" column="127" lean-forward="false" selection-start-line="137" selection-start-column="127" selection-end-line="137" selection-end-column="127" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/memuauthority/memuauthority.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="126" column="50" lean-forward="false" selection-start-line="126" selection-start-column="50" selection-end-line="126" selection-end-column="50" />
+          <caret line="127" column="131" lean-forward="false" selection-start-line="127" selection-start-column="131" selection-end-line="127" selection-end-column="131" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/addRoleMgmt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="139" column="3" lean-forward="true" selection-start-line="134" selection-start-column="2" selection-end-line="139" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#733#1522#0" expanded="false" />
+            <element signature="e#1545#1835#0" expanded="false" />
+            <element signature="e#5490#8239#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/editRoleMgmt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="158" column="20" lean-forward="false" selection-start-line="152" selection-start-column="11" selection-end-line="158" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#593#1382#0" expanded="false" />
+            <element signature="e#1405#1695#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/addUsrMgmt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="33" column="12" lean-forward="true" selection-start-line="24" selection-start-column="10" selection-end-line="33" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/editUsrMgmt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="33" column="12" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+          <folding>
+            <element signature="e#1271#1561#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

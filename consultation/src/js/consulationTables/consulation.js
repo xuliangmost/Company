@@ -62,6 +62,9 @@ export default class Consulation extends Component{
             title: '会诊时间',
             dataIndex: 'startTime',
             key: 'startTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ") }</span>
+            )
           },
           {
             title: '所属医院',

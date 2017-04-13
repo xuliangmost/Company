@@ -104,7 +104,7 @@ export default class ReturnRecord extends Component{
     }).then(function(response) {
       that.query(1);
     }).catch(function () {
-      alert("数据提交失败，请检查网络!")
+      alert("数据提交失败!")
     });
 
   }

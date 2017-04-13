@@ -60,6 +60,9 @@ export default class HadReturn extends Component{
           title: '会诊时间',
           dataIndex: 'startTime',
           key: 'startTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '所属医院',
@@ -80,6 +83,9 @@ export default class HadReturn extends Component{
           title: '退回时间',
           dataIndex: 'modifyTime',
           key: 'modifyTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ") }</span>
+          )
         },
         {
           title: '操作',
@@ -87,7 +93,7 @@ export default class HadReturn extends Component{
           render: (text, record,index) => (
             <span  key={record.id}>
               {/*<Link to="check/checked/lookChecked">查看</Link>*/}
-               <Link to={"check/hadReturn/lookHadReturn/"+record.id}>审核</Link>
+               <Link to={"check/hadReturn/lookHadReturn/"+record.id}>查看</Link>
             </span>
           )
         }
@@ -98,48 +104,7 @@ export default class HadReturn extends Component{
 
 
   }
-  /*push(id,index){
 
-   let that=this;
-   axios.request({
-   url: '/api/conference/commit',
-   method: 'get',
-   params:{
-   id:id
-   },
-   headers: {
-   'Authorization': 'Bearer '+token,
-   'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-   },
-   }).then(function(response) {
-   if(response.data.code==200){
-   axios.request({
-   url: '/api/conference/applyPageList',
-   method: 'get',
-   params:this.state.applyPage,
-   headers: {
-   'Authorization': 'Bearer '+token,
-   'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-   },
-   }).then(function(response) {
-   let dataSource=response.data.result.data;
-   console.log(dataSource)
-   that.setState({
-   dataSource:dataSource
-   })
-   });
-
-
-   }
-
-
-
-
-   }).catch(function () {
-   alert("数据提交失败，请检查网络!")
-   });
-
-   }*/
   changePage(page){
     this.query(page);
     this.setState({

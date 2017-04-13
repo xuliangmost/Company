@@ -21,9 +21,9 @@ new WebpackDevServer(webpack(config), {
     },
   }
 })
-  .listen(8080, 'localhost', function (err) {
+  .listen(8181, 'localhost', function (err) {
     if (err) {
       console.log(err);
     }
-    console.log('Listening at localhost:8080');
+    console.log('Listening at localhost:8181');
   });
