@@ -61,7 +61,7 @@ export default class HadReturn extends Component{
           dataIndex: 'startTime',
           key: 'startTime',
           render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
+           <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
         },
         {
@@ -84,7 +84,7 @@ export default class HadReturn extends Component{
           dataIndex: 'modifyTime',
           key: 'modifyTime',
           render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
+           <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
         },
         {

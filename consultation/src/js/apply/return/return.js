@@ -55,7 +55,7 @@ export default class ReturnRecord extends Component{
             dataIndex: 'startTime',
             key: 'startTime',
             render: (text) => (
-              <span>{ text.split("T").join(" ") }</span>
+             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
             )
           },
           {
@@ -73,7 +73,7 @@ export default class ReturnRecord extends Component{
             dataIndex: 'creatAt',
             key: 'creatAt',
             render: (text) => (
-              <span>{ text.split("T").join(" ") }</span>
+             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
             )
           },
           {

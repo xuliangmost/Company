@@ -63,7 +63,7 @@ export default class Consulation extends Component{
             dataIndex: 'startTime',
             key: 'startTime',
             render: (text) => (
-              <span>{ text.split("T").join(" ") }</span>
+              <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
             )
           },
           {

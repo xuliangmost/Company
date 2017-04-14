@@ -15,87 +15,75 @@ export default class UsrMgmt extends Component{
       this.state={
         applyPage:{
           pageSize:10,
-          consultationName:"",
           username:"",
           phone:"",
-          status:"1",
-          startTime:""
+          roleName:"",
+          unitId:null
         },
         total:10,
         current:1,
         columns : [
           {
           title:'序号',
-          dataIndex: 'id',
-          key: 'id',
+          dataIndex: 'userId',
+          key: 'userId',
           render: (text, record, index) => {
              return <span>{index + 1}</span>
           }
           },
           {
           title: '姓名',
-          dataIndex: 'title',
-          key: 'title',
-          },
-          {
-          title: '手机号',
-          dataIndex: 'startTime',
-          key: 'startTime',
-          },
-          {
-          title: '隶属单位',
           dataIndex: 'username',
           key: 'username',
           },
           {
+          title: '手机号',
+          dataIndex: 'phone',
+          key: 'phone',
+          },
+          {
+            title: '隶属单位',
+            dataIndex: 'unitName',
+            key: 'unitName',
+          },
+          {
             title: '所属角色',
-            dataIndex: 'crea1tAt',
-            key: 'creat1At',
+            dataIndex: 'roleNames',
+            key: 'roleNames',
           },
           {
             title: '操作',
             key: 'action',
             render: (text, record,index) => (
               <span  key={record.id}>
-              <Link to={"apply/editCnsulation/"+record.id}>编辑</Link>
-              <Link to=""  className="apply_link">启用</Link>
-
-              <Link to="" className="apply_link" >停用</Link>
-
+              <Link to={"usrmgmt/editUsrmgmt/"+record.userId}>编辑</Link>
             </span>
             )
           }
         ],
-        dataSource : []
+        dataSource : [],
+        fromCop:[]
       }
     }
 
     componentDidMount(){
-     // this.query(1)
+      this.query(1)
     }
-
-    push(id,index){
-
+    getList(){
       let that=this;
       axios.request({
-        url: '/api/conference/commit',
+        url: '/api/user/hospitals',
         method: 'get',
-        params:{
-          id:id
-        },
         headers: {
           'Authorization': 'Bearer '+token,
           'Content-Type': 'application/x-www-form-urlencoded UTF-8'
         },
       }).then(function(response) {
-          that.query();
-
-      }).catch(function () {
-        alert("数据提交失败!")
+        that.setState({
+          fromCop:response.data.result
+        })
       });
-
     }
-
   changePage(page){
     this.query(page);
     this.setState({
@@ -105,7 +93,7 @@ export default class UsrMgmt extends Component{
 
     changeConsultationName(e){
       let apply=this.state.applyPage;
-      apply.consultationName=e.target.value;
+      apply.username=e.target.value;
       this.setState({
         applyPage:apply
       })
@@ -119,20 +107,42 @@ export default class UsrMgmt extends Component{
       })
     }
 
-    changePhone(e){
+    changeRoleName(e){
       let apply=this.state.applyPage;
-      apply.phone=e.target.value;
+      apply.roleName=e.target.value;
       this.setState({
         applyPage:apply
       })
     }
+  changePhone(e){
+    let apply=this.state.applyPage;
+    apply.phone=e.target.value;
+    this.setState({
+      applyPage:apply
+    })
+  }
+    selectFrom(value){
+      let apply=this.state.applyPage;
+      if(!value){
+        value=null;
+        apply.unitId=value;
+        this.setState({
+          applyPage:apply
+        })
+      }else{
+        apply.unitId=Number(value);
+        this.setState({
+          applyPage:apply
+        })
+      }
 
+    }
     query(num){
       let that=this;
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
       axios.request({
-        url: '/api/conference/applyPageList',
+        url: '/api/user/pageList',
         method: 'get',
         params:applyPage,
         headers: {
@@ -144,7 +154,8 @@ export default class UsrMgmt extends Component{
         that.setState({
           dataSource:dataSource,
           total:response.data.result.count
-        })
+        });
+        that.getList()
       });
     }
     render(){
@@ -153,7 +164,7 @@ export default class UsrMgmt extends Component{
           <div className="apple_top">
           <h1>
             用户查询区
-            <Button type="primary" onClick={()=>this.query()} className="search_btn1">查询</Button>
+            <Button type="primary" onClick={()=>this.query(1)} className="search_btn1">查询</Button>
           </h1>
           <ul className="search_ul">
             <li>
@@ -162,22 +173,26 @@ export default class UsrMgmt extends Component{
             </li>
             <li>
               <span className="most_flex">手机号</span>
-              <Input onChange={this.changeConsultationName.bind(this)}  className="search_input" size="large" placeholder="手机号" />
-            </li>
-            <li>
-              <span className="most_flex">隶属单位</span>
-              <Input readOnly onChange={this.changeUsername.bind(this)}  className="search_input" size="large" placeholder="隶属单位" />
+              <Input onChange={this.changePhone.bind(this)}  className="search_input" size="large" placeholder="手机号" />
             </li>
             {/*<li>
-              <span className="most_flex">使用状态</span>
-              <Select defaultValue="请选择" className="search_input">
-                <Option value="1">启用</Option>
-                <Option value="0">停用</Option>
-              </Select>
+              <span className="most_flex">隶属单位</span>
+              <Input readOnly onChange={this.changeUsername.bind(this)}  className="search_input" size="large" placeholder="隶属单位" />
             </li>*/}
             <li>
+              <span className="most_flex">隶属单位</span>
+              <Select onChange={this.selectFrom.bind(this)} defaultValue="请选择" className="search_input">
+                <Option value="">-请选择-</Option>
+                {
+                  this.state.fromCop.map((ele,index)=>{
+                    return <Option key={index} value={ele.unitId.toString()}>{ele.unitName}</Option>
+                  })
+                }
+              </Select>
+            </li>
+            <li>
               <span className="most_flex">所属角色</span>
-              <Input onChange={this.changeConsultationName.bind(this)}  className="search_input" size="large" placeholder="所属角色" />
+              <Input onChange={this.changeRoleName.bind(this)}  className="search_input" size="large" placeholder="所属角色" />
             </li>
           </ul>
 
@@ -212,7 +227,7 @@ export default class UsrMgmt extends Component{
             </h1>
 
             <Table pagination={{defaultPageSize:10,showQuickJumper:true,onChange:this.changePage.bind(this),
-              total:this.state.total,current:this.state.current }}  rowKey="id" dataSource={this.state.dataSource} columns={this.state.columns} />
+              total:this.state.total,current:this.state.current }}  rowKey="userId" dataSource={this.state.dataSource} columns={this.state.columns} />
           </div>
         </div>
       )

@@ -23,7 +23,7 @@ class PageBottom extends Component{
         super(props);
     }
     componentWillMount(){
-      // checked.checked()
+       checked.checked()
     }
 
     render(){
@@ -55,12 +55,12 @@ class Page extends Component{
 
                   <Route path="/usrmgmt/usrmgmt" component={UsrMgmt}/>
                   <Route path="/usrmgmt/addUsrmgmt" component={AddUsrMgmt}/>
-                  <Route path="/usrmgmt/editUsrmgmt" component={EditUsrMgmt}/>
+                  <Route path="/usrmgmt/editUsrmgmt/:id" component={EditUsrMgmt}/>
 
 
                   <Route path="/rolemgmt/rolemgmt" component={RoleMgmt}/>
                   <Route path="/rolemgmt/addRolemgmt" component={AddRolemgmt}/>
-                  <Route path="/rolemgmt/editRolemgmt" component={EditRolemgmt}/>
+                  <Route path="/rolemgmt/editRolemgmt/:id" component={EditRolemgmt}/>
                   <Route path="/rolemgmt/giveAuthorization" component={GiveAuthorization}/>
 
 

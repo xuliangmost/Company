@@ -10,46 +10,42 @@ export default class RoleMgmt extends Component{
     constructor(props){
         super(props);
 
-
       this.state={
         applyPage:{
           pageSize:10,
-          consultationName:"",
-          username:"",
-          phone:"",
-          status:"1",
-          startTime:""
+          roleName:"",
+          permission:"",
         },
         total:10,
         current:1,
         columns : [
           {
           title:'序号',
-          dataIndex: 'id',
-          key: 'id',
+          dataIndex: 'roleId',
+          key: 'roleId',
           render: (text, record, index) => {
              return <span>{index + 1}</span>
           }
           },
           {
           title: '角色名称',
-          dataIndex: 'title',
-          key: 'title',
+          dataIndex: 'roleName',
+          key: 'roleName',
           },
           {
           title: '所属菜单',
-          dataIndex: 'startTime',
-          key: 'startTime',
+          dataIndex: 'menuName',
+          key: 'menuName',
           },
           {
             title: '操作',
             key: 'action',
             render: (text, record,index) => (
-              <span  key={record.id}>
-              <Link to={"apply/editCnsulation/"+record.id}>编辑</Link>
-              <Link to=""  className="apply_link">启用</Link>
+              <span  key={record.roleId}>
+              <Link to={"rolemgmt/editRolemgmt/"+record.roleId}>编辑</Link>
+              {/*<Link to=""  className="apply_link">启用</Link>
 
-              <Link to="" className="apply_link" >停用</Link>
+              <Link to="" className="apply_link" >停用</Link>*/}
 
             </span>
             )
@@ -60,7 +56,7 @@ export default class RoleMgmt extends Component{
     }
 
     componentDidMount(){
-
+      this.query(1)
     }
 
 
@@ -75,7 +71,7 @@ export default class RoleMgmt extends Component{
 
     changeConsultationName(e){
       let apply=this.state.applyPage;
-      apply.consultationName=e.target.value;
+      apply.roleName=e.target.value;
       this.setState({
         applyPage:apply
       })
@@ -83,19 +79,18 @@ export default class RoleMgmt extends Component{
 
     changeUsername(e){
       let apply=this.state.applyPage;
-      apply.username=e.target.value;
+      apply.permission=e.target.value;
       this.setState({
         applyPage:apply
       })
     }
-
 
     query(num){
       let that=this;
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
       axios.request({
-        url: '/api/conference/applyPageList',
+        url: '/api/user/role/pageList',
         method: 'get',
         params:applyPage,
         headers: {
@@ -116,7 +111,7 @@ export default class RoleMgmt extends Component{
           <div className="apple_top">
           <h1>
             角色查询区
-            <Button type="primary" onClick={()=>this.query()} className="search_btn1">查询</Button>
+            <Button type="primary" onClick={()=>this.query(1)} className="search_btn1">查询</Button>
           </h1>
           <ul className="search_ul">
             <li>
@@ -135,7 +130,7 @@ export default class RoleMgmt extends Component{
             </li>*/}
             <li>
               <span className="most_flex">所属菜单</span>
-              <Input onChange={this.changeConsultationName.bind(this)}  className="search_input" size="large" placeholder="所属菜单" />
+              <Input onChange={this.changeUsername.bind(this)}  className="search_input" size="large" placeholder="所属菜单" />
             </li>
             <li>
             </li>
@@ -155,7 +150,7 @@ export default class RoleMgmt extends Component{
             </h1>
 
             <Table pagination={{defaultPageSize:10,showQuickJumper:true,onChange:this.changePage.bind(this),
-              total:this.state.total,current:this.state.current }}  rowKey="id" dataSource={this.state.dataSource} columns={this.state.columns} />
+              total:this.state.total,current:this.state.current }}  rowKey="roleId" dataSource={this.state.dataSource} columns={this.state.columns} />
           </div>
         </div>
       )

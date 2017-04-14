@@ -28,7 +28,7 @@ const allData={
     "hospital": "", //隶属医院
     "applicant": "", //会诊申请人
     "consultationName": "", //会诊名称
-    "startTime": startTime, //会诊时间
+    "startTime": "", //会诊时间
     "username": "", //会诊对象
     "phone": "", //会诊对象的手机号
     "identification": "", //身份证号

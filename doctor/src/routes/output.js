@@ -19,7 +19,7 @@ class PageBottom extends Component{
         super(props);
     }
     componentWillMount(){
-      // checked.checked()
+       checked.checked()
     }
 
     render(){

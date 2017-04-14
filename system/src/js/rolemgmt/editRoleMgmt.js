@@ -8,71 +8,141 @@ let token=localStorage.getItem("robertUserName");
 export default class EditRolemgmt extends Component{
     constructor(props){
         super(props);
-
-
       this.state={
         applyData:{
-          name:"",
-          danWei:"",
-          jueSe:["单击文本域编辑用户","213","单击文本域编421辑用户"],
-          beiZhu:""
+          roleName:"",
+          remarks:"",
+          permissionids:"",
+          roleId:""
         },
         total:10,
         current:1,
         columns : [
           {
             title:'序号',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'permissionId',
+            key: 'permissionId',
             render: (text, record, index) => {
               return <span>{index + 1}</span>
             }
           },
           {
             title: '系统名称',
-            dataIndex: 'title',
-            key: 'title',
+            dataIndex: 'systemName',
+            key: 'systemName',
           },
           {
             title: '菜单名称',
-            dataIndex: 'startTime',
-            key: 'startTime',
+            dataIndex: 'menuName',
+            key: 'menuName',
           },
           {
             title: '权限',
-            dataIndex: 'phone',
-            key: 'phone',
+            dataIndex: 'action',
+            key: 'action',
             render: (text, record,index) => (
-              <span  key={record.id}>
-                {
-                  record.phone?<Checkbox defaultChecked={true} />:<Checkbox />
+              <span  key={record.permissionId}>
+               {
+                 <Checkbox onChange={this.selectPermission.bind(this,record.permissionId)} defaultChecked={this.state.permissionIds.indexOf(record.permissionId.toString())!==-1} />
                 }
               </span>
             )
           }
         ],
-        dataSource : [
-          {
-            id:"1",
-            title:"1",
-            startTime:"1",
-            username:0,
-            phone:0,
-          },
-          {
-            id:"2",
-            title:"1",
-            startTime:"1",
-            username:1,
-            phone:1,
-          }
-        ]
+        dataSource : [],
+        permissionIds:[]
       }
     }
 
     componentDidMount(){
-      // this.query(1)
+      this.getValue()
     }
+
+    selectPermission(id,e){
+      let permissionIds=this.state.permissionIds;
+      if(e.target.checked){
+        if(permissionIds.indexOf(id.toString())==-1){
+          permissionIds.push(id.toString())
+        }
+      }else{
+        if(permissionIds.indexOf(id.toString())!==-1){
+          permissionIds.splice(permissionIds.indexOf(id.toString()),1)
+        }
+      }
+      console.log(permissionIds)
+    }
+
+  getValue(){
+    let that=this;
+    axios.request({
+      url: '/api/user/role/page',
+      method: 'get',
+      params:{
+        roleId:this.props.params.id.toString()
+      },
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function(response) {
+      let permissionIds=response.data.result.permissionids.split(",");
+      that.setState({
+        applyData:response.data.result,
+        permissionIds
+      });
+      that.getList(1)
+    });
+  }
+
+  getList(num){
+    let that=this;
+    axios.request({
+      url: '/api/user/permission/pageList',
+      method: 'get',
+      params:{
+        pageSize:10,
+        pageNum:num
+      },
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function(response) {
+      let dataSource=response.data.result?response.data.result.data:[];
+      that.setState({
+        dataSource:dataSource,
+        total:response.data.result.count
+      })
+    });
+  }
+
+  save(){
+    let permissionIds=this.state.permissionIds;
+    let applyData=this.state.applyData;
+    applyData.permissionids=permissionIds.join(",");
+    if(!applyData.permissionids){
+      applyData.permissionids="0"
+    }
+    axios.request({
+      url: '/api/user/role/edit',
+      method: 'POST',
+      data:{
+        "roleId":applyData.roleId,
+        "roleName":applyData.roleName,
+        "remarks":applyData.remarks,
+        "permissionIds":applyData.permissionids
+      },
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/json'
+      },
+    }).then(function(response) {
+        if(response.data.code===200){
+          alert("保存成功，即将跳转!");
+          location.hash="/rolemgmt/rolemgmt"
+        }
+    });
+  }
   getMock(){
     const targetKeys = [];
     const mockData = [];
@@ -114,8 +184,25 @@ export default class EditRolemgmt extends Component{
     };
     return map[key] || [];
   }
+
+  changeRoleName(e){
+    let applyData=this.state.applyData;
+    applyData.roleName=e.target.value;
+    this.setState({
+      applyData
+    })
+  }
+  changeRemark(e){
+    let applyData=this.state.applyData;
+    applyData.remarks=e.target.value;
+    this.setState({
+      applyData
+    })
+  }
+
+
   changePage(page){
-    this.query(page);
+    this.getList(page);
     this.setState({
       current:page
     })
@@ -147,7 +234,7 @@ export default class EditRolemgmt extends Component{
               <span className="name">
                 角色名称
               </span>
-              <Input className="" size="large" placeholder="角色名称" />
+              <Input value={this.state.applyData.roleName} onChange={this.changeRoleName.bind(this)} className="" size="large" placeholder="角色名称" />
             </li>
 
            {/* <li className="select_province">
@@ -172,19 +259,19 @@ export default class EditRolemgmt extends Component{
               <span className="name">
                 备注
               </span>
-              <Input className="" type="textarea" rows="6" />
+              <Input value={this.state.applyData.remarks} onChange={this.changeRemark.bind(this)} className="" type="textarea" rows="6" />
             </li>
           </ul>
 
-          <Table pagination={{defaultPageSize:10,showQuickJumper:true,onChange:this.changePage.bind(this),
-            total:this.state.total,current:this.state.current }}  rowKey="id" dataSource={this.state.dataSource} columns={this.state.columns} />
+          <Table rowKey="permissionId" pagination={{defaultPageSize:10,showQuickJumper:true,onChange:this.changePage.bind(this),
+            total:this.state.total,current:this.state.current }} dataSource={this.state.dataSource} columns={this.state.columns} />
 
           <h3>
           </h3>
           <div className="btn_save">
             <div className="btn_save_index">
-              <Button className="save_add_hospital" type="primary">保存</Button>
-              <Link to="healthInfo/doctor/doctor">
+              <Button onClick={this.save.bind(this)} className="save_add_hospital" type="primary">保存</Button>
+              <Link to="rolemgmt/rolemgmt">
                 <Button type="primary">返回</Button>
               </Link>
             </div>
