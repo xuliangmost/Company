@@ -24,19 +24,19 @@ export default class AddUsrMgmt extends Component{
       columns : [
         {
           title:'序号',
-          dataIndex: 'permissionId',
-          key: 'permissionId',
+          dataIndex: 'roleId',
+          key: 'roleId',
           render: (text, record, index) => {
             return <span>{index + 1}</span>
           }
         },
         {
-          title: '系统名称',
-          dataIndex: 'systemName',
-          key: 'systemName',
+          title: '角色名称',
+          dataIndex: 'roleName',
+          key: 'roleName',
         },
         {
-          title: '菜单名称',
+          title: '所属菜单',
           dataIndex: 'menuName',
           key: 'menuName',
         },
@@ -44,9 +44,9 @@ export default class AddUsrMgmt extends Component{
           title: '操作',
           key: 'action',
           render: (text, record,index) => (
-            <span  key={record.permissionId}>
+            <span  key={record.roleId}>
                  {
-                   <Checkbox onChange={this.selectPermission.bind(this,record.permissionId)} defaultChecked={this.state.permissionIds.indexOf(record.permissionId.toString())!==-1} />
+                   <Checkbox onChange={this.selectPermission.bind(this,record.roleId)} defaultChecked={this.state.permissionIds.indexOf(record.roleId.toString())!==-1} />
                  }
               </span>
           )
@@ -104,6 +104,7 @@ export default class AddUsrMgmt extends Component{
     });
   }
   selectPermission(id,e){
+
     let permissionIds=this.state.permissionIds;
     if(e.target.checked){
       if(permissionIds.indexOf(id.toString())==-1){
@@ -114,6 +115,7 @@ export default class AddUsrMgmt extends Component{
         permissionIds.splice(permissionIds.indexOf(id.toString()),1)
       }
     }
+    console.log(permissionIds)
   }
   selectFrom(value){
     let apply=this.state.applyPage;
@@ -160,7 +162,7 @@ export default class AddUsrMgmt extends Component{
     let applyPage=this.state.applyPage;
     applyPage.pageNum=num;
     axios.request({
-      url: '/api/user/permission/pageList',
+      url: '/api/user/role/pageList',
       method: 'get',
       params:applyPage,
       headers: {
@@ -176,6 +178,7 @@ export default class AddUsrMgmt extends Component{
     });
   }
   save(){
+    this.checkPhone();
     if(this.state.phoneHad){
       alert("手机号已注册!");
       return false
@@ -191,7 +194,7 @@ export default class AddUsrMgmt extends Component{
       alert("手机号不能为空或手机号填写错误!");
       return false
     }
-    if(tools.isEmpty(applyData.roleIds)){
+    if(tools.isEmpty(applyData.unitId)){
       alert("隶属单位未选择!");
       return false
     }
@@ -329,7 +332,7 @@ export default class AddUsrMgmt extends Component{
         </ul>
 
         <Table pagination={{defaultPageSize:10,showQuickJumper:true,onChange:this.changePage.bind(this),
-          total:this.state.total,current:this.state.current }}  rowKey="permissionId" dataSource={this.state.dataSource} columns={this.state.columns} />
+          total:this.state.total,current:this.state.current }}  rowKey="roleId" dataSource={this.state.dataSource} columns={this.state.columns} />
 
         <h3>
         </h3>

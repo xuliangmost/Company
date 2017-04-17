@@ -296,7 +296,7 @@ export default class Consulation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>
-              <DatePicker allowClear={false} size="large" className="search_input" onChange={this.onChange.bind(this)} />
+              <DatePicker  size="large" className="search_input" onChange={this.onChange.bind(this)} />
             </li>
             <li>
               <span className="most_flex">会诊对象</span>

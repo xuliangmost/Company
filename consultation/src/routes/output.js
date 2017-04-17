@@ -23,7 +23,6 @@ import LookConsulation from "../js/consulationTables/lookConsulation"//会诊总
 
 import checked from "../tools/checked"
 
-//以下是丁杰超负责模块
 import Checked from "../js/check/checked/checked"
 import LookChecked from "../js/check/checked/lookChecked"
 import HadReturn from "../js/check/hadReturn/hadReturn"

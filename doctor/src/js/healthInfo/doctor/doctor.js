@@ -87,6 +87,9 @@ export default class Doctor extends Component{
       let that=this;
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
+      if(!applyPage.doctorTitle){
+        delete applyPage.doctorTitle
+      }
       axios.request({
         url: '/api/user/doctor/pageList',
         method: 'get',

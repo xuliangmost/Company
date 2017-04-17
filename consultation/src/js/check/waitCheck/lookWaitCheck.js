@@ -58,11 +58,8 @@ let allData={
   "doctor": [],
   "code": 200
 };
-
-
-
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-export default class EditCnsulation extends Component{
+export default class LookWaitCheck extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -116,29 +113,26 @@ export default class EditCnsulation extends Component{
       fileListColumns :[
         {
           title: '文件名',
-          dataIndex: 'diagnosis',
-          key: 'diagnosis'
+          dataIndex: 'fileName',
+          key: 'fileName'
         },
         {
           title: '大小',
-          dataIndex: 'doctorName',
-          key: 'doctorName',
+          dataIndex: 'fileSize',
+          key: 'fileSize',
         },
         {
           title: '上传时间',
-          dataIndex: 'diagnosisTime',
-          key: 'diagnosisTime',
-          render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
-          )
+          dataIndex: 'uploadAt',
+          key: 'uploadAt',
         },
         {
           title: '操作',
           key: 'action',
           render: (text, record) => (
             <span>
-               <a href={record.doc} download={record.diagnosis}>下载</a>
-               <a href={record.doc}>查看</a>
+               <a href={record.url} download={record.fileName}>下载</a>
+               <a href={record.url}>查看</a>
             </span>
           ),
         }
@@ -223,7 +217,7 @@ export default class EditCnsulation extends Component{
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
-
+      hadResolve:false
     }
   }
 
@@ -242,17 +236,34 @@ export default class EditCnsulation extends Component{
       let getData=that.state.getData;
       getData.consultation.hospital=response.data.result[0].hospitalName;
       getData.consultation.applicant=response.data.result[0].applyName;
-      console.log(getData.consultation.hospital);
-      console.log(getData.consultation.applicant);
       that.setState({
         getData
       })
     }).catch(function () {
-      alert("1")
+
     });
   }
 
-
+checkHadChecked(){
+    let that=this;
+  axios.request({
+    url: '/api/conference/judge',
+    method: 'get',
+    params: {
+      id:that.props.params.id
+    },
+    headers: {
+      'Authorization': 'Bearer '+token,
+      'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+    },
+  }).then(function (res) {
+    if(res.data.code===300){
+      that.setState({
+        hadResolve:true
+      })
+    }
+  })
+}
   getValue(){
     let that=this;
     let responseDoc=[];
@@ -273,11 +284,14 @@ export default class EditCnsulation extends Component{
       let getData=response.data;
       getData.consultationId=1;
       let data=[];
-
-      if(getData.case&&getData.case!=false&&getData.case[0].advice!=false){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
+      let fileList=[];
+      if(getData.case&&getData.case!=false){
+        if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+          getData.case[0].advice[0].prescription.map((ele)=>{
+            data.push(ele);
+          });
+        }
+        fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
         getData.case=allData.case;
         getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
@@ -294,11 +308,13 @@ export default class EditCnsulation extends Component{
         targetdoc:response.data.doctor,//加载页面时，会诊医生栏显示的内容
         data:data,
         conclusion,
+        fileList,
         checkData
       });
 
       //因为异步的原因，所以只能在回调函数里面放数据请求了
-      that.getPeople()
+      that.getPeople();
+      that.checkHadChecked();
       axios.request({
         url: '/api/conference/doctor',
         method: 'get',
@@ -352,7 +368,6 @@ export default class EditCnsulation extends Component{
       });
 
     }).catch(function () {
-      alert("第一请求error");
     });
 
     //页面加载时获取医生列表
@@ -362,6 +377,7 @@ export default class EditCnsulation extends Component{
 
     this.getValue();
   }
+
   returnList(){
     location.hash="/check/waitCheck/waitCheck"
   }
@@ -487,13 +503,12 @@ export default class EditCnsulation extends Component{
     }else{
       data=null
     }
-
-    console.log(data);
     this.setState({
       history1:this.state.getData.case[index],
       history1Index:index,
       history2:this.state.getData.case[index].advice?this.state.getData.case[index].advice[0]:null,
-      data:data
+      data:data,
+      fileList:this.state.getData.case[index].file&&this.state.getData.case[index].file!=false?this.state.getData.case[index].file:null,
     })
   }
   changeHistory2(index){        //切换医嘱
@@ -717,10 +732,11 @@ export default class EditCnsulation extends Component{
 
           <div className="record">
             <span className="history_sp1 record_sp1"> 病历资料 </span>
-            {/*
-             this.state.fileList.length>0?<Table rowKey="id" dataSource={this.state.fileList} columns={this.state.fileListColumns} />: <span className="history_btn1"> 无病历资料 </span>
-             */}
-            <span className="history_btn1"> 无病历资料 </span>
+
+            {
+              this.state.fileList? <Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />: <span className="history_btn1"> 无病历资料 </span>
+            }
+
           </div>
 
 
@@ -768,15 +784,11 @@ export default class EditCnsulation extends Component{
 
 
 
-
-
-
           <div className="btn_save">
-
             <div className="btn_save_index">
               <div className="btn_div1">
-                  <Button type="primary" onClick={() => this.conFirm()}>会诊确认</Button> &nbsp;
-                  <Button type="primary" onClick={() => this.tuihuiDiv()}>标记退回</Button>&nbsp;
+                  <Button type="primary" disabled={this.state.hadResolve} onClick={() => this.conFirm()}>会诊确认</Button> &nbsp;
+                  <Button type="primary"  disabled={this.state.hadResolve}  onClick={() => this.tuihuiDiv()}>标记退回</Button>&nbsp;
               </div>
               <div className="btn_div1">
                 <Button type="primary" onClick={()=>this.returnList()}>取消</Button>

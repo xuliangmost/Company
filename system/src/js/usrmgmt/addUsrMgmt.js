@@ -22,19 +22,19 @@ export default class AddUsrMgmt extends Component{
         columns : [
           {
             title:'序号',
-            dataIndex: 'permissionId',
-            key: 'permissionId',
+            dataIndex: 'roleId',
+            key: 'roleId',
             render: (text, record, index) => {
               return <span>{index + 1}</span>
             }
           },
           {
-            title: '系统名称',
-            dataIndex: 'systemName',
-            key: 'systemName',
+            title: '角色名称	',
+            dataIndex: 'roleName',
+            key: 'roleName',
           },
           {
-            title: '菜单名称',
+            title: '所属菜单',
             dataIndex: 'menuName',
             key: 'menuName',
           },
@@ -42,8 +42,8 @@ export default class AddUsrMgmt extends Component{
            title: '操作',
            key: 'action',
            render: (text, record,index) => (
-             <span  key={record.permissionId}>
-                 <Checkbox onChange={this.selectPermission.bind(this,record.permissionId)} />
+             <span  key={record.roleId}>
+                 <Checkbox onChange={this.selectPermission.bind(this,record.roleId)} />
               </span>
            )
            }
@@ -126,7 +126,7 @@ export default class AddUsrMgmt extends Component{
     let applyPage=this.state.applyPage;
     applyPage.pageNum=num;
     axios.request({
-      url: '/api/user/permission/pageList',
+      url: '/api/user/role/pageList',
       method: 'get',
       params:applyPage,
       headers: {
@@ -143,6 +143,7 @@ export default class AddUsrMgmt extends Component{
     });
   }
   save(){
+    this.checkPhone();
     let permissionIds=this.state.permissionIds;
     let applyData=this.state.applyPage;
     applyData.roleIds=permissionIds.join(",");
@@ -153,7 +154,7 @@ export default class AddUsrMgmt extends Component{
       alert("手机号不能为空或手机号填写错误!");
       return false
     }
-    if(tools.isEmpty(applyData.roleIds)){
+    if(tools.isEmpty(applyData.unitId)){
       alert("隶属单位未选择!");
       return false
     }

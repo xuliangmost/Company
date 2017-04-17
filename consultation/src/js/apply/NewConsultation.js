@@ -256,6 +256,7 @@ export default class NewConsultation extends Component{
       const mockData = [];
       const targetdoc=[];
       const docArr=response.data.result;
+
       for (let i = 0; i < docArr.length; i++) {
         const data = {
           key: docArr[i].doctorId,
@@ -270,7 +271,6 @@ export default class NewConsultation extends Component{
         }
         mockData.push(data);
       }
-
       docArr.map((ele,index)=>{
         targetdoc.push(ele)//targetdoc是显示在框子里面的医生的名字集合
       });

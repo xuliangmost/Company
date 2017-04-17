@@ -110,26 +110,26 @@ export default class EditCnsulation extends Component{
       fileListColumns :[
         {
           title: '文件名',
-          dataIndex: 'diagnosis',
-          key: 'diagnosis'
+          dataIndex: 'fileName',
+          key: 'fileName'
         },
         {
           title: '大小',
-          dataIndex: 'doctorName',
-          key: 'doctorName',
-          },
+          dataIndex: 'fileSize',
+          key: 'fileSize',
+        },
         {
           title: '上传时间',
-          dataIndex: 'diagnosisTime',
-          key: 'diagnosisTime',
+          dataIndex: 'uploadAt',
+          key: 'uploadAt',
         },
         {
           title: '操作',
           key: 'action',
           render: (text, record) => (
             <span>
-               <a href={record.doc} download={record.diagnosis}>下载</a>
-               <a href={record.doc}>查看</a>
+               <a href={record.url} download={record.fileName}>下载</a>
+               <a href={record.url}>查看</a>
             </span>
           ),
         }
@@ -259,11 +259,12 @@ export default class EditCnsulation extends Component{
       let getData=response.data;
       getData.consultationId=that.props.params.id;
       let data=[];
-
+      let fileList=[];
       if(getData.case&&getData.case!=false&&getData.case[0].advice!=false){
         getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
           data.push(ele);
         }):"";
+        fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
         getData.case=allData.case;
         getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
@@ -281,6 +282,7 @@ export default class EditCnsulation extends Component{
         targetdoc:getData.doctor?getData.doctor:[],//加载页面时，会诊医生栏显示的内容
         data:data,
         conclusion,
+        fileList,
         checkData
       });
 
@@ -418,7 +420,8 @@ export default class EditCnsulation extends Component{
       history1:this.state.getData.case[index],
       history1Index:index,
       history2:this.state.getData.case[index].advice?this.state.getData.case[index].advice[0]:null,
-      data:data
+      data:data,
+      fileList:this.state.getData.case[index].file&&this.state.getData.case[index].file!=false?this.state.getData.case[index].file:null,
     })
   }
   changeHistory2(index){        //切换医嘱
@@ -652,7 +655,10 @@ export default class EditCnsulation extends Component{
           <div className="record">
             <span className="history_sp1 record_sp1"> 病历资料 </span>
 
-            <span className="history_btn1"> 无病历资料 </span>
+            {
+              this.state.fileList.length>0?<Table rowKey="id" dataSource={this.state.fileList} columns={this.state.fileListColumns} />: <span className="history_btn1"> 无病历资料 </span>
+            }
+
           </div>
 
 

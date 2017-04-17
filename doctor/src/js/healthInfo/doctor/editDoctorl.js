@@ -149,8 +149,30 @@ export default class AddDoctor extends Component{
       applyData
     })
   }
+  checkPhone(){
+    let applyData=this.state.applyData;
+    axios.request({
+      url: '/api/user/hea/pvalidate',
+      method: 'get',
+      params:{
+        phone:applyData.doctorPhone
+      },
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function(response) {
 
+      if(response.data.code===200){
+
+      }else if(response.data.code===202){
+        alert("该号码已存在");
+        return false
+      }
+    });
+  }
   send(){
+    this.checkPhone();
     let data=this.state.applyData;
     if(tools.isEmpty(data.doctorName)){
       alert("姓名不能为空!");
@@ -180,15 +202,21 @@ export default class AddDoctor extends Component{
     });
   }
   render(){
+    let that=this;
     const props = {//上传的事件
-      action: '/upload/consultation/',
+      action: '/upload/user',
       headers:{
         "Authorization":"Bearer "+token
       },
       onChange({ file, fileList }) {
         if (file.status !== 'uploading') {
-
-
+          console.log(file.response.result[0].url);
+          let applyData=that.state.applyData;
+          applyData.pic=file.response.result[0].url;
+          that.setState({
+            applyData,
+            imgUrl:file.response.result[0].url
+          })
         }
       },
       defaultFileList: [],
@@ -197,7 +225,7 @@ export default class AddDoctor extends Component{
 
     return (
       <div className="doctor_content">
-        <img src={this.state.imgUrl?this.state.imgUrl:"http://xuliangmost.com/html/static/dist/img/list-img/monster7.jpg"} className="headPic" />
+        <img src={this.state.imgUrl?this.state.imgUrl:"./images/no.jpg"} className="headPic" />
         <Upload   {...props}>
           <Button className="load_head_pic">
             <Icon type="upload" />上传头像
@@ -271,7 +299,7 @@ export default class AddDoctor extends Component{
               <span className="name">
                 手机号
               </span>
-            <Input value={this.state.applyData.doctorPhone} onChange={this.changePhone.bind(this)} className="" size="large" placeholder="手机号" />
+            <Input onBlur={this.checkPhone.bind(this)}  value={this.state.applyData.doctorPhone} onChange={this.changePhone.bind(this)} className="" size="large" placeholder="手机号" />
           </li>
 
           <li>

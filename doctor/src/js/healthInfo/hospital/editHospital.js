@@ -152,9 +152,13 @@ export default class AddHospital extends Component{
 
   changeLevel(value){
     let applyPage=this.state.applyPage;
+    let city=this.state.levels.filter(function (ele) {
+      return ele.levelId==Number(value)
+    });
     applyPage.level=Number(value);
     this.setState({
-      applyPage
+      applyPage,
+      selectLevel:city[0].levelName,
     })
   }
 
