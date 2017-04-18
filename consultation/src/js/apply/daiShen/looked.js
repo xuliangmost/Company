@@ -65,7 +65,7 @@ export default class EditCnsulation extends Component{
   constructor(props){
     super(props);
     this.state={
-      consultationId:1,
+      consultationId:null,
       getData:allData,
       mockData: [],//会诊医生弹出框左边的选项
       targetTitle:[],//确定按钮的中间变量，点击确定才把医生放到input框
@@ -78,7 +78,10 @@ export default class EditCnsulation extends Component{
           {
             title: '开方时间',
             dataIndex: 'prescriptionTime',
-            key: 'prescriptionTime'
+            key: 'prescriptionTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+            )
           },
           {
             title: '开方医生姓名',
@@ -122,14 +125,17 @@ export default class EditCnsulation extends Component{
           title: '上传时间',
           dataIndex: 'uploadAt',
           key: 'uploadAt',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作',
           key: 'action',
           render: (text, record) => (
             <span>
-               <a href={record.url} download={record.fileName}>下载</a>
-               <a href={record.url}>查看</a>
+               <a  className="apply_link" href={record.url} download={record.fileName}>下载</a>
+               <a  className="apply_link" href={record.url}>查看</a>
             </span>
           ),
         }
@@ -139,7 +145,10 @@ export default class EditCnsulation extends Component{
         {
           title: '审核时间',
           dataIndex: 'checkTime',
-          key: 'checkTime'
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作人',
@@ -162,7 +171,10 @@ export default class EditCnsulation extends Component{
         {
           title: '时间',
           dataIndex: 'creatTime',
-          key: 'creatTime'
+          key: 'creatTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作人',

@@ -1350,7 +1350,7 @@ export default class NewConsultation extends Component{
               <ul>
                 <li>
                   <span>开方时间</span>
-                  <DatePicker  allowClear={false} showTime value={moment(this.state.centerPrescription.prescriptionTime, dateFormat)} format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方医生姓名" />
+                  <DatePicker   showTime value={moment(this.state.centerPrescription.prescriptionTime, dateFormat)} format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方医生姓名" />
                 </li>
                 <li>
                   <span>开方医生姓名</span>
@@ -1428,7 +1428,7 @@ export default class NewConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
-              <DatePicker placeholder="必填" showTime  allowClear={false} format={dateFormat} size="large" className="search_input" onChange={this.changesStartTime.bind(this)} />
+              <DatePicker placeholder="必填" showTime   format={dateFormat} size="large" className="search_input" onChange={this.changesStartTime.bind(this)} />
 
             </li>
           </ul>
@@ -1449,7 +1449,7 @@ export default class NewConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">出生日期</span>
-              <DatePicker placeholder="出生日期" allowClear={false} format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
+              <DatePicker placeholder="出生日期"  format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
             </li>
           </ul>
 
@@ -1539,7 +1539,7 @@ export default class NewConsultation extends Component{
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>
-                <DatePicker   allowClear={false}  format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
+                <DatePicker     format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
               </li>
             </ul>
 
@@ -1600,7 +1600,7 @@ export default class NewConsultation extends Component{
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
-                  <DatePicker  allowClear={false} format={dateFormat}  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
+                  <DatePicker   format={dateFormat}  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
                 </li>
                 <li>
                 </li>

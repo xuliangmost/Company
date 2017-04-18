@@ -10,6 +10,25 @@ function mobileValidate(mobile) {
 function emailValidate(email) {
   return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(email);
 }
+
+function Calculation(a,b){//a 是开会时间，b是当前时间
+  console.log(a,b)
+  let date1 = new Date(a.split("-").join("/"));
+  let date2 = new Date(b.split("-").join("/"));
+  let s1 = date1.getTime(),s2 = date2.getTime();
+  let total = (s1 - s2)/1000;
+  let day = parseInt(total / (24*60*60));//计算整数天数
+  let afterDay = total - day*24*60*60;//取得算出天数后剩余的秒数
+  let hour = parseInt(afterDay/(60*60));//计算整数小时数
+  let afterHour = total - day*24*60*60 - hour*60*60;//取得算出小时数后剩余的秒数
+  let min = parseInt(afterHour/60);//计算整数分
+  if(day>=0&&afterDay>=0&&hour>=0&&afterHour>=0&&min>=10){
+    return false
+  }else{
+    return true
+  }
+}
+
 //验证身份证
 function cardValidate(card)
 {
@@ -34,6 +53,7 @@ function checked(){
   xhr.onreadystatechange =function () {
     if(xhr.readyState === 4){
       if(xhr.status === 401){
+        localStorage.removeItem("history");
         localStorage.setItem("history",location.href);
         location.href="http://192.168.100.133:8787/conference/#/"
       }
@@ -50,5 +70,6 @@ export default {
   cardValidate,
   emailValidate,
   FormatDate,
-  checked
+  checked,
+  Calculation
 }

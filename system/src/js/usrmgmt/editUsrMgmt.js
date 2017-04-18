@@ -289,7 +289,7 @@ export default class AddUsrMgmt extends Component{
         <ul className="usrmgmt_content">
           <li>
             <span className="usrmgmt_span">姓名</span>
-            <Input onChange={this.changeName.bind(this)} value={this.state.applyPage.name} className="usrmgmt_input" size="large" placeholder="姓名" />
+            <Input onChange={this.changeName.bind(this)} value={this.state.applyPage.username} className="usrmgmt_input" size="large" placeholder="姓名" />
             <span className="usrmgmt_span">手机号</span>
             <Input onBlur={this.checkPhone.bind(this)} onChange={this.changePhone.bind(this)}  value={this.state.applyPage.phone}  className="usrmgmt_input" size="large" placeholder="手机号" />
           </li>

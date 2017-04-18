@@ -78,7 +78,10 @@ export default class LookHadReturn extends Component{
           {
             title: '开方时间',
             dataIndex: 'prescriptionTime',
-            key: 'prescriptionTime'
+            key: 'prescriptionTime',
+            render: (text) => (
+              <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+            )
           },
           {
             title: '开方医生姓名',
@@ -122,14 +125,17 @@ export default class LookHadReturn extends Component{
           title: '上传时间',
           dataIndex: 'diagnosisTime',
           key: 'diagnosisTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作',
           key: 'action',
           render: (text, record) => (
             <span>
-               <a href={record.doc} download={record.diagnosis}>下载</a>
-               <a href={record.doc}>查看</a>
+               <a  className="apply_link" href={record.doc} download={record.diagnosis}>下载</a>
+               <a  className="apply_link" href={record.doc}>查看</a>
             </span>
           ),
         }
@@ -139,7 +145,10 @@ export default class LookHadReturn extends Component{
         {
           title: '审核时间',
           dataIndex: 'checkTime',
-          key: 'checkTime'
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作人',
@@ -162,7 +171,10 @@ export default class LookHadReturn extends Component{
         {
           title: '时间',
           dataIndex: 'creatTime',
-          key: 'creatTime'
+          key: 'creatTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作人',

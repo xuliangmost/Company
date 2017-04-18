@@ -54,7 +54,7 @@ export default class Apply extends Component{
           title: '会诊时间',
           dataIndex: 'startTime',
           key: 'startTime',
-            render: (text) => (
+          render: (text) => (
               <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
             )
           },

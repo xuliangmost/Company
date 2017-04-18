@@ -93,8 +93,8 @@ export default class Consulation extends Component{
           },
           {
             title: '会诊阶段',
-            dataIndex: '',
-            key: '',
+            dataIndex: 'jd',
+            key: 'jd',
             /*render: (text, record,index) => (
               <span  key={record.id}>
                 {statValue[this.state.stage]}

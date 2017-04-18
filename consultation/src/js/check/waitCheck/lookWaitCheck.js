@@ -125,14 +125,17 @@ export default class LookWaitCheck extends Component{
           title: '上传时间',
           dataIndex: 'uploadAt',
           key: 'uploadAt',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作',
           key: 'action',
           render: (text, record) => (
             <span>
-               <a href={record.url} download={record.fileName}>下载</a>
-               <a href={record.url}>查看</a>
+               <a  className="apply_link" href={record.url} download={record.fileName}>下载</a>
+               <a  className="apply_link" href={record.url}>查看</a>
             </span>
           ),
         }
@@ -142,10 +145,10 @@ export default class LookWaitCheck extends Component{
         {
           title: '审核时间',
           dataIndex: 'checkTime',
-          key: 'checkTime',render: (text) => (
-          <span>{ text.split("T").join(" ") }</span>
-        )
-
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作人',
@@ -168,7 +171,8 @@ export default class LookWaitCheck extends Component{
         {
           title: '时间',
           dataIndex: 'creatTime',
-          key: 'creatTime',render: (text) => (
+          key: 'creatTime',
+          render: (text) => (
           <span>{ text.split("T").join(" ") }</span>
         )
 
@@ -407,6 +411,7 @@ checkHadChecked(){
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
+      alert("会诊确认成功");
       location.hash="/check/waitCheck/waitCheck";
     }).catch(function(){
       alert("会诊确认出错");
@@ -434,7 +439,7 @@ checkHadChecked(){
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-
+      alert("退回成功")
       location.hash="/check/waitCheck/waitCheck"
 
     }).catch(function(){
@@ -787,7 +792,7 @@ checkHadChecked(){
           <div className="btn_save">
             <div className="btn_save_index">
               <div className="btn_div1">
-                  <Button type="primary" disabled={this.state.hadResolve} onClick={() => this.conFirm()}>会诊确认</Button> &nbsp;
+                  <Button type="primary"  disabled={this.state.hadResolve} onClick={() => this.conFirm()}>会诊确认</Button> &nbsp;
                   <Button type="primary"  disabled={this.state.hadResolve}  onClick={() => this.tuihuiDiv()}>标记退回</Button>&nbsp;
               </div>
               <div className="btn_div1">

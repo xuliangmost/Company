@@ -90,7 +90,10 @@ export default class EditCnsulation extends Component{
         {
           title: '审核时间',
           dataIndex: 'checkTime',
-          key: 'checkTime'
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作人',
@@ -126,7 +129,10 @@ export default class EditCnsulation extends Component{
         {
           title: '开方时间',
           dataIndex: 'prescriptionTime',
-          key: 'prescriptionTime'
+          key: 'prescriptionTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '开方医生姓名',
@@ -193,6 +199,9 @@ export default class EditCnsulation extends Component{
           title: '上传时间',
           dataIndex: 'uploadTime',
           key: 'uploadTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作',
@@ -491,9 +500,6 @@ export default class EditCnsulation extends Component{
   ///////////////////////////
 
   send() {
-
-
-
     if(this.state.saveCase){
       if(this.state.saveAdvice){
         if(this.state.targetdoc==false){
@@ -501,7 +507,7 @@ export default class EditCnsulation extends Component{
           return false
         }
         axios.request({
-          url: '/api/conference/commit',
+          url: '/api/conference/reCommit',
           method: 'get',
           params: {
             id:this.state.consultationId.toString()

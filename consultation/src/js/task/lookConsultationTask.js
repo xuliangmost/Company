@@ -4,9 +4,26 @@ import { Link } from 'react-router';
 import "../../less/editCnsulation.less"
 import "../../less/lookWaitCheck.less"
 import axios from 'axios';
+import tools from "../../tools/checked"
 import moment from 'moment';
 //dataIndex  key要一样
 let token=localStorage.getItem("robertUserName");
+
+let startTime=(function getNowFormatDate() {
+  let date = new Date();
+  let seperator1 = "-";
+  let month = date.getMonth() + 1;
+  let strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+  }
+  return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
+
+})();
+
 
 let allData={
   //会诊
@@ -14,7 +31,7 @@ let allData={
     "hospital": "", //隶属医院
     "applicant": "", //会诊申请人
     "consultationName": "", //会诊名称
-    "startTime": "0-0-0 00:00:00.000", //会诊时间
+    "startTime": "2017-04-17", //会诊时间
     "username": "", //会诊对象
     "phone": "", //会诊对象的手机号
     "identification": "", //身份证号
@@ -62,7 +79,7 @@ let allData={
 
 
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-export default class EditCnsulation extends Component{
+export default class LookConsultationTask extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -163,7 +180,7 @@ export default class EditCnsulation extends Component{
           key: 'returnReason',
         }
       ],
-
+      showJoin:false,
       conclusionColumns :[
         {
           title: '时间',
@@ -281,6 +298,7 @@ export default class EditCnsulation extends Component{
 
       let conclusion=getData.conclusion?getData.conclusion:[];//获取结论
       let checkData=getData.check?getData.check:[];
+      console.log(getData.consultation)
       that.setState({
         getData:getData,
         history1:getData.case[0],
@@ -289,7 +307,7 @@ export default class EditCnsulation extends Component{
         data:data,
         conclusion,
         checkData,
-        meetingId:getData.consultation.conId
+        meetingId:getData.consultation.conId,
       });
 
       //因为异步的原因，所以只能在回调函数里面放数据请求了
@@ -346,8 +364,6 @@ export default class EditCnsulation extends Component{
         })
       });
 
-    }).catch(function () {
-      alert("第一请求error");
     });
 
     //页面加载时获取医生列表
@@ -520,7 +536,7 @@ export default class EditCnsulation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
-              <DatePicker open={false}  allowClear={false} onChage={()=>this.startTime()} value={moment(this.state.getData.consultation.startTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
+              <DatePicker open={false} onChage={()=>this.startTime()} value={moment(this.state.getData.consultation.startTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
 
             </li>
           </ul>
@@ -540,7 +556,7 @@ export default class EditCnsulation extends Component{
             </li>
             <li>
               <span className="most_flex">出生日期</span>
-              <DatePicker open={false}  allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
+              <DatePicker open={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
             </li>
           </ul>
 
@@ -616,7 +632,7 @@ export default class EditCnsulation extends Component{
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>
-                <DatePicker open={false}  allowClear={false} value={moment(this.state.history1.diagnosisTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
+                <DatePicker open={false} value={moment(this.state.history1.diagnosisTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
               </li>
             </ul>
 
@@ -655,7 +671,7 @@ export default class EditCnsulation extends Component{
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
-                  <DatePicker open={false}  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input" onChange={this.onChange} />
+                  <DatePicker open={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input" onChange={this.onChange} />
                 </li>
                 <li>
                 </li>
@@ -771,10 +787,9 @@ export default class EditCnsulation extends Component{
             <div className="btn_save_index">
               {
                 this.state.meetingId?<a href={"http:/192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId} target="blank">
-                  <Button type="primary">参加会诊</Button>&nbsp;
+                  <Button disabled={tools.Calculation(this.state.getData.consultation.startTime,startTime)} type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }
-
               <Button type="primary">会诊结束</Button>&nbsp;
               <Button type="primary" onClick={()=>this.listReturn()}>返回</Button>
             </div>

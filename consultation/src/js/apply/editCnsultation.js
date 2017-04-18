@@ -189,7 +189,6 @@ export default class EditCnsulation extends Component{
                 {
                   this.state.history1.statusId?<Link to="" onClick={this.deleteFile.bind(this,record.id,index)} className="apply_link">删除</Link>:""
                 }
-
               </span>
             ),
           }

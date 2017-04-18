@@ -2,10 +2,24 @@ import React,{Component} from "react"
 import { Button,DatePicker,Input,Table,Select } from 'antd';
 import { Link } from 'react-router';
 import "../../less/apply.less"
+import tools from "../../tools/checked"
 import moment from 'moment';
 import axios from "axios";
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
+let startTime=(function getNowFormatDate() {
+  let date = new Date();
+  let seperator1 = "-";
+  let month = date.getMonth() + 1;
+  let strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+  }
+  return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
 
+})();
 
 let token=localStorage.getItem("robertUserName");
 const Option = Select.Option;
@@ -13,20 +27,7 @@ export default class ConsultationTask extends Component{
   constructor(props){
     super(props);
 
-    let startTime=(function getNowFormatDate() {
-      let date = new Date();
-      let seperator1 = "-";
-      let month = date.getMonth() + 1;
-      let strDate = date.getDate();
-      if (month >= 1 && month <= 9) {
-        month = "0" + month;
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-      }
-      return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
 
-    })();
     const Option = Select.Option;
     this.state={
       applyPage:{
@@ -111,8 +112,9 @@ export default class ConsultationTask extends Component{
           render: (text, record,index) => (
             <span  key={record.id}>
               <Link to={"task/lookConsultationTask/"+record.id}>查看</Link>&nbsp;
+
               {
-                record.conId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId} target="blank">参加</a>:""
+                record.conId?<a disabled={tools.Calculation(record.modifyTime,startTime)} href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId} target="blank">参加</a>:""
               }
               </span>
           )
@@ -126,7 +128,7 @@ export default class ConsultationTask extends Component{
   }
 
   componentDidMount(){
-    this.query(1)
+    this.query(1);
   }
   onChange(date, dateString){
     let apply=this.state.applyPage;

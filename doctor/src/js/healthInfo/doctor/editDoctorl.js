@@ -30,7 +30,8 @@ export default class AddDoctor extends Component{
       department:"",//科室
       hospitalName:"",
       doctorTitle:"",//职称
-      duties:""// 职务
+      duties:"",// 职务
+      oldPhone:""
     }
   }
 
@@ -58,6 +59,7 @@ export default class AddDoctor extends Component{
         department:response.data.result[0].departmentName,
         doctorTitle:response.data.result[0].doctorTitle,
         duties:response.data.result[0].duties,
+        oldPhone:response.data.result[0].doctorPhone
       });
       that.getHospital();
       that.getDepartmentName()
@@ -150,6 +152,9 @@ export default class AddDoctor extends Component{
     })
   }
   checkPhone(){
+    if(this.state.oldPhone===this.state.applyData.doctorPhone){
+      return false
+    }
     let applyData=this.state.applyData;
     axios.request({
       url: '/api/user/hea/pvalidate',

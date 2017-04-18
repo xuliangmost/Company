@@ -21,9 +21,9 @@ new WebpackDevServer(webpack(config), {
     },
   }
 })
-  .listen(8899, '0.0.0.0', function (err) {
+  .listen(8833, '0.0.0.0', function (err) {
     if (err) {
       console.log(err);
     }
-    console.log('Listening at localhost:8899');
+    console.log('Listening at localhost:8833');
   });
