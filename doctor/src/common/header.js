@@ -26,7 +26,6 @@ export default class Header extends Component{
     cancelLation(){
       localStorage.removeItem("history");
       localStorage.removeItem("robertUserName");
-      localStorage.setItem("history",location.href);
       location.href="http://192.168.100.133:8787"
     }
     render(){
