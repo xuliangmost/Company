@@ -89,6 +89,9 @@ export default class RoleMgmt extends Component{
       let that=this;
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
+      if(!applyPage.permission){
+        delete applyPage.permission
+      }
       axios.request({
         url: '/api/user/role/pageList',
         method: 'get',

@@ -83,7 +83,8 @@ export default class LookConsultationTask extends Component{
   constructor(props){
     super(props);
     this.state={
-      consultationId:1,
+      consultationId:this.props.params.id.toString(),
+      userId:null,
       getData:allData,
       mockData: [],//会诊医生弹出框左边的选项
       targetTitle:[],//确定按钮的中间变量，点击确定才把医生放到input框
@@ -159,9 +160,10 @@ export default class LookConsultationTask extends Component{
         {
           title: '审核时间',
           dataIndex: 'checkTime',
-          key: 'checkTime',render: (text) => (
-          <span>{ text.split("T").join(" ") }</span>
-        )
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
 
         },
         {
@@ -187,7 +189,7 @@ export default class LookConsultationTask extends Component{
           dataIndex: 'creatTime',
           key: 'creatTime',
           render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
         },
         {
@@ -234,7 +236,7 @@ export default class LookConsultationTask extends Component{
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
-
+      joinTo:true
     }
   }
 
@@ -263,7 +265,26 @@ export default class LookConsultationTask extends Component{
     });
   }
 
-
+  joinTo(id){
+    let that=this;
+    axios.request({
+      url: '/api/conference/jointo',
+      method: 'get',
+      params: {
+        userId:id
+      },
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function (res) {
+      if(res.data.code===1){
+        that.setState({
+          joinTo:false
+        })
+      }
+    })
+  }
   getValue(){
     let that=this;
     let responseDoc=[];
@@ -282,7 +303,6 @@ export default class LookConsultationTask extends Component{
         responseDoc.push(ele.id)
       });
       let getData=response.data;
-      getData.consultationId=1;
       let data=[];
 
       if(getData.case&&getData.case!=false&&getData.case[0].advice!=false){
@@ -308,10 +328,11 @@ export default class LookConsultationTask extends Component{
         conclusion,
         checkData,
         meetingId:getData.consultation.conId,
+        userId:getData.consultation.userId
       });
-
+      that.joinTo(getData.consultation.userId.toString());
       //因为异步的原因，所以只能在回调函数里面放数据请求了
-      that.getPeople()
+      that.getPeople();
       axios.request({
         url: '/api/conference/doctor',
         method: 'get',
@@ -398,6 +419,28 @@ export default class LookConsultationTask extends Component{
   }
   listReturn(){
     location.hash="/task/consultationTask"
+  }
+  closeMeeting(){
+    let that=this;
+    axios({
+      url: '/api/conference/joinToUpdate',
+      method: 'get',
+      params:{
+        userId:that.state.userId,
+        consultationId:that.state.consultationId
+      },
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      }
+    }).then(function (response) {
+      if(response.data.code===200){
+        alert("结束会诊成功");
+        location.hash="task/consultationTask"
+      }
+    }).catch(function () {
+      alert("结束会诊操作失败")
+    })
   }
   quxiaoFujian(){
     this.setState({
@@ -790,7 +833,9 @@ export default class LookConsultationTask extends Component{
                   <Button disabled={tools.Calculation(this.state.getData.consultation.startTime,startTime)} type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }
-              <Button type="primary">会诊结束</Button>&nbsp;
+              {
+                this.state.joinTo?<Button onClick={this.closeMeeting.bind(this)} type="primary">会诊结束 &ensp; </Button>:""
+              }
               <Button type="primary" onClick={()=>this.listReturn()}>返回</Button>
             </div>
           </div>

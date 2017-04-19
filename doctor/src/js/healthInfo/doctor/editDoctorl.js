@@ -24,7 +24,7 @@ export default class AddDoctor extends Component{
         "duties":"",
         "speciality":"",
         "content":"",
-        "pic":"http://xuliangmost.com/html/static/dist/img/list-img/monster7.jpg"
+        "pic":""
       },
       depList:[],
       department:"",//科室
@@ -206,6 +206,14 @@ export default class AddDoctor extends Component{
       }
     });
   }
+
+  beforeUpload(file){
+    const isJPG = file.type === 'image/jpeg';
+    if (!isJPG) {
+      alert('只可上传JPG格式的图片文件!');
+      return false
+    }
+  }
   render(){
     let that=this;
     const props = {//上传的事件
@@ -230,8 +238,8 @@ export default class AddDoctor extends Component{
 
     return (
       <div className="doctor_content">
-        <img src={this.state.imgUrl?this.state.imgUrl:"./images/no.jpg"} className="headPic" />
-        <Upload   {...props}>
+        <img src={this.state.applyData.pic?this.state.applyData.pic:"./images/no.jpg"} className="headPic" />
+        <Upload  beforeUpload={this.beforeUpload.bind(this)} {...props}>
           <Button className="load_head_pic">
             <Icon type="upload" />上传头像
           </Button>

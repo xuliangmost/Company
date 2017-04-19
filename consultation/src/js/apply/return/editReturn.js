@@ -1195,7 +1195,7 @@ export default class EditCnsulation extends Component{
               <ul>
                 <li>
                   <span>开方时间</span>
-                  <DatePicker  allowClear={false} showTime value={moment(this.state.centerPrescription.prescriptionTime, dateFormat)} format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方医生姓名" />
+                  <DatePicker  allowClear={false} showTime format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方医生姓名" />
                 </li>
                 <li>
                   <span>开方医生姓名</span>

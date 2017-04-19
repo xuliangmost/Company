@@ -55,7 +55,7 @@ export default class EditRolemgmt extends Component{
     }
 
     componentDidMount(){
-      this.getValue()
+      this.getValue();
     }
 
     selectPermission(id,e){
@@ -86,6 +86,9 @@ export default class EditRolemgmt extends Component{
       },
     }).then(function(response) {
       let permissionIds=response.data.result.permissionids.split(",");
+      if(permissionIds[0]==="0"){
+        permissionIds=[]
+      }
       that.setState({
         applyData:response.data.result,
         permissionIds

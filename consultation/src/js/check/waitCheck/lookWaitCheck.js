@@ -485,8 +485,8 @@ checkHadChecked(){
      });*/
   };
 
-  startTime(data,dataString){
-    console.log(dataString.split('"'))
+  startTime(data,dateString){
+    console.log(dateString.split('"'))
   }
   onChange(date, dateString){
     console.log(date, dateString);

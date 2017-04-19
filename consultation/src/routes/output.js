@@ -82,7 +82,6 @@ class Page extends Component{
                   <Route path="/consulationTables/consulation" component={Consulation}/>
                   <Route path="/consulationTables/lookConsulation/:id" component={LookConsulation}/>
 
-                  {/*以下是丁杰超负责*/}
                   <Route path="/check/waitCheck/waitCheck" component={WaitCheck}/>
                   <Route path="/check/waitCheck/lookWaitCheck(/:id)" component={LookWaitCheck}/>
                   {/*待审*/}

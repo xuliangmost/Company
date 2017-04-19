@@ -4,14 +4,11 @@ import { Link } from 'react-router';
 import "../../less/usrmgmt.less"
 import axios from "axios";
 const Option = Select.Option;
-
+const jwtDecode = require('jwt-decode');
 let token=localStorage.getItem("robertUserName");
 export default class UsrMgmt extends Component{
     constructor(props){
         super(props);
-
-
-
       this.state={
         applyPage:{
           pageSize:10,
@@ -20,6 +17,8 @@ export default class UsrMgmt extends Component{
           roleName:"",
           unitId:null
         },
+        super:true,
+        hoId:null,
         total:10,
         current:1,
         columns : [
@@ -66,8 +65,21 @@ export default class UsrMgmt extends Component{
       }
     }
 
+    componentWillMount(){
+      if(localStorage.getItem('robertUserName')){
+        const bearer = localStorage.getItem('robertUserName');
+        let decoded = jwtDecode(bearer);
+
+        if(!decoded.super){
+          this.setState({
+            super:false,
+            hoId:decoded.hoId
+          });
+        }
+      }
+    }
     componentDidMount(){
-      this.query(1)
+      this.query(1);
     }
     getList(){
       let that=this;
@@ -138,9 +150,16 @@ export default class UsrMgmt extends Component{
 
     }
     query(num){
-      let that=this;
       let applyPage=this.state.applyPage;
+      if(!this.state.super){
+        applyPage.unitId=this.state.hoId
+      }
+      let that=this;
+
       applyPage.pageNum=num;
+      if(!applyPage.roleName){
+        delete applyPage.roleName
+      }
       axios.request({
         url: '/api/user/pageList',
         method: 'get',
@@ -179,21 +198,26 @@ export default class UsrMgmt extends Component{
               <span className="most_flex">隶属单位</span>
               <Input readOnly onChange={this.changeUsername.bind(this)}  className="search_input" size="large" placeholder="隶属单位" />
             </li>*/}
-            <li>
-              <span className="most_flex">隶属单位</span>
-              <Select onChange={this.selectFrom.bind(this)} defaultValue="请选择" className="search_input">
-                <Option value="">-请选择-</Option>
-                {
-                  this.state.fromCop.map((ele,index)=>{
-                    return <Option key={index} value={ele.unitId.toString()}>{ele.unitName}</Option>
-                  })
-                }
-              </Select>
-            </li>
+
             <li>
               <span className="most_flex">所属角色</span>
               <Input onChange={this.changeRoleName.bind(this)}  className="search_input" size="large" placeholder="所属角色" />
             </li>
+
+            {
+              this.state.super?<li>
+                <span className="most_flex">隶属单位</span>
+                <Select onChange={this.selectFrom.bind(this)} defaultValue="请选择" className="search_input">
+                  <Option value="">-请选择-</Option>
+                  {
+                    this.state.fromCop.map((ele,index)=>{
+                      return <Option key={index} value={ele.unitId.toString()}>{ele.unitName}</Option>
+                    })
+                  }
+                </Select>
+              </li>:<li>
+              </li>
+            }
           </ul>
 
 

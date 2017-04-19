@@ -7,6 +7,7 @@ import tools from "../../tools/checked"
 const Option = Select.Option;
 
 let token=localStorage.getItem("robertUserName");
+const jwtDecode = require('jwt-decode');
 export default class AddUsrMgmt extends Component{
   constructor(props){
     super(props);
@@ -18,6 +19,8 @@ export default class AddUsrMgmt extends Component{
         roleIds:""
       },
       phone:"",
+      super:true,
+      hoId:null,
       isReset:false,
       total:10,
       current:1,
@@ -77,7 +80,19 @@ export default class AddUsrMgmt extends Component{
       })
     });
   }
+  componentWillMount(){
+    if(localStorage.getItem('robertUserName')){
+      const bearer = localStorage.getItem('robertUserName');
+      let decoded = jwtDecode(bearer);
 
+      if(!decoded.super){
+        this.setState({
+          super:false,
+          hoId:decoded.hoId
+        });
+      }
+    }
+  }
 //获取用户数据
   getValue(){
     let that=this;
@@ -93,8 +108,13 @@ export default class AddUsrMgmt extends Component{
       },
     }).then(function(response) {
       let permissionIds=response.data.result.roleIds.split(",");
+      if(permissionIds[0]==="0"){
+        permissionIds=[]
+      }
+      let applyPage=response.data.result;
+      applyPage.name=response.data.result.username;
       that.setState({
-        applyPage:response.data.result,
+        applyPage,
         unitName:response.data.result.unitName,
         phone:response.data.result.phone,
         permissionIds
@@ -163,6 +183,7 @@ export default class AddUsrMgmt extends Component{
     applyPage.pageNum=num;
     axios.request({
       url: '/api/user/role/pageList',
+
       method: 'get',
       params:applyPage,
       headers: {
@@ -193,6 +214,9 @@ export default class AddUsrMgmt extends Component{
     if(tools.isEmpty(applyData.phone)){
       alert("手机号不能为空或手机号填写错误!");
       return false
+    }
+    if(!this.state.super){
+      applyData.unitId=this.state.hoId
     }
     if(tools.isEmpty(applyData.unitId)){
       alert("隶属单位未选择!");
@@ -289,13 +313,13 @@ export default class AddUsrMgmt extends Component{
         <ul className="usrmgmt_content">
           <li>
             <span className="usrmgmt_span">姓名</span>
-            <Input onChange={this.changeName.bind(this)} value={this.state.applyPage.username} className="usrmgmt_input" size="large" placeholder="姓名" />
+            <Input onChange={this.changeName.bind(this)} value={this.state.applyPage.name} className="usrmgmt_input" size="large" placeholder="姓名" />
             <span className="usrmgmt_span">手机号</span>
             <Input onBlur={this.checkPhone.bind(this)} onChange={this.changePhone.bind(this)}  value={this.state.applyPage.phone}  className="usrmgmt_input" size="large" placeholder="手机号" />
           </li>
 
           {
-            this.state.isSuper?<li>
+            this.state.super?<li>
               <span className="usrmgmt_span">隶属单位</span>
               <Select value={this.state.unitName} onChange={this.selectFrom.bind(this)} defaultValue="请选择" className="usrmgmt_input">
                 {

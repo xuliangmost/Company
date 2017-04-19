@@ -5,7 +5,7 @@ import "../../less/usrmgmt.less"
 import axios from "axios";
 import tools from "../../tools/checked"
 const Option = Select.Option;
-
+const jwtDecode = require('jwt-decode');
 let token=localStorage.getItem("robertUserName");
 export default class AddUsrMgmt extends Component{
     constructor(props){
@@ -18,6 +18,8 @@ export default class AddUsrMgmt extends Component{
           roleIds:""
         },
         total:10,
+        super:true,
+        hoId:null,
         current:1,
         columns : [
           {
@@ -50,11 +52,22 @@ export default class AddUsrMgmt extends Component{
         ],
         dataSource : [],
         fromCop:[],
-        isSuper:true,
         permissionIds:[]
       }
     }
+  componentWillMount(){
+    if(localStorage.getItem('robertUserName')){
+      const bearer = localStorage.getItem('robertUserName');
+      let decoded = jwtDecode(bearer);
 
+      if(!decoded.super){
+        this.setState({
+          super:false,
+          hoId:decoded.hoId
+        });
+      }
+    }
+  }
   getList(){
     let that=this;
     axios.request({
@@ -146,18 +159,28 @@ export default class AddUsrMgmt extends Component{
     this.checkPhone();
     let permissionIds=this.state.permissionIds;
     let applyData=this.state.applyPage;
+
     applyData.roleIds=permissionIds.join(",");
     if(!applyData.roleIds){
       applyData.roleIds="0"
+    }
+    if(tools.isEmpty(applyData.name)){
+      alert("用户姓名不能为空!");
+      return false
     }
     if(tools.isEmpty(applyData.phone)){
       alert("手机号不能为空或手机号填写错误!");
       return false
     }
+    if(!this.state.super){
+      applyData.unitId=this.state.hoId
+    }
     if(tools.isEmpty(applyData.unitId)){
       alert("隶属单位未选择!");
       return false
     }
+
+
     axios.request({
       url: '/api/user/add',
       method: 'POST',
@@ -226,7 +249,7 @@ export default class AddUsrMgmt extends Component{
             </li>
 
             {
-              this.state.isSuper?<li>
+              this.state.super?<li>
                 <span className="usrmgmt_span">隶属单位</span>
                 <Select onChange={this.selectFrom.bind(this)} defaultValue="请选择" className="usrmgmt_input">
                   {

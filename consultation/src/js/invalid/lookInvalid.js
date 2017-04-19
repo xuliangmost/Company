@@ -80,7 +80,7 @@ export default class EditCnsulation extends Component{
           dataIndex: 'prescriptionTime',
           key: 'prescriptionTime',
           render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
         },
         {
@@ -126,7 +126,7 @@ export default class EditCnsulation extends Component{
           dataIndex: 'diagnosisTime',
           key: 'diagnosisTime',
           render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
         },
         {
@@ -147,7 +147,7 @@ export default class EditCnsulation extends Component{
           dataIndex: 'checkTime',
           key: 'checkTime',
           render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
         },
         {
@@ -173,7 +173,7 @@ export default class EditCnsulation extends Component{
           dataIndex: 'creatTime',
           key: 'creatTime',
           render: (text) => (
-            <span>{ text.split("T").join(" ") }</span>
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
         },
         {
@@ -270,11 +270,14 @@ export default class EditCnsulation extends Component{
       let getData=response.data;
       getData.consultationId=1;
       let data=[];
-
-      if(getData.case&&getData.case!=false&&getData.case[0].advice!=false){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
+      let fileList=[];
+      if(getData.case&&getData.case!=false){
+        if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+          getData.case[0].advice[0].prescription.map((ele)=>{
+            data.push(ele);
+          });
+        }
+        fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
         getData.case=allData.case;
         getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
@@ -618,11 +621,11 @@ export default class EditCnsulation extends Component{
                 </li>
                 <li>
                   <span className="most_flex">医嘱医生</span>
-                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""} className="search_input" size="large" placeholder="医嘱医生" />
+                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""}  className="search_input" size="large" placeholder="医嘱医生" />
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
-                  <DatePicker open={false}  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input" onChange={this.onChange} />
+                  <DatePicker  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input"  />
                 </li>
                 <li>
                 </li>
@@ -630,7 +633,7 @@ export default class EditCnsulation extends Component{
               <ul className="search_ul2">
                 <li>
                   <span className="most_flex1">医嘱</span>
-                  <Input value={this.state.history2.advice?this.state.history2.advice:""}  className="search_input" type="textarea" rows={4} />
+                  <Input value={this.state.history2.advice?this.state.history2.advice:""} className="search_input" type="textarea" rows={4} />
                 </li>
               </ul>
 
@@ -653,13 +656,13 @@ export default class EditCnsulation extends Component{
 
 
 
-          <div className="record">
-            <span className="history_sp1 record_sp1"> 病历资料 </span>
-            {/*
-             this.state.fileList.length>0?<Table rowKey="id" dataSource={this.state.fileList} columns={this.state.fileListColumns} />: <span className="history_btn1"> 无病历资料 </span>
-             */}
-            <span className="history_btn1"> 无病历资料 </span>
-          </div>
+          {
+            this.state.fileList?<div className="record">
+
+              <span className="history_sp1 record_sp1"> 病历资料 </span>
+              <Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />
+            </div>:""
+          }
 
 
 

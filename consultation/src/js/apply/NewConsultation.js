@@ -349,7 +349,7 @@ export default class NewConsultation extends Component{
       "code": 200
     };
     this.setState({
-      getData:data,
+      getData:JSON.parse(JSON.stringify(data)),
       history1:data.case[0],
       history2:data.case[0].advice[0]
     });
@@ -779,7 +779,7 @@ export default class NewConsultation extends Component{
     let advice=JSON.parse(JSON.stringify(postCase.advice));
     delete postCase.advice;
     postCase.consultationId=this.state.consultationId;
-    postCase.userId=this.state.getData.consultation.userId.toString();
+    postCase.userId=this.state.userId;
     if(postCase.id){
       postCase.id=postCase.id.toString();
       delete postCase.consultationId;
@@ -787,6 +787,7 @@ export default class NewConsultation extends Component{
     }
     let url=postCase.id?"/api/conference/edit/case":"/api/conference/add/case";
     let that=this;
+    console.log(postCase.userId)
     axios.request({
       url: url,
       method: 'POST',
@@ -824,9 +825,10 @@ export default class NewConsultation extends Component{
       getData
     })
   }
-  changesStartTime(dataString){
+  changesStartTime(date, dateString){
     let getData=JSON.parse(JSON.stringify(this.state.getData));
-    getData.consultation.startTime=dataString;
+    console.log(dateString)
+    getData.consultation.startTime=dateString;
     this.setState({
       getData
     })
@@ -878,9 +880,9 @@ export default class NewConsultation extends Component{
       }
     })
   }
-  changeBirthday(dataString){
+  changeBirthday(date,dateString){
     let getData=JSON.parse(JSON.stringify(this.state.getData));
-    getData.consultation.birthday=dataString;
+    getData.consultation.birthday=dateString;
     this.setState({
       getData
     })
@@ -960,12 +962,14 @@ export default class NewConsultation extends Component{
     }).then(function(response) {
       if(response.data.result){
         postConsulation.id=response.data.id;
+        console.log(response.data.userId)
         let getData=JSON.parse(JSON.stringify(that.state.getData));
         getData.consultation=postConsulation;
         that.setState({
           saveConsultationL:true,
           caseId:true,
-          consultationId:response.data.id.toString()
+          consultationId:response.data.id.toString(),
+          userId:response.data.userId.toString()
         });
         alert("会诊保存成功!")
       }else{
@@ -1350,7 +1354,7 @@ export default class NewConsultation extends Component{
               <ul>
                 <li>
                   <span>开方时间</span>
-                  <DatePicker   showTime value={moment(this.state.centerPrescription.prescriptionTime, dateFormat)} format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方医生姓名" />
+                  <DatePicker   showTime format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方时间" />
                 </li>
                 <li>
                   <span>开方医生姓名</span>

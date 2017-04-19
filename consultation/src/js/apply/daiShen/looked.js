@@ -61,7 +61,7 @@ let allData={
 
 
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-export default class EditCnsulation extends Component{
+export default class Looked extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -272,10 +272,12 @@ export default class EditCnsulation extends Component{
       getData.consultationId=that.props.params.id;
       let data=[];
       let fileList=[];
-      if(getData.case&&getData.case!=false&&getData.case[0].advice!=false){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
+      if(getData.case&&getData.case!=false){
+        if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+          getData.case[0].advice[0].prescription.map((ele)=>{
+            data.push(ele);
+          });
+        }
         fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
         getData.case=allData.case;
@@ -285,12 +287,10 @@ export default class EditCnsulation extends Component{
       }
       let conclusion=getData.conclusion?getData.conclusion:[];//获取结论
       let checkData=getData.check?getData.check:[];
-      let history1=getData.case?getData.case[0]:null;
-      let history2=history1&&history1.advice?history1.advice[0]:null;
       that.setState({
         getData:getData,
-        history1,
-        history2,
+        history1:getData.case[0],
+        history2:getData.case[0].advice?getData.case[0].advice[0]:null,
         targetdoc:getData.doctor?getData.doctor:[],//加载页面时，会诊医生栏显示的内容
         data:data,
         conclusion,
@@ -437,6 +437,12 @@ export default class EditCnsulation extends Component{
     })
   }
   changeHistory2(index){        //切换医嘱
+    if(!this.state.saveAdvice){
+      if(index!=this.state.history2Index){
+        alert("当前医嘱未保存!");
+        return false
+      }
+    }
     let history2=this.state.history1.advice?this.state.history1.advice[index]:null;
     let data=[];
     if(history2.prescription&&history2.prescription!=false){
@@ -444,10 +450,11 @@ export default class EditCnsulation extends Component{
         data.push(ele);
       })
     }else{
-      data=null
+
     }
     this.setState({
       history2:this.state.history1.advice?this.state.history1.advice[index]:null,
+      history2Index:index,
       data:data
     })
   }
@@ -618,8 +625,6 @@ export default class EditCnsulation extends Component{
               }):""
             }
           </div>
-
-
           {
             this.state.history2?<div className="prescribeDetail">
               <ul className="search_ul">
@@ -629,11 +634,11 @@ export default class EditCnsulation extends Component{
                 </li>
                 <li>
                   <span className="most_flex">医嘱医生</span>
-                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""} className="search_input" size="large" placeholder="医嘱医生" />
+                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""}  className="search_input" size="large" placeholder="医嘱医生" />
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
-                  <DatePicker open={false}  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input" onChange={this.onChange} />
+                  <DatePicker  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input"  />
                 </li>
                 <li>
                 </li>
@@ -641,7 +646,7 @@ export default class EditCnsulation extends Component{
               <ul className="search_ul2">
                 <li>
                   <span className="most_flex1">医嘱</span>
-                  <Input value={this.state.history2.advice?this.state.history2.advice:""}  className="search_input" type="textarea" rows={4} />
+                  <Input value={this.state.history2.advice?this.state.history2.advice:""} className="search_input" type="textarea" rows={4} />
                 </li>
               </ul>
 
@@ -664,14 +669,13 @@ export default class EditCnsulation extends Component{
 
 
 
-          <div className="record">
-            <span className="history_sp1 record_sp1"> 病历资料 </span>
+          {
+            this.state.fileList?<div className="record">
 
-            {
-              this.state.fileList.length>0?<Table rowKey="id" dataSource={this.state.fileList} columns={this.state.fileListColumns} />: <span className="history_btn1"> 无病历资料 </span>
-            }
-
-          </div>
+              <span className="history_sp1 record_sp1"> 病历资料 </span>
+              <Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />
+            </div>:""
+          }
 
 
 
@@ -728,8 +732,6 @@ export default class EditCnsulation extends Component{
               </Link>
             </div>
           </div>
-
-
 
         </div>
       </div>

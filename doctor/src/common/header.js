@@ -27,7 +27,7 @@ export default class Header extends Component{
       localStorage.removeItem("history");
       localStorage.removeItem("robertUserName");
       localStorage.setItem("history",location.href);
-      location.href="http://192.168.100.133:8787/conference/#/"
+      location.href="http://192.168.100.133:8787"
     }
     render(){
       let style={"marginTop":"10px","marginLeft":"10px"};
@@ -38,6 +38,9 @@ export default class Header extends Component{
                 </a>
               {
                 this.state.loginName?<div className="loginName">
+                  <a href="http://192.168.100.133:8787/#/entrance" className="header_sp1">切换系统</a>
+                  <span className="header_sp2">
+                  </span>
                   <a className="header_sp1">{this.state.loginName}</a>
                   <span className="header_sp2">
                   </span>

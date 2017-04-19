@@ -17,7 +17,6 @@ export default class Doctor extends Component{
           pageSize:10,
           doctorName:"",
           doctorPhone:"",
-          hospitalName:"",
           departmentName:"",
           doctorTitle:""
         },
@@ -41,11 +40,6 @@ export default class Doctor extends Component{
           title: '手机号',
           dataIndex: 'doctorPhone',
           key: 'doctorPhone',
-          },
-          {
-          title: '医院',
-          dataIndex: 'hospitalName',
-          key: 'hospitalName',
           },
           {
             title: '科室',
@@ -87,6 +81,10 @@ export default class Doctor extends Component{
       let that=this;
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
+      if(!applyPage.departmentName){
+        delete applyPage.departmentName
+      }
+
       if(!applyPage.doctorTitle){
         delete applyPage.doctorTitle
       }
@@ -118,10 +116,6 @@ export default class Doctor extends Component{
       let applyPage=this.state.applyPage;
       applyPage.doctorPhone=e.target.value
     }
-    changeHospitalName(e){
-      let applyPage=this.state.applyPage;
-      applyPage.hospitalName=e.target.value
-    }
     changeDepartmentName(e){
       let applyPage=this.state.applyPage;
       applyPage.departmentName=e.target.value
@@ -150,13 +144,12 @@ export default class Doctor extends Component{
               <span className="most_flex">手机号</span>
               <Input  onChange={this.changeDoctorPhone.bind(this)}  className="search_input" size="large" placeholder="手机号" />
             </li>
-            <li>
-              <span className="most_flex">医院</span>
-              <Input   onChange={this.changeHospitalName.bind(this)} className="search_input" size="large" placeholder="医院" />
-            </li>
+
             <li>
               <span className="most_flex">科室</span>
               <Input  onChange={this.changeDepartmentName.bind(this)} className="search_input" size="large" placeholder="科室" />
+            </li>
+            <li>
             </li>
           </ul>
 
