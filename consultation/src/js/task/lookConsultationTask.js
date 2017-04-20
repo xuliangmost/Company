@@ -9,19 +9,53 @@ import moment from 'moment';
 //dataIndex  key要一样
 let token=localStorage.getItem("robertUserName");
 
-let startTime=(function getNowFormatDate() {
-  let date = new Date();
-  let seperator1 = "-";
-  let month = date.getMonth() + 1;
-  let strDate = date.getDate();
-  if (month >= 1 && month <= 9) {
-    month = "0" + month;
+let startTime=(function show_cur_times(){
+//获取当前日期
+  var date_time = new Date();
+  //年
+  var year = date_time.getFullYear();
+  //判断小于10，前面补0
+  if(year<10){
+    year="0"+year;
   }
-  if (strDate >= 0 && strDate <= 9) {
-    strDate = "0" + strDate;
-  }
-  return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
 
+  //月
+  var month = date_time.getMonth()+1;
+  //判断小于10，前面补0
+  if(month<10){
+    month="0"+month;
+  }
+
+  //日
+  var day = date_time.getDate();
+  //判断小于10，前面补0
+  if(day<10){
+    day="0"+day;
+  }
+
+  //时
+  var hours =date_time.getHours();
+  //判断小于10，前面补0
+  if(hours<10){
+    hours="0"+hours;
+  }
+
+  //分
+  var minutes =date_time.getMinutes();
+  //判断小于10，前面补0
+  if(minutes<10){
+    minutes="0"+minutes;
+  }
+
+  //秒
+  var seconds=date_time.getSeconds();
+  //判断小于10，前面补0
+  if(seconds<10){
+    seconds="0"+seconds;
+  }
+
+  //拼接年月日时分秒
+  return (year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds)
 })();
 
 
@@ -318,7 +352,7 @@ export default class LookConsultationTask extends Component{
 
       let conclusion=getData.conclusion?getData.conclusion:[];//获取结论
       let checkData=getData.check?getData.check:[];
-      console.log(getData.consultation)
+      console.log(getData)
       that.setState({
         getData:getData,
         history1:getData.case[0],
@@ -332,7 +366,7 @@ export default class LookConsultationTask extends Component{
       });
       that.joinTo(getData.consultation.userId.toString());
       //因为异步的原因，所以只能在回调函数里面放数据请求了
-      that.getPeople();
+      //that.getPeople();
       axios.request({
         url: '/api/conference/doctor',
         method: 'get',
@@ -567,11 +601,11 @@ export default class LookConsultationTask extends Component{
           <ul className="search_ul">
             <li>
               <span className="most_flex">隶属医院</span>
-              <Input value={this.state.getData.consultation.hospital} className="search_input" size="large" placeholder="隶属医院" />
+              <Input value={this.state.getData.consultation.hospitalname} className="search_input" size="large" placeholder="隶属医院" />
             </li>
             <li>
               <span className="most_flex">会诊申请人</span>
-              <Input value={this.state.getData.consultation.applicant} className="search_input" size="large" placeholder="会诊申请人" />
+              <Input value={this.state.getData.consultation.applyName} className="search_input" size="large" placeholder="会诊申请人" />
             </li>
             <li>
               <span className="most_flex">会诊名称</span>

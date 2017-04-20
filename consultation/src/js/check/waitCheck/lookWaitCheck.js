@@ -317,7 +317,7 @@ checkHadChecked(){
       });
 
       //因为异步的原因，所以只能在回调函数里面放数据请求了
-      that.getPeople();
+      //that.getPeople();
       that.checkHadChecked();
       axios.request({
         url: '/api/conference/doctor',
@@ -557,11 +557,11 @@ checkHadChecked(){
           <ul className="search_ul">
             <li>
               <span className="most_flex">隶属医院</span>
-              <Input value={this.state.getData.consultation.hospital} className="search_input" size="large" placeholder="隶属医院" />
+              <Input value={this.state.getData.consultation.hospitalname} className="search_input" size="large" placeholder="隶属医院" />
             </li>
             <li>
               <span className="most_flex">会诊申请人</span>
-              <Input value={this.state.getData.consultation.applicant} className="search_input" size="large" placeholder="会诊申请人" />
+              <Input value={this.state.getData.consultation.applyName} className="search_input" size="large" placeholder="会诊申请人" />
             </li>
             <li>
               <span className="most_flex">会诊名称</span>
