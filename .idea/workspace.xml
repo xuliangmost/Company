@@ -6,6 +6,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/system/src/common/content.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/common/header.js" afterPath="$PROJECT_DIR$/consultation/src/common/header.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/common/left.js" afterPath="$PROJECT_DIR$/consultation/src/common/left.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/NewConsultation.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/NewConsultation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/addConsultation.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/addConsultation.js" />
@@ -30,10 +31,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/static/lib/index.js" afterPath="$PROJECT_DIR$/consultation/static/lib/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/webpack.config.js" afterPath="$PROJECT_DIR$/consultation/webpack.config.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/common/content.js" afterPath="$PROJECT_DIR$/doctor/src/common/content.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/common/header.js" afterPath="$PROJECT_DIR$/doctor/src/common/header.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/common/left.js" afterPath="$PROJECT_DIR$/doctor/src/common/left.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/addHospital.js" afterPath="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/addHospital.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/less/editHospital.less" afterPath="$PROJECT_DIR$/doctor/src/less/editHospital.less" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/src/routes/output.js" afterPath="$PROJECT_DIR$/doctor/src/routes/output.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/src/common/header.js" afterPath="$PROJECT_DIR$/system/src/common/header.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/src/common/left.js" afterPath="$PROJECT_DIR$/system/src/common/left.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/src/routes/output.js" afterPath="$PROJECT_DIR$/system/src/routes/output.js" />
     </list>
@@ -50,11 +53,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="consultationTask.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/consultation/src/js/task/consultationTask.js">
+      <file leaf-file-name="header.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system/src/common/header.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1007">
-              <caret line="134" column="40" lean-forward="false" selection-start-line="134" selection-start-column="40" selection-end-line="134" selection-end-column="40" />
+            <state relative-caret-position="589">
+              <caret line="34" column="63" lean-forward="false" selection-start-line="34" selection-start-column="63" selection-end-line="34" selection-end-column="63" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="checked.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/consultation/src/tools/checked.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -120,9 +133,6 @@
         <option value="$PROJECT_DIR$/system/src/js/usrmgmt/usrMgmt.js" />
         <option value="$PROJECT_DIR$/system/src/js/usrmgmt/addUsrMgmt.js" />
         <option value="$PROJECT_DIR$/system/src/js/usrmgmt/editUsrMgmt.js" />
-        <option value="$PROJECT_DIR$/consultation/src/common/header.js" />
-        <option value="$PROJECT_DIR$/doctor/src/common/header.js" />
-        <option value="$PROJECT_DIR$/system/src/common/header.js" />
         <option value="$PROJECT_DIR$/doctor/src/less/editHospital.less" />
         <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/selectDepartment.js" />
         <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/addHospital.js" />
@@ -141,7 +151,6 @@
         <option value="$PROJECT_DIR$/consultation/src/js/apply/apply.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/apply/NewConsultation.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/invalid/invalid.js" />
-        <option value="$PROJECT_DIR$/consultation/src/tools/checked.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/invalid/lookInvalid.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/consulationTables/lookConsulation.js" />
@@ -153,6 +162,10 @@
         <option value="$PROJECT_DIR$/consultation/src/js/apply/return/editReturn.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/apply/daiShen/looked.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/task/consultationTask.js" />
+        <option value="$PROJECT_DIR$/consultation/src/common/header.js" />
+        <option value="$PROJECT_DIR$/doctor/src/common/header.js" />
+        <option value="$PROJECT_DIR$/system/src/common/header.js" />
+        <option value="$PROJECT_DIR$/consultation/src/tools/checked.js" />
       </list>
     </option>
   </component>
@@ -345,6 +358,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consultation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -416,6 +447,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consultation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -541,12 +594,12 @@
       <workItem from="1492388734717" duration="39369000" />
       <workItem from="1492498632733" duration="7791000" />
       <workItem from="1492562617771" duration="32964000" />
-      <workItem from="1492667828422" duration="8390000" />
+      <workItem from="1492667828422" duration="9862000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144059000" />
+    <option name="totallyTimeSpent" value="145531000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1088" y="-656" width="1096" height="1936" extended-state="6" />
@@ -633,13 +686,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/doctor/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" column="44" lean-forward="false" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/consultation/node_modules/webpack/lib/Compiler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
@@ -740,13 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/consultation/src/common/header.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/hospital.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -754,13 +793,6 @@
           <folding>
             <element signature="e#0#37#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/src/common/header.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="28" column="48" lean-forward="false" selection-start-line="28" selection-start-column="48" selection-end-line="28" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -856,17 +888,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/doctor/src/common/header.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="51" column="1" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="51" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/src/routes/output.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
           <caret line="68" column="24" lean-forward="true" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#37#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -874,6 +902,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="100" column="20" lean-forward="true" selection-start-line="100" selection-start-column="20" selection-end-line="100" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#689#1067#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -944,14 +976,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="684">
           <caret line="39" column="11" lean-forward="true" selection-start-line="39" selection-start-column="11" selection-end-line="39" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consultation/src/tools/checked.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="55" lean-forward="false" selection-start-line="15" selection-start-column="55" selection-end-line="15" selection-end-column="55" />
           <folding />
         </state>
       </provider>
@@ -1082,10 +1106,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/static/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/consultation/src/js/task/consultationTask.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1007">
-          <caret line="134" column="40" lean-forward="false" selection-start-line="134" selection-start-column="40" selection-end-line="134" selection-end-column="40" />
+        <state relative-caret-position="836">
+          <caret line="50" column="24" lean-forward="true" selection-start-line="50" selection-start-column="24" selection-end-line="50" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/src/common/header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="34" column="65" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/src/common/header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="34" column="63" lean-forward="false" selection-start-line="34" selection-start-column="63" selection-end-line="34" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/src/common/header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="34" column="63" lean-forward="false" selection-start-line="34" selection-start-column="63" selection-end-line="34" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/src/tools/checked.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
           <folding />
         </state>
       </provider>

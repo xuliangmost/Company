@@ -11,12 +11,30 @@ function emailValidate(email) {
   return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(email);
 }
 
-function isAcrobatPluginInstall(){
-  if(typeof window.ActiveXObject !== "undefined"){
-    return new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-  }else{
-    return navigator.plugins['Shockwave Flash'];
+function flashChecker() {
+  let hasFlash = 0;　　　　 //是否安装了flash
+  let flashVersion = 0;　　 //flash版本
+  if(document.all) {
+    let swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+    if(swf) {
+      hasFlash = 1;
+      VSwf = swf.GetVariable("$version");
+      flashVersion = parseInt(VSwf.split(" ")[1].split(",")[0]);
+    }
+  } else {
+    if(navigator.plugins && navigator.plugins.length > 0) {
+      let swf = navigator.plugins["Shockwave Flash"];
+      if(swf) {
+        hasFlash = 1;
+        let words = swf.description.split(" ");
+        for(let i = 0; i < words.length; ++i) {
+          if(isNaN(parseInt(words[i]))) continue;
+          flashVersion = parseInt(words[i]);
+        }
+      }
+    }
   }
+  return !!hasFlash
 }
 function Calculation(a,b){//a 是开会时间，b是当前时间
   console.log(a,b)
@@ -43,7 +61,7 @@ function Calculation(a,b){//a 是开会时间，b是当前时间
 //验证身份证
 function cardValidate(card)
 {
-  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+  let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
   return reg.test(card)
 }
 function FormatDate(strTime) {

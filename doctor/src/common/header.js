@@ -32,7 +32,7 @@ export default class Header extends Component{
       let style={"marginTop":"10px","marginLeft":"10px"};
         return(
             <div className="header">
-                <a href="/">
+              <a href="http://192.168.100.133:8787/#/entrance">
                     <img style={style} src="./images/logo.png" alt="远程视界机器人"/>
                 </a>
               {

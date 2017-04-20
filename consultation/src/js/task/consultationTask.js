@@ -54,7 +54,6 @@ let startTime=(function show_cur_times(){
   //拼接年月日时分秒
   return (year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds)
 })();
-console.log(startTime)
 let token=localStorage.getItem("robertUserName");
 const Option = Select.Option;
 export default class ConsultationTask extends Component{
