@@ -70,8 +70,8 @@ export default class ReturnRecord extends Component{
           },
           {
             title: '被退时间',
-            dataIndex: 'creatAt',
-            key: 'creatAt',
+            dataIndex: 'modifyAt',
+            key: 'modifyAt',
             render: (text) => (
              <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
             )

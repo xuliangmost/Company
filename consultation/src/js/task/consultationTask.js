@@ -10,6 +10,7 @@ let startTime=(function getNowFormatDate() {
   let date = new Date();
   let seperator1 = "-";
   let month = date.getMonth() + 1;
+  var seperator2 = ":";
   let strDate = date.getDate();
   if (month >= 1 && month <= 9) {
     month = "0" + month;
@@ -17,8 +18,9 @@ let startTime=(function getNowFormatDate() {
   if (strDate >= 0 && strDate <= 9) {
     strDate = "0" + strDate;
   }
-  return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
-
+  return (date.getFullYear() + seperator1 + month + seperator1 + strDate
+  + " " + date.getHours() + seperator2 + date.getMinutes()
+  + seperator2 + date.getSeconds())
 })();
 
 let token=localStorage.getItem("robertUserName");
@@ -114,7 +116,7 @@ export default class ConsultationTask extends Component{
               <Link to={"task/lookConsultationTask/"+record.id}>查看</Link>&nbsp;
 
               {
-                record.conId?<a disabled={tools.Calculation(record.modifyTime,startTime)} href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId} target="blank">参加</a>:""
+                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)} href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId} target="blank">参加</a>:""
               }
               </span>
           )

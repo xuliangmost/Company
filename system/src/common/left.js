@@ -10,7 +10,7 @@ export default class Left extends Component {
     super(props);
     this.state = {
       current: '1',
-      openKeys: [],
+      openKeys: ['sub1'],
       permissions:[]
     };
   }

@@ -11,6 +11,13 @@ function emailValidate(email) {
   return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(email);
 }
 
+function isAcrobatPluginInstall(){
+  if(typeof window.ActiveXObject !== "undefined"){
+    return new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+  }else{
+    return navigator.plugins['Shockwave Flash'];
+  }
+}
 function Calculation(a,b){//a 是开会时间，b是当前时间
   console.log(a,b)
   let date1 = new Date(a.split("-").join("/"));

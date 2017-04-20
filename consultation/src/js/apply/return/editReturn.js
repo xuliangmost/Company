@@ -197,8 +197,8 @@ export default class EditCnsulation extends Component{
         },
         {
           title: '上传时间',
-          dataIndex: 'uploadTime',
-          key: 'uploadTime',
+          dataIndex: 'uploadAt',
+          key: 'uploadAt',
           render: (text) => (
             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
@@ -289,6 +289,8 @@ export default class EditCnsulation extends Component{
       let data=[];
       let caseId=false;
       let fileList=[];
+
+      let checkData=getData.check?JSON.parse(JSON.stringify(getData.check)):[];
       if(getData.case&&getData.case!=false){
         if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
           getData.case[0].advice[0].prescription.map((ele)=>{
@@ -308,8 +310,8 @@ export default class EditCnsulation extends Component{
       // let getData=response.data.case&&response.data.case!=false?response.data:allData;
       getData.consultationId=that.props.params.id;
 
-      let checkData=getData.check?getData.check:[];
 
+      console.log(fileList)
       that.setState({
         getData:getData,
         history1:getData.case[0],
@@ -563,6 +565,7 @@ export default class EditCnsulation extends Component{
     }
     if(this.state.getData.case[index].file&&this.state.getData.case[index].file!=false){
     }
+
     this.setState({
       history1:this.state.getData.case[index],
       history1Index:index,

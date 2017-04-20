@@ -154,6 +154,31 @@ export default class LookHadReturn extends Component{
           ),
         }
       ],
+      checkColumns :[
+        {
+          title: '审核时间',
+          dataIndex: 'checkTime',
+          key: 'checkTime',
+          render: (text) => (
+            <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
+        },
+        {
+          title: '操作人',
+          dataIndex: 'assistantName',
+          key: 'assistantName',
+        },
+        {
+          title: '审核结果',
+          dataIndex: 'checkResult',
+          key: 'checkResult',
+        },
+        {
+          title: '退回原因',
+          dataIndex: 'returnReason',
+          key: 'returnReason',
+        }
+      ],
       oldData:{//固定的，处方增加按钮的一项
         id: '0',
         "prescriptionTime": "-", //开方时间
@@ -176,7 +201,8 @@ export default class LookHadReturn extends Component{
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
-      fileList:null//显示的上传文件集合
+      fileList:null,//显示的上传文件集合
+      checkData:[]//审核记录
     }
   }
 
@@ -227,6 +253,8 @@ export default class LookHadReturn extends Component{
       let data=[];
       let caseId=false;
       let fileList=[];
+      let checkData=getData.check?JSON.parse(JSON.stringify(getData.check)):[];
+
       if(getData.case&&getData.case!=false){
         if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
           getData.case[0].advice[0].prescription.map((ele)=>{
@@ -242,7 +270,7 @@ export default class LookHadReturn extends Component{
         }):"";
       }
       getData.consultationId=that.props.params.id;
-
+      console.log(checkData)
       that.setState({
         getData:getData,
         history1:getData.case[0],
@@ -250,7 +278,8 @@ export default class LookHadReturn extends Component{
         targetdoc:getData.doctor,//加载页面时，会诊医生栏显示的内容
         data:data,
         fileList,
-        caseId
+        caseId,
+        checkData
       });
       //因为异步的原因，所以只能在回调函数里面放数据请求了
 
@@ -613,6 +642,17 @@ export default class LookHadReturn extends Component{
               } className="search_input" type="textarea" rows={4} />
             </li>
           </ul>
+          {
+            //这里面写判断有没有审核记录
+            this.state.checkData.length>0?<ul className="search_ul2">
+              <li className="search_li_last">
+                <span className="one_title">审核记录</span>
+                <Table rowKey="id" className="search_input"  columns={this.state.checkColumns} dataSource={this.state.checkData} />
+              </li>
+            </ul>:""
+          }
+
+
           <div className="btn_save">
             <div className="btn_save_index">
               <Link to="apply/daiShen">

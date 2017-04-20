@@ -13,7 +13,7 @@ module.exports = {
     filename: "index.js",
   },
   // sourcemap
-  // devtool: 'source-map',
+   //devtool: 'source-map',
   // 配置模块
   module: {
     loaders: [

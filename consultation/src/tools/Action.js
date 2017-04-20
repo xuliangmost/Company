@@ -3,8 +3,6 @@ let Action={
     this[name]=fn
   },
   //绑定函数
-
-
   emit:function (name,data) {
     this[name](data)
   }

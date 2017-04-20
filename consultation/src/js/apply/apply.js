@@ -230,6 +230,7 @@ export default class Apply extends Component{
           </ul>
 
           </div>
+
           <div className="apple_bottom">
             <h1 className="most_h1">
               列表区
@@ -247,3 +248,5 @@ export default class Apply extends Component{
     }
 
 }
+
+

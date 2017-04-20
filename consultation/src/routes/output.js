@@ -2,7 +2,7 @@ import React,{Component} from "react"
 import ReactDOM from "react-dom"
 import Header from "../common/header"
 import Left from "../common/left"
-import Login from "../js/login/login"
+import Content from "../common/content"
 
 
 import {Router,Route,hashHistory} from "react-router"
@@ -19,7 +19,7 @@ import LookInvalid from "../js/invalid/lookInvalid"//作废会诊-查看
 
 import Consulation from "../js/consulationTables/consulation"//会诊总表-查询
 import LookConsulation from "../js/consulationTables/lookConsulation"//会诊总表-查看
-
+const jwtDecode = require('jwt-decode');
 
 import checked from "../tools/checked"
 
@@ -31,16 +31,128 @@ import WaitCheck from "../js/check/waitCheck/waitCheck"
 import LookWaitCheck from "../js/check/waitCheck/lookWaitCheck"
 import ConsultationTask from "../js/task/consultationTask"
 import LookConsultationTask from "../js/task/lookConsultationTask"
-
-
+let reg = /^[0-9]+.?[0-9]*$/;
+function matches(str) {
+  let ar=str.split("/");
+  if(reg.test(ar[ar.length-1])){
+    return true
+  }
+}
+function spl(str) {
+  let ar=str.split("/");
+  ar.splice(ar.length-1);
+  return ar.join("/")
+}
+let auth=[
+  {
+    id:6,
+    route:"#/apply"
+  }, {
+    id:6,
+    route:"#/apply/newConsultation"
+  },{
+    id:6,
+    route:"#/apply/editCnsulation"
+  },{
+    id:6,
+    route:"#/apply/addConsultation"
+  },
+  {
+    id:7,
+    route:"#/apply/daiShen"
+  },
+  {
+    id:7,
+    route:"#/apply/daiShen/looked"
+  },
+  {
+    id:8,
+    route:"#/apply/return/ReturnRecord"
+  },
+  {
+    id:8,
+    route:"#/apply/return/ReturnRecord/editReturn"
+  },
+  {
+    id:9,
+    route:"#/check/waitCheck/waitCheck"
+  },
+  {
+    id:9,
+    route:"#/check/waitCheck/lookWaitCheck"
+  },
+  {
+    id:10,
+    route:"#/check/hadReturn/hadReturn"
+  },{
+    id:10,
+    route:"#/check/hadReturn/lookHadReturn"
+  },
+  {
+    id:11,
+    route:"#/check/checked/checked"
+  },{
+    id:11,
+    route:"#/check/checked/lookChecked"
+  },
+  {
+    id:12,
+    route:"#/task/consultationTask"
+  },{
+    id:12,
+    route:"#/task/lookConsultationTask"
+  },
+  {
+    id:13,
+    route:"#/invalid/invalid"
+  },{
+    id:13,
+    route:"#/invalid/lookInvalid"
+  },
+  {
+    id:14,
+    route:"#/consulationTables/consulation"
+  },{
+    id:14,
+    route:"#/consulationTables/lookConsulation"
+  },
+];
 class PageBottom extends Component{
     constructor(props){
         super(props);
     }
     componentWillMount(){
-      checked.checked()
+      checked.checked();
+      this.checkAuthorization()
     }
+    componentWillUpdate(){
+      this.checkAuthorization()
+    }
+    checkAuthorization(){
+      if(localStorage.getItem('robertUserName')){
+        const bearer = localStorage.getItem('robertUserName');
+        let decoded = jwtDecode(bearer);
+        let permissions = decoded.permissions;
+        let flag=true;
+        let hashed=location.hash;
+        if(hashed!=="#/apply/blank"){
+          if(matches(hashed)){
+            hashed=spl(hashed)
+          }
+          auth.map(function (ele) {
+            if(ele.route===hashed){
+              if(permissions.indexOf(ele.id.toString())!==-1){
+                flag=false
+              }
+            }
+          });
+          if(flag){
 
+            location.href="http://192.168.100.133:8787/#/entrance"
+          }
+        }
+      }
+    }
     render(){
       let pageHeight=document.body.clientHeight-60;
       let style={"height":pageHeight};
@@ -65,8 +177,8 @@ class Page extends Component{
             <div id="page">
               <Header/>
               <Router history={hashHistory}>
-                <Route path="/a" component={Login}/>
                 <Route path="/content" component={PageBottom} >
+                  <Route path="/apply/blank" component={Content}/>
                   <Route path="/apply" component={Apply}/>
                   <Route path="/apply/daiShen" component={DaiShen}/>
                   <Route path="/apply/daiShen/looked/:id" component={Looked}/>

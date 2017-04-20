@@ -10,9 +10,12 @@ export default class Left extends Component {
     super(props);
     this.state = {
       current: '1',
-      openKeys: [],
+      openKeys: ['sub1','sub2','sub3','sub4','sub5','sub0'],
       permissions:[]
     };
+  }
+  componentWillMount(){
+
   }
   componentDidMount(){
     if(localStorage.getItem('robertUserName')){
