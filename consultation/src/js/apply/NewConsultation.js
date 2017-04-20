@@ -100,7 +100,7 @@ export default class NewConsultation extends Component{
       targetTitle:[],//确定按钮的中间变量，点击确定才把医生放到input框
       targetKeys: [],//会诊医生弹出框右边的选项
       //以上是  呵呵呵呵呵
-
+      dis:false,//是否禁用保存会诊
       history1Index:0,//当前显示的病历的下标
       history2Index:0,//当前显示的医嘱的下标
 
@@ -808,7 +808,8 @@ export default class NewConsultation extends Component{
         saveCase:true,
         history1:postCase,
         getData:getData,
-        history2:postCase.advice?postCase.advice[0]:null
+        history2:postCase.advice?postCase.advice[0]:null,
+        dis:true
       });
       alert("病历保存成功!")
     }).catch(function () {
@@ -1487,7 +1488,7 @@ export default class NewConsultation extends Component{
 
         <div className="btn_save">
             <div className="btn_save_index">
-              <Button onClick={this.saveConsulation.bind(this)} className="btn_save_index_2" type="primary">保存会诊</Button>
+              <Button disabled={this.state.dis} onClick={this.saveConsulation.bind(this)} className="btn_save_index_2" type="primary">保存会诊</Button>
             </div>
          </div>
 

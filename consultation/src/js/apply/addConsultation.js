@@ -215,7 +215,8 @@ export default class AddConsultation extends Component{
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
-      fileList:null//显示的上传文件集合
+      fileList:null,//显示的上传文件集合,
+      dis:false
     }
   }
 
@@ -989,7 +990,8 @@ export default class AddConsultation extends Component{
       that.setState({
         saveConsultationL:true,
         caseId:true,
-        consultationId:response.data.id.toString()
+        consultationId:response.data.id.toString(),
+        dis:true
       });
       alert("会诊保存成功!")
     }).catch(function () {
@@ -1505,7 +1507,7 @@ export default class AddConsultation extends Component{
 
         <div className="btn_save">
             <div className="btn_save_index">
-              <Button onClick={this.saveConsulation.bind(this)} className="btn_save_index_2" type="primary">保存会诊</Button>
+              <Button disabled={this.state.dis} onClick={this.saveConsulation.bind(this)} className="btn_save_index_2" type="primary">保存会诊</Button>
             </div>
          </div>
 

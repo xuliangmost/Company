@@ -332,7 +332,7 @@ export default class LookConsultationTask extends Component{
       });
       that.joinTo(getData.consultation.userId.toString());
       //因为异步的原因，所以只能在回调函数里面放数据请求了
-      //that.getPeople();
+      that.getPeople();
       axios.request({
         url: '/api/conference/doctor',
         method: 'get',
@@ -829,8 +829,8 @@ export default class LookConsultationTask extends Component{
           <div className="btn_save">
             <div className="btn_save_index">
               {
-                this.state.meetingId?<a href={"http:/192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId} target="blank">
-                  <Button disabled={tools.Calculation(startTime,this.state.getData.consultation.startTime)} type="primary">参加会诊</Button>&nbsp;
+                this.state.meetingId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} target="blank">
+                  <Button disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "),startTime)} type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }
               {
