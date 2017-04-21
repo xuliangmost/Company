@@ -970,11 +970,10 @@ export default class NewConsultation extends Component{
           saveConsultationL:true,
           caseId:true,
           consultationId:response.data.id.toString(),
-          userId:response.data.userId.toString()
+          userId:response.data.userId.toString(),
+          dis:true
         });
         alert("会诊保存成功!")
-      }else{
-
       }
     }).catch(function () {
       alert("会诊保存失败!")

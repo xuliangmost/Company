@@ -58,7 +58,6 @@ let startTime=(function show_cur_times(){
   return (year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds)
 })();
 
-
 let allData={
   //会诊
   "consultation": {
@@ -74,6 +73,7 @@ let allData={
     "familyPhone": "", //家属手机号
     "content": "" //会诊描述
   },
+  stat:0,
   //病历
   "case": [
     {
@@ -270,7 +270,8 @@ export default class LookConsultationTask extends Component{
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
-      joinTo:true
+      joinTo:false,
+      showCloseMeeting:false//禁用结束会诊按钮
     }
   }
 
@@ -299,22 +300,22 @@ export default class LookConsultationTask extends Component{
     });
   }
 
-  joinTo(id){
+  joinTo(uid){
     let that=this;
     axios.request({
       url: '/api/conference/jointo',
       method: 'get',
       params: {
-        userId:id
+        userId:uid
       },
       headers: {
         'Authorization': 'Bearer '+token,
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function (res) {
-      if(res.data.code===1){
+      if(res.data.code===0){
         that.setState({
-          joinTo:false
+          joinTo:true
         })
       }
     })
@@ -364,61 +365,13 @@ export default class LookConsultationTask extends Component{
         meetingId:getData.consultation.conId,
         userId:getData.consultation.userId
       });
-      that.joinTo(getData.consultation.userId.toString());
+      that.joinTo(getData.consultation.applyId.toString());
       //因为异步的原因，所以只能在回调函数里面放数据请求了
       //that.getPeople();
-      axios.request({
-        url: '/api/conference/doctor',
-        method: 'get',
-        headers: {
-          'Authorization': 'Bearer '+token,
-          'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-        },
-      }).then(function(response) {
-        const targetKeys = [];
-        const mockData = [];
-        const targetdoc=[];
-        const docArr=response.data.result;
-
-        for (let i = 0; i < docArr.length; i++) {
-          const data = {
-            key: docArr[i].doctorId,
-            title: docArr[i].doctorName,
-            description: docArr[i].hospitalName,
-            chosen:(function (a) {
-              return responseDoc.indexOf(a)>-1?true:false
-            })(docArr[i].doctorId),
-          };
-          if (data.chosen) {
-            targetKeys.push(data.key);
-          }
-          mockData.push(data);
-        }
-
-        docArr.map((ele,index)=>{
-          targetdoc.push(ele)//targetdoc是显示在框子里面的医生的名字集合
-        });
-        let docId=[];
-        for (let i=0;i<targetKeys.length;i++){
-          let obj={};
-          obj.doctor=targetKeys[i];
-          docId.push(obj);
-        }
-
-        let obj={};//这里是生成医生接口的格式
-        obj.consultationId=that.state.consultationId;
-        obj.doctorId=docId;
 
 
-        that.setState({
-          mockData,
-          targetKeys,
-          docList:docArr,
-          docId:obj,
-          docKeys:targetKeys
-        })
-      });
-
+    }).catch(function () {
+      alert(1)
     });
 
     //页面加载时获取医生列表
@@ -460,7 +413,7 @@ export default class LookConsultationTask extends Component{
       url: '/api/conference/joinToUpdate',
       method: 'get',
       params:{
-        userId:that.state.userId,
+        userId:that.state.getData.consultation.applyId,
         consultationId:that.state.consultationId
       },
       headers: {
@@ -471,6 +424,8 @@ export default class LookConsultationTask extends Component{
       if(response.data.code===200){
         alert("结束会诊成功");
         location.hash="task/consultationTask"
+      }else if(response.data.code===1){
+        alert("结束会诊失败,无权限结束");
       }
     }).catch(function () {
       alert("结束会诊操作失败")
@@ -507,13 +462,6 @@ export default class LookConsultationTask extends Component{
 
     }).catch(function (err) {
       alert("请完善会诊结论");
-      //渲染会诊结论
-      let conclusion=that.state.conclusion;
-
-      conclusion=that.state.responseData.conclusion;
-      that.setState({
-        conclusion:conclusion
-      });
     });
   }
 
@@ -864,12 +812,12 @@ export default class LookConsultationTask extends Component{
             <div className="btn_save_index">
               {
                 this.state.meetingId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} target="blank">
-                  <Button disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "),startTime)} type="primary">参加会诊</Button>&nbsp;
+                  <Button disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "),startTime)||this.state.getData.stat===3}  type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }
               {
-                this.state.joinTo?<Button onClick={this.closeMeeting.bind(this)} type="primary">会诊结束 &ensp; </Button>:""
-              }
+                this.state.joinTo?<Button disabled={this.showCloseMeeting} onClick={this.closeMeeting.bind(this)} type="primary">会诊结束</Button>:""
+              }&nbsp;
               <Button type="primary" onClick={()=>this.listReturn()}>返回</Button>
             </div>
           </div>

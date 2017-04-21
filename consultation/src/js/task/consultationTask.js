@@ -150,7 +150,7 @@ export default class ConsultationTask extends Component{
               <Link to={"task/lookConsultationTask/"+record.id}>查看</Link>&nbsp;
 
               {
-                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)} href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} target="blank">参加</a>:""
+                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)||record.stat==="已结束"} href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} target="blank">参加</a>:""
               }
               </span>
           )
@@ -171,7 +171,7 @@ export default class ConsultationTask extends Component{
     apply.startTime=dateString;
     this.setState({
       applyPage:apply
-    })
+    });
 
     this.setState({
       startTime:dateString
@@ -308,7 +308,7 @@ export default class ConsultationTask extends Component{
             </li>
             <li>
                <span className="most_flex">会诊状态</span>
-                <Select defaultValue="未开始" className="search_input" onChange={this.handleChange.bind(this)}>
+                <Select defaultValue="请选择" className="search_input" onChange={this.handleChange.bind(this)}>
                   <Option value="未开始">未开始</Option>
                   <Option value="进行中">进行中</Option>
                   <Option value="已结束">已结束</Option>
