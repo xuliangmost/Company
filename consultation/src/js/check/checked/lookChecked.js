@@ -182,6 +182,11 @@ export default class LookChecked extends Component{
           key: 'doctorName',
         },
         {
+          title: '附件名称',
+          dataIndex: 'docName',
+          key: 'docName',
+        },
+        {
           title: '会诊结论',
           dataIndex: 'message',
           key: 'message',
@@ -663,9 +668,6 @@ export default class LookChecked extends Component{
             </div>:""
           }
 
-
-
-
           <div className="record">
             <span className="history_sp1 record_sp1"> 病历资料 </span>
 
@@ -674,8 +676,6 @@ export default class LookChecked extends Component{
             }
 
           </div>
-
-
 
           {
             this.state.targetdoc&&this.state.targetdoc!=false? <ul className="search_ul2">
@@ -690,10 +690,6 @@ export default class LookChecked extends Component{
             </ul>:""
           }
 
-
-
-
-
           {
             //这里面写判断有没有审核记录
             this.state.checkData.length>0?<ul className="search_ul2">
@@ -703,10 +699,6 @@ export default class LookChecked extends Component{
               </li>
             </ul>:""
           }
-
-
-
-
 
           {
             //这里面写判断有没有结论记录
@@ -718,20 +710,13 @@ export default class LookChecked extends Component{
             </ul>:""
           }
 
-
-
-
-
-
           <div className="btn_save">
             <div className="btn_save_index">
-              <Link to="apply/daiShen">
+              <Link to="check/checked/checked">
                 <Button type="primary">返回</Button>
               </Link>
             </div>
           </div>
-
-
 
         </div>
       </div>

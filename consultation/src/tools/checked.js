@@ -37,11 +37,8 @@ function flashChecker() {
   return !!hasFlash
 }
 function Calculation(a,b){//a 是开会时间，b是当前时间
-  console.log(a,b)
   let date1 = new Date(a);
   let date2 = new Date(b);
-  console.log(date1)
-  console.log(date2)
   let s1 = date1.getTime(),s2 = date2.getTime();
   let total = (s1 - s2)/1000;
   let day = parseInt(total / (24*60*60));//计算整数天数
@@ -50,10 +47,8 @@ function Calculation(a,b){//a 是开会时间，b是当前时间
   let afterHour = total - day*24*60*60 - hour*60*60;//取得算出小时数后剩余的秒数
   let min = parseInt(afterHour/60);//计算整数分
   if(day>=0&&afterDay>=0&&hour>=0&&afterHour>=0&&min>=10){
-    console.log("false")
     return false
   }else{
-    console.log("true")
     return true
   }
 }

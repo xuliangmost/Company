@@ -142,6 +142,7 @@ export default class EditCnsulation extends Component{
       ],
       fileList:[],//病历资料集合
       checkColumns :[
+
         {
           title: '审核时间',
           dataIndex: 'checkTime',
@@ -168,6 +169,7 @@ export default class EditCnsulation extends Component{
       ],
 
       conclusionColumns :[
+
         {
           title: '时间',
           dataIndex: 'creatTime',
@@ -175,6 +177,11 @@ export default class EditCnsulation extends Component{
           render: (text) => (
             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
           )
+        },
+        {
+          title: '附件名称',
+          dataIndex: 'docName',
+          key: 'docName',
         },
         {
           title: '操作人',
@@ -692,7 +699,7 @@ export default class EditCnsulation extends Component{
             this.state.checkData.length>0?<ul className="search_ul2">
               <li className="search_li_last">
                 <span className="one_title">审核记录</span>
-                <Table className="search_input"  columns={this.state.checkColumns} dataSource={this.state.checkData} />
+                <Table rowKey="id" className="search_input"  columns={this.state.checkColumns} dataSource={this.state.checkData} />
               </li>
             </ul>:""
           }
@@ -706,7 +713,7 @@ export default class EditCnsulation extends Component{
             this.state.conclusion.length>0?<ul className="search_ul2">
               <li className="search_li_last">
                 <span className="one_title">结论记录</span>
-                <Table className="search_input"  columns={this.state.conclusionColumns} dataSource={this.state.conclusion} />
+                <Table  rowKey="id" className="search_input"  columns={this.state.conclusionColumns} dataSource={this.state.conclusion} />
               </li>
             </ul>:""
           }
@@ -718,7 +725,7 @@ export default class EditCnsulation extends Component{
 
           <div className="btn_save">
             <div className="btn_save_index">
-              <Link to="apply/daiShen">
+              <Link to="consulationTables/consulation">
                 <Button type="primary">返回</Button>
               </Link>
             </div>

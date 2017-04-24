@@ -655,7 +655,7 @@ export default class LookHadReturn extends Component{
 
           <div className="btn_save">
             <div className="btn_save_index">
-              <Link to="apply/daiShen">
+              <Link to="check/hadReturn/hadReturn">
                 <Button type="primary">返回</Button>
               </Link>
             </div>

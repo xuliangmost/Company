@@ -1,5 +1,5 @@
 import React,{Component} from "react"
-import { Button,DatePicker,Input,Table,Icon,Upload  } from 'antd';
+import { Button,DatePicker,Input,Table,Icon,Upload ,message } from 'antd';
 import { Link } from 'react-router';
 import "../../less/editCnsulation.less"
 import "../../less/lookWaitCheck.less"
@@ -71,9 +71,10 @@ let allData={
     "birthday": "0-0-0 00:00:00.000", //出生日期
     "famliyName": "", //陪护家属
     "familyPhone": "", //家属手机号
-    "content": "" //会诊描述
+    "content": "", //会诊描述
+    "stat":0
   },
-  stat:0,
+
   //病历
   "case": [
     {
@@ -110,7 +111,10 @@ let allData={
   "code": 200
 };
 
-
+message.config({
+  top: 300,
+  duration: 2,
+});
 
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 export default class LookConsultationTask extends Component{
@@ -232,6 +236,11 @@ export default class LookConsultationTask extends Component{
           key: 'doctorName',
         },
         {
+          title: '上传附件',
+          dataIndex: 'docName',
+          key: 'docName',
+        },
+        {
           title: '会诊结论',
           dataIndex: 'message',
           key: 'message',
@@ -239,9 +248,15 @@ export default class LookConsultationTask extends Component{
         {
           title: '操作',
           key: 'action',
-          render: (text, record) => (
+          render: (text, record,index) => (
             <span>
                <a href={record.doc} download={record.docName}>下载</a>
+              <span>
+                &nbsp;&nbsp;
+              </span>
+              {
+                record.doctorId===this.state.doctorId?<a onClick={this.deleteDoc.bind(this,record.id,index)}>删除</a>:""
+              }
             </span>
           ),
         }
@@ -267,14 +282,43 @@ export default class LookConsultationTask extends Component{
         "frequency": "-"//次/日
       }],
       docList:[],//所有的医生列表
-      docKeys:[],//确定时的会诊医生弹出框右边的index
-      docId:[],//选中的医生的要上传的格式
+      doctorId:[],//当前操作医生的id
       targetdoc:[],//选中的医生信息
       joinTo:false,
-      showCloseMeeting:false//禁用结束会诊按钮
+      showCloseMeeting:false,//禁用结束会诊按钮
+      isShow:false,
+      fileUrl:null,
+      fileName:null
     }
   }
 
+  deleteDoc(id,index){
+    let that = this;
+    axios.request({
+      url: '/api/conference/delete/conclusion',
+      method: 'get',
+      params:{
+        id:id.toString()
+      },
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function(response) {
+      alert("删除成功")
+      let getData=that.state.getData;
+      let conclusion=that.state.conclusion;
+      conclusion.splice(index,1);
+      getData.conclusion=conclusion;
+      that.setState({
+        getData,
+        conclusion
+      });
+
+    }).catch(function () {
+
+    });
+  }
 /////////////////////////
 
   getPeople(){
@@ -290,8 +334,6 @@ export default class LookConsultationTask extends Component{
       let getData=that.state.getData;
       getData.consultation.hospital=response.data.result[0].hospitalName;
       getData.consultation.applicant=response.data.result[0].applyName;
-      console.log(getData.consultation.hospital);
-      console.log(getData.consultation.applicant);
       that.setState({
         getData
       })
@@ -300,7 +342,7 @@ export default class LookConsultationTask extends Component{
     });
   }
 
-  joinTo(uid){
+  joinTo(stat,uid){
     let that=this;
     axios.request({
       url: '/api/conference/jointo',
@@ -314,9 +356,12 @@ export default class LookConsultationTask extends Component{
       },
     }).then(function (res) {
       if(res.data.code===0){
-        that.setState({
-          joinTo:true
-        })
+        if(stat!==3){
+          that.setState({
+            joinTo:true
+          })
+        }
+
       }
     })
   }
@@ -353,7 +398,6 @@ export default class LookConsultationTask extends Component{
 
       let conclusion=getData.conclusion?getData.conclusion:[];//获取结论
       let checkData=getData.check?getData.check:[];
-      console.log(getData)
       that.setState({
         getData:getData,
         history1:getData.case[0],
@@ -363,9 +407,10 @@ export default class LookConsultationTask extends Component{
         conclusion,
         checkData,
         meetingId:getData.consultation.conId,
-        userId:getData.consultation.userId
+        userId:getData.consultation.userId,
+        docList:getData.doctor
       });
-      that.joinTo(getData.consultation.applyId.toString());
+      that.joinTo(getData.consultation.stat,getData.consultation.applyId.toString());
       //因为异步的原因，所以只能在回调函数里面放数据请求了
       //that.getPeople();
 
@@ -378,8 +423,20 @@ export default class LookConsultationTask extends Component{
   }
 
   componentDidMount() {
-
     this.getValue();
+    let that = this;
+    axios.request({
+      url: '/api/conference/doctorId',
+      method: 'get',
+      headers: {
+        'Authorization': 'Bearer '+token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function(response) {
+      that.setState({
+        doctorId:response.data.result[0].doctorId
+      })
+    })
   }
   returnList(){
     location.hash="/check/waitCheck/waitCheck"
@@ -437,17 +494,17 @@ export default class LookConsultationTask extends Component{
     })
   }
   confirmFujian(){//上传会诊结论
-    this.setState({
-      isShow:false
-    });
     let that=this;
-
     let data = {
       cId:this.props.params.id,
       message:this.state.fujianText, //会诊结论
       fileName:	this.state.fileName,
       url:this.state.fileUrl   //附件URL
     };
+    if(!data.message){
+      alert("会诊结论不能为空!");
+      return false
+    }
     axios({
       url: '/api/conference/add/conclusion',
       method: 'POST',
@@ -458,10 +515,37 @@ export default class LookConsultationTask extends Component{
       }
     }).then(function (response) {
       alert("添加会诊结论成功");
-      location.hash="task/consultationTask"
+      let obj={};
+      obj.id=response.data.result.id;
+      obj.creatTime=startTime;
+      obj.message=data.message;
+      obj.docName=data.fileName;
+      obj.doctorId=response.data.result.doctorId;
+      that.state.docList.map((ele,index)=>{
+        if(ele.id===that.state.doctorId){
+          obj.doctorName=ele.doctorName
+        }
+      });
+      obj.doc=that.state.fileUrl;
+      console.log(obj)
+      let getData=that.state.getData;
+      let conclusion=that.state.conclusion;
+      getData.conclusion=conclusion;
+      conclusion.push(obj);
+      that.setState({
+        conclusion,
+        getData,
+        isShow:false,
+        fujianText:""
+      });
+
+
+
+
+      //location.hash="task/consultationTask"
 
     }).catch(function (err) {
-      alert("请完善会诊结论");
+
     });
   }
 
@@ -493,7 +577,6 @@ export default class LookConsultationTask extends Component{
       data=null
     }
 
-    console.log(data);
     this.setState({
       history1:this.state.getData.case[index],
       history1Index:index,
@@ -527,12 +610,10 @@ export default class LookConsultationTask extends Component{
       },
       onChange({file, fileList}) {
         if (file.status !== 'uploading') {
-          let fileName=file.response.result[0].fileName;
-          let  fileUrl=file.response.result[0].url;
+          message.success("附件上传成功!")
           that.setState({
-            fileList: fileList,
-            fileName: fileName,
-            fileUrl:fileUrl
+            fileUrl:file.response.result[0].url,
+            fileName:file.response.result[0].fileName
           })
         }
       },
@@ -768,26 +849,19 @@ export default class LookConsultationTask extends Component{
 
 
 
-          {
-            //这里面写判断有没有结论记录
-            this.state.conclusion.length>0?<div className="conclusion_show">
+          <div className="conclusion_show">
                 <span className="one_title">结论记录</span>
                 <span className="one_title">
-                  <button className="btn_huizhen" onClick={()=>this.huizhenjielun()}>
-                      <Icon type="upload"/>
-                  </button>
+                  <button className="btn_huizhen" onClick={()=>this.huizhenjielun()}>会诊结论</button>
                 </span>
                 <Table rowKey="id" className="search_input search_input_task"  columns={this.state.conclusionColumns} dataSource={this.state.conclusion} />
-            </div>:""
-          }
+          </div>
 
 
 
           {
             this.state.isShow?<div className="huizhenDivDiv"><div className="huizhenDiv">
-              <Input type="textarea" value={this.state.fujianText} onChange={this.changeText.bind(this)}  rows={4} placeholder="请输入会诊结论(每人限一条)"/>
-
-
+              <Input type="textarea" value={this.state.fujianText} onChange={this.changeText.bind(this)}  rows={4} placeholder="请输入会诊结论"/>
               <Upload {...props}>
                 <Button className="history_btn1">
                   <Icon type="upload"/>
@@ -811,10 +885,13 @@ export default class LookConsultationTask extends Component{
           <div className="btn_save">
             <div className="btn_save_index">
               {
-                this.state.meetingId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} target="blank">
-                  <Button disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "),startTime)||this.state.getData.stat===3}  type="primary">参加会诊</Button>&nbsp;
+                this.state.meetingId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} >
+                  <Button disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "),startTime)||this.state.getData.consultation.stat===3}  type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }
+
+
+
               {
                 this.state.joinTo?<Button disabled={this.showCloseMeeting} onClick={this.closeMeeting.bind(this)} type="primary">会诊结束</Button>:""
               }&nbsp;

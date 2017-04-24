@@ -48,7 +48,7 @@ module.exports = {
   },
   //plugins定义
   plugins: [
-    // new webpack.optimize.UglifyJsPlugin(),//js压缩
+    //new webpack.optimize.UglifyJsPlugin(),//js压缩
     new webpack.optimize.UglifyJsPlugin({
       comments: false,        //去掉注释
       compress: {
@@ -59,9 +59,9 @@ module.exports = {
       filename: 'index.css',  //样式单独合并
       allChunks: true
     }),
-    new webpack.HotModuleReplacementPlugin(),//代码热替换
+   //new webpack.HotModuleReplacementPlugin(),//代码热替换
 
-    new webpack.NoEmitOnErrorsPlugin(),//允许错误不打断程序
+   // new webpack.NoEmitOnErrorsPlugin(),//允许错误不打断程序
     // new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js')
   ],
 

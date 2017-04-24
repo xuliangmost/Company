@@ -214,6 +214,7 @@ export default class EditCnsulation extends Component{
       docList:[],//所有的医生列表
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
+      docUserId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
       fileList:null//显示的上传文件集合
     }
@@ -400,9 +401,17 @@ export default class EditCnsulation extends Component{
   }
 
   handleChange(targetKeys){
-
+    let docUserId=[];
+    this.state.docList.map((ele,index)=>{
+      if(targetKeys.indexOf(ele.doctorId)!==-1){
+        let obj={};
+        obj.user=ele.userId.toString()
+        docUserId.push(obj)
+      }
+    });
     this.setState({
       targetKeys,
+      docUserId
     });
   };
   queDing(){
@@ -422,7 +431,7 @@ export default class EditCnsulation extends Component{
     let obj={};
     obj.consultationId=this.state.consultationId;
     obj.doctorId=arr;
-
+    obj.userId=this.state.docUserId;
 
     let that=this;
     axios.request({

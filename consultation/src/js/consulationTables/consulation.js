@@ -91,16 +91,16 @@ export default class Consulation extends Component{
             dataIndex: 'aPhone',
             key: 'aPhone',
           },
-          {
+          /*{
             title: '会诊阶段',
             dataIndex: 'jd',
             key: 'jd',
-            /*render: (text, record,index) => (
+            /!*render: (text, record,index) => (
               <span  key={record.id}>
                 {statValue[this.state.stage]}
             </span>
-            )*/
-          },
+            )*!/
+          },*/
           {
             title: '会诊状态',
             dataIndex: 'status',

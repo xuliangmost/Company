@@ -196,7 +196,7 @@ export default class WaitCheck extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>
-              <DatePicker  value={moment(this.state.startTime, dateFormat)} size="large" className="search_input" onChange={this.onChange.bind(this)} />
+              <DatePicker size="large" className="search_input" onChange={this.onChange.bind(this)} />
             </li>
             <li>
               <span className="most_flex">申请人</span>
