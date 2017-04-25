@@ -1,5 +1,5 @@
 import React,{Component} from "react"
-import { Button,DatePicker,Input,Table,Transfer,Icon,Upload  } from 'antd';
+import { Button,DatePicker,Input,Table,message,Icon,Upload  } from 'antd';
 import { Link } from 'react-router';
 import "../../../less/editCnsulation.less"
 import "../../../less/lookWaitCheck.less"
@@ -148,17 +148,20 @@ export default class LookWaitCheck extends Component{
           key: 'checkTime',
           render: (text) => (
             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
-          )
+          ),
+          width:"126px"
         },
         {
           title: '操作人',
           dataIndex: 'assistantName',
           key: 'assistantName',
+          width:"126px"
         },
         {
           title: '审核结果',
           dataIndex: 'checkResult',
           key: 'checkResult',
+          width:"126px"
         },
         {
           title: '退回原因',
@@ -174,13 +177,15 @@ export default class LookWaitCheck extends Component{
           key: 'creatTime',
           render: (text) => (
           <span>{ text.split("T").join(" ") }</span>
-        )
+        ),
+          width:"126px"
 
         },
         {
           title: '操作人',
           dataIndex: 'doctorName',
           key: 'doctorName',
+          width:"126px"
         },
         {
           title: '会诊结论',
@@ -195,6 +200,7 @@ export default class LookWaitCheck extends Component{
                <a href={record.doc} download={record.docName}>下载</a>
             </span>
           ),
+          width:"126px"
         }
       ],
       conclusion:[],
@@ -387,8 +393,14 @@ checkHadChecked(){
   }
 
   changeReturn(e){
+
+
     let returnReason=this.state.returnReason;
     returnReason=e.target.value;
+
+    if(returnReason.length>=120){
+      message.warning("结论字数120字以内")
+    }
     this.setState({
       returnReason
     })
@@ -424,22 +436,27 @@ checkHadChecked(){
   }
   conFirmReturn(){
     let that=this;
-    this.setState({
-      isShowBiaoji:false
-    });
+    let returnReason=this.state.returnReason;
+    if(returnReason.length>=120){
+      message.error("结论字数120字以内!");
+      return false
+    }
     axios.request({
       url: '/api/conference/check/back',
       method: 'post',
       params:{
         id:that.props.params.id.toString(),
-        returnReason:that.state.returnReason
+        returnReason:returnReason
       },
       headers: {
         'Authorization': 'Bearer '+token,
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      alert("退回成功")
+      alert("退回成功");
+      that.setState({
+        isShowBiaoji:false
+      });
       location.hash="/check/waitCheck/waitCheck"
 
     }).catch(function(){

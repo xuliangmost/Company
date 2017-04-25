@@ -33,7 +33,7 @@ const allData={
     "username": "", //会诊对象
     "phone": "", //会诊对象的手机号
     "identification": "", //身份证号
-    "birthday": startTime, //出生日期
+    "birthday": "", //出生日期
     "famliyName": "", //陪护家属
     "familyPhone": "", //家属手机号
     "content": "" //会诊描述
@@ -220,7 +220,8 @@ export default class NewConsultation extends Component{
       docId:[],//选中的医生的要上传的格式
       docUserId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
-      fileList:[]//显示的上传文件集合
+      fileList:[],//显示的上传文件集合
+      selectTime:false//是否选中过出生时间
     }
   }
 
@@ -239,9 +240,11 @@ export default class NewConsultation extends Component{
     }).then(function(response) {
       getData.consultation.hospital=response.data.result[0].hospitalName;
       getData.consultation.applicant=response.data.result[0].applyName;
+      getData.consultation.birthday=response.data.result[0].birthday;
       that.setState({
         getData,
-        hospitalId:response.data.result[0].hospitalId
+        hospitalId:response.data.result[0].hospitalId,
+        selectTime:false//是否选中过出生时间
       })
     }).catch(function () {
       alert("医院信息获取失败，请刷新页面!")
@@ -316,7 +319,7 @@ export default class NewConsultation extends Component{
         "username": "", //会诊对象
         "phone": "", //会诊对象的手机号
         "identification": "", //身份证号
-        "birthday": startTime, //出生日期
+        "birthday": "", //出生日期
         "famliyName": "", //陪护家属
         "familyPhone": "", //家属手机号
         "content": "" //会诊描述
@@ -416,8 +419,8 @@ export default class NewConsultation extends Component{
     this.state.docList.map((ele,index)=>{
       if(targetKey.indexOf(ele.doctorId)!==-1){
         let obj={};
-        obj.user=ele.userId.toString()
-        obj.hospitalId=ele.hospitalId.toString()
+        obj.user=ele.userId.toString();
+        obj.hospitalId=ele.hospitalId.toString();
         docUserId.push(obj)
       }
     });
@@ -430,14 +433,13 @@ export default class NewConsultation extends Component{
     if(num>1){
       message.warning("同一医院只能选择一名医生!")
     }
-    delete docUserId.hospitalId;
+
     this.setState({
       targetKeys,
       docUserId
     });
   };
   queDing(){
-
     let num=0;
     this.state.docUserId.map((ele)=>{
       if(ele.hospitalId===this.state.hospitalId.toString()){
@@ -470,7 +472,6 @@ export default class NewConsultation extends Component{
     obj.consultationId=this.state.consultationId;
     obj.doctorId=arr;
     obj.userId=this.state.docUserId;
-
     let that=this;
     axios.request({
       url: '/api/conference/edit/doctorlist',
@@ -839,7 +840,6 @@ export default class NewConsultation extends Component{
     }
     let url=postCase.id?"/api/conference/edit/case":"/api/conference/add/case";
     let that=this;
-    console.log(postCase.userId)
     axios.request({
       url: url,
       method: 'POST',
@@ -880,7 +880,6 @@ export default class NewConsultation extends Component{
   }
   changesStartTime(date, dateString){
     let getData=JSON.parse(JSON.stringify(this.state.getData));
-    console.log(dateString)
     getData.consultation.startTime=dateString;
     this.setState({
       getData
@@ -914,7 +913,7 @@ export default class NewConsultation extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      if(response.data.result!=false){
+      if(response.data.result!==false){
         let getData=that.state.getData;
         let hospital=getData.consultation.hospital;
         let applicant=getData.consultation.applicant;
@@ -937,7 +936,8 @@ export default class NewConsultation extends Component{
     let getData=JSON.parse(JSON.stringify(this.state.getData));
     getData.consultation.birthday=dateString;
     this.setState({
-      getData
+      getData,
+      selectTime:true
     })
   }
   changeFamliyName(e){
@@ -992,11 +992,6 @@ export default class NewConsultation extends Component{
 
     if(!tool.cardValidate(postConsulation.identification)){
       alert("身份证号不能为空或身份证号格式填写错误!");
-      return false
-    }
-
-    if(tool.isEmpty(postConsulation.birthday)){
-      alert("出生日期不能为空!");
       return false
     }
 

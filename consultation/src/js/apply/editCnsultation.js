@@ -1,5 +1,5 @@
 import React,{Component} from "react"
-import { Button,DatePicker,Input,Table,Transfer,Icon,Upload  } from 'antd';
+import { Button,DatePicker,Input,Table,Transfer,Icon,Upload,message  } from 'antd';
 import { Link } from 'react-router';
 import "../../less/editCnsulation.less"
 import axios from 'axios';
@@ -83,6 +83,7 @@ export default class EditCnsulation extends Component{
     super(props);
     this.state={
       consultationId:this.props.params.id,
+      hospitalId:null,
       saveCase:true,//是否保存了病历
       savePrescription:false,//是否保存了处方
       saveAdvice:true,//是否保存了医嘱
@@ -232,17 +233,11 @@ export default class EditCnsulation extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      let getData=that.state.getData;
-       getData.consultation.hospital=response.data.result[0].hospitalName;
-       getData.consultation.applicant=response.data.result[0].applyName;
-       console.log(getData.consultation.hospital);
-       console.log(getData.consultation.applicant);
       that.setState({
-        getData
-      })
-    }).catch(function () {
+        hospitalId:response.data.result[0].hospitalId
 
-    });
+      })
+    })
   }
 
   getValue(){
@@ -295,7 +290,7 @@ export default class EditCnsulation extends Component{
       });
       //因为异步的原因，所以只能在回调函数里面放数据请求了
 
-      // that.getPeople();
+       that.getPeople();
       axios.request({
         url: '/api/conference/doctor',
         method: 'get',
@@ -350,7 +345,7 @@ export default class EditCnsulation extends Component{
       });
 
     }).catch(function () {
-
+alert(1)
     });
 
     //页面加载时获取医生列表
@@ -402,19 +397,45 @@ export default class EditCnsulation extends Component{
 
   handleChange(targetKeys){
     let docUserId=[];
+    let targetKey=targetKeys;
+    let num=0;
     this.state.docList.map((ele,index)=>{
-      if(targetKeys.indexOf(ele.doctorId)!==-1){
+      if(targetKey.indexOf(ele.doctorId)!==-1){
         let obj={};
         obj.user=ele.userId.toString()
+        obj.hospitalId=ele.hospitalId.toString()
         docUserId.push(obj)
       }
     });
+
+    docUserId.map((ele)=>{
+      if(ele.hospitalId===this.state.hospitalId.toString()){
+        num++
+      }
+    });
+    if(num>1){
+      message.warning("同一医院只能选择一名医生!")
+    }
+
     this.setState({
       targetKeys,
       docUserId
     });
   };
   queDing(){
+    let num=0;
+    this.state.docUserId.map((ele)=>{
+      if(ele.hospitalId===this.state.hospitalId.toString()){
+        num++
+      }
+    });
+    if(num>1){
+      message.error('同一医院只能选择一名医生!');
+      return false
+    }else if(num===0){
+      message.error('本医院医生未选择!');
+      return false
+    }
     let targetKeys=this.state.targetKeys;
     let arr=[];
     let targetTitle=[];

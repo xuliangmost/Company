@@ -249,6 +249,9 @@ export default class ConsultationTask extends Component{
   query(num){
     let that=this;
     let applyPage=this.state.applyPage;
+    if(applyPage.stat==="1"){
+      delete applyPage.stat
+    }
     applyPage.pageNum=num;
     axios.request({
       url: '/api/conference/mission/pageList',
@@ -309,7 +312,9 @@ export default class ConsultationTask extends Component{
             <li>
                <span className="most_flex">会诊状态</span>
                 <Select defaultValue="请选择" className="search_input" onChange={this.handleChange.bind(this)}>
+                  <Option value="1">全部</Option>
                   <Option value="未开始">未开始</Option>
+
                   <Option value="进行中">进行中</Option>
                   <Option value="已结束">已结束</Option>
                 </Select>

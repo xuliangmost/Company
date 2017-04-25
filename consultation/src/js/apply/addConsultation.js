@@ -1,5 +1,5 @@
 import React,{Component} from "react"
-import { Button,DatePicker,Input,Table,Transfer,Icon,Upload  } from 'antd';
+import { Button,DatePicker,Input,Table,Transfer,Icon,Upload ,message } from 'antd';
 import { Link } from 'react-router';
 import "../../less/newCnsulation.less";
 import "../../less/lookWaitCheck.less";
@@ -85,6 +85,7 @@ export default class AddConsultation extends Component{
     super(props);
     this.state={
       isShow:false,
+      hospitalId:null,
       consultationId:null,
       saveCase:true,//是否保存了病历
       userId:null,
@@ -214,6 +215,7 @@ export default class AddConsultation extends Component{
       docList:[],//所有的医生列表
       docKeys:[],//确定时的会诊医生弹出框右边的index
       docId:[],//选中的医生的要上传的格式
+      docUserId:[],//选中的医生的要上传的格式
       targetdoc:[],//选中的医生信息
       fileList:null,//显示的上传文件集合,
       dis:false
@@ -232,17 +234,11 @@ export default class AddConsultation extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      let getData=that.state.getData;
-       getData.consultation.hospital=response.data.result[0].hospitalName;
-       getData.consultation.applicant=response.data.result[0].applyName;
-       console.log(getData.consultation.hospital);
-       console.log(getData.consultation.applicant);
       that.setState({
-        getData
-      })
-    }).catch(function () {
+        hospitalId:response.data.result[0].hospitalId
 
-    });
+      })
+    })
   }
   getValue(){
     let that=this;
@@ -294,7 +290,7 @@ export default class AddConsultation extends Component{
         userId:getData.consultation.userId
       });
       //因为异步的原因，所以只能在回调函数里面放数据请求了
-      // that.getPeople();
+       that.getPeople();
 
       axios.request({
         url: '/api/conference/doctor',
@@ -396,11 +392,46 @@ export default class AddConsultation extends Component{
 
   handleChange(targetKeys){
 
+    let docUserId=[];
+    let targetKey=targetKeys;
+    let num=0;
+    this.state.docList.map((ele,index)=>{
+      if(targetKey.indexOf(ele.doctorId)!==-1){
+        let obj={};
+        obj.user=ele.userId.toString()
+        obj.hospitalId=ele.hospitalId.toString()
+        docUserId.push(obj)
+      }
+    });
+
+    docUserId.map((ele)=>{
+      if(ele.hospitalId===this.state.hospitalId.toString()){
+        num++
+      }
+    });
+    if(num>1){
+      message.warning("同一医院只能选择一名医生!")
+    }
+
     this.setState({
       targetKeys,
+      docUserId
     });
   };
   queDing(){
+    let num=0;
+    this.state.docUserId.map((ele)=>{
+      if(ele.hospitalId===this.state.hospitalId.toString()){
+        num++
+      }
+    });
+    if(num>1){
+      message.error('同一医院只能选择一名医生!');
+      return false
+    }else if(num===0){
+      message.error('本医院医生未选择!');
+      return false
+    }
     let targetKeys=this.state.targetKeys;
     let arr=[];
     let targetTitle=[];

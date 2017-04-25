@@ -1,5 +1,5 @@
 import React,{Component} from "react"
-import { Button,DatePicker,Input,Table,Transfer,Icon,Upload  } from 'antd';
+import { Button,DatePicker,Input,Table,Transfer,Icon,Upload,message  } from 'antd';
 import { Link } from 'react-router';
 import "../../../less/editCnsulation.less"
 import axios from 'axios';
@@ -120,6 +120,7 @@ export default class EditCnsulation extends Component{
       mockData: [],//会诊医生弹出框左边的选项
       targetTitle:[],//确定按钮的中间变量，点击确定才把医生放到input框
       targetKeys: [],//会诊医生弹出框右边的选项
+      hospitalId:null,
       //以上是  呵呵呵呵呵
       history1:allData.case[0],//当前显示的病历
       history1Index:0,//当前显示的病历的下标
@@ -163,7 +164,7 @@ export default class EditCnsulation extends Component{
           title: '操作',
           key: 'action',
           render: (text, record,index) => (
-            <span>
+            <span key={index}>
                 {
                   this.state.history1.statusId?<span>
                     {
@@ -207,7 +208,7 @@ export default class EditCnsulation extends Component{
           title: '操作',
           key: 'action',
           render: (text, record,index) => (
-            <span>
+            <span key={index}>
                 <a href={record.url} target="blank" className="apply_link">查看</a>
               {
                 this.state.history1.statusId?<Link to="" onClick={this.deleteFile.bind(this,record.id,index)} className="apply_link">删除</Link>:""
@@ -255,17 +256,11 @@ export default class EditCnsulation extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      let getData=that.state.getData;
-      getData.consultation.hospital=response.data.result[0].hospitalName;
-      getData.consultation.applicant=response.data.result[0].applyName;
-      console.log(getData.consultation.hospital);
-      console.log(getData.consultation.applicant);
       that.setState({
-        getData
-      })
-    }).catch(function () {
+        hospitalId:response.data.result[0].hospitalId
 
-    });
+      })
+    })
   }
 
   getValue(){
@@ -324,7 +319,7 @@ export default class EditCnsulation extends Component{
         checkData
       });
       //因为异步的原因，所以只能在回调函数里面放数据请求了
-      // that.getPeople();
+       that.getPeople();
       axios.request({
         url: '/api/conference/doctor',
         method: 'get',
@@ -390,7 +385,7 @@ export default class EditCnsulation extends Component{
     window.addEventListener('keydown', this.handleKeyDown.bind(this))
   }
   handleKeyDown(e){
-    if(e.keyCode==27){
+    if(e.keyCode===27){
       this.setState({
         showPrescription:false,
       })
@@ -427,19 +422,45 @@ export default class EditCnsulation extends Component{
 
   handleChange(targetKeys){
     let docUserId=[];
+    let targetKey=targetKeys;
+    let num=0;
     this.state.docList.map((ele,index)=>{
-      if(targetKeys.indexOf(ele.doctorId)!==-1){
+      if(targetKey.indexOf(ele.doctorId)!==-1){
         let obj={};
-        obj.user=ele.userId.toString()
+        obj.user=ele.userId.toString();
+        obj.hospitalId=ele.hospitalId.toString();
         docUserId.push(obj)
       }
     });
+
+    docUserId.map((ele)=>{
+      if(ele.hospitalId===this.state.hospitalId.toString()){
+        num++
+      }
+    });
+    if(num>1){
+      message.warning("同一医院只能选择一名医生!")
+    }
+
     this.setState({
       targetKeys,
       docUserId
     });
   };
   queDing(){
+    let num=0;
+    this.state.docUserId.map((ele)=>{
+      if(ele.hospitalId===this.state.hospitalId.toString()){
+        num++
+      }
+    });
+    if(num>1){
+      message.error('同一医院只能选择一名医生!');
+      return false
+    }else if(num===0){
+      message.error('本医院医生未选择!');
+      return false
+    }
     let targetKeys=this.state.targetKeys;
     let arr=[];
     let targetTitle=[];
@@ -1144,7 +1165,7 @@ export default class EditCnsulation extends Component{
     let history1=getData.case[this.state.history1Index];
     let history2=history1.advice?history1.advice[index]:null;
     let data=history2?history2.prescription:[];
-    let saveAdvice=history2?false:true;
+    let saveAdvice=!history2;
     if(data==false){
       data.push(this.state.oldData)
     }
@@ -1285,7 +1306,7 @@ export default class EditCnsulation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
-              <DatePicker showTime  allowClear={false}  value={moment(this.state.getData.consultation.startTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
+              <DatePicker showTime open={false}  allowClear={false}  value={moment(this.state.getData.consultation.startTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
 
             </li>
           </ul>
@@ -1305,7 +1326,7 @@ export default class EditCnsulation extends Component{
             </li>
             <li>
               <span className="most_flex">出生日期</span>
-              <DatePicker  allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
+              <DatePicker open={false}   allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.onChange} />
             </li>
           </ul>
 
@@ -1495,7 +1516,7 @@ export default class EditCnsulation extends Component{
               }
 
 
-              <Table  rowKey="fid" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />
+              <Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />
             </div>:""
           }
 

@@ -201,18 +201,21 @@ export default class LookConsultationTask extends Component{
           key: 'checkTime',
           render: (text) => (
             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
-          )
+          ),
+          width:"126px"
 
         },
         {
           title: '操作人',
           dataIndex: 'assistantName',
           key: 'assistantName',
+          width:"114px"
         },
         {
           title: '审核结果',
           dataIndex: 'checkResult',
           key: 'checkResult',
+          width:"114px"
         },
         {
           title: '退回原因',
@@ -228,17 +231,20 @@ export default class LookConsultationTask extends Component{
           key: 'creatTime',
           render: (text) => (
             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
-          )
+          ),
+          width:"126px"
         },
         {
           title: '操作人',
           dataIndex: 'doctorName',
           key: 'doctorName',
+          width:"114px"
         },
         {
-          title: '上传附件',
+          title: '附件',
           dataIndex: 'docName',
           key: 'docName',
+          width:"124px"
         },
         {
           title: '会诊结论',
@@ -259,6 +265,7 @@ export default class LookConsultationTask extends Component{
               }
             </span>
           ),
+          width:"114px"
         }
       ],
       conclusion:[],
@@ -305,7 +312,7 @@ export default class LookConsultationTask extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      alert("删除成功")
+      message.success("删除成功")
       let getData=that.state.getData;
       let conclusion=that.state.conclusion;
       conclusion.splice(index,1);
@@ -385,10 +392,12 @@ export default class LookConsultationTask extends Component{
       let getData=response.data;
       let data=[];
 
-      if(getData.case&&getData.case!=false&&getData.case[0].advice!=false){
-        getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
-          data.push(ele);
-        }):"";
+      if(getData.case&&getData.case!=false){
+        if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+          getData.case[0].advice[0].prescription.map((ele)=>{
+            data.push(ele);
+          });
+        }
       }else{
         getData.case=allData.case;
         getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
@@ -416,7 +425,6 @@ export default class LookConsultationTask extends Component{
 
 
     }).catch(function () {
-      alert(1)
     });
 
     //页面加载时获取医生列表
@@ -444,18 +452,13 @@ export default class LookConsultationTask extends Component{
   changeText(e){
     let Text=this.state.fujianText;
     Text=e.target.value;
+    if(Text.length>=120){
+      message.warning("结论字数120字以内")
+    }
     this.setState({
       fujianText:Text
     })
   }
-  changeReturn(e){
-    let returnReason=this.state.returnReason;
-    returnReason=e.target.value;
-    this.setState({
-      returnReason
-    })
-  }
-
   huizhenjielun(){
     this.setState({
       isShow:true
@@ -479,13 +482,13 @@ export default class LookConsultationTask extends Component{
       }
     }).then(function (response) {
       if(response.data.code===200){
-        alert("结束会诊成功");
+        message.success("结束会诊成功");
         location.hash="task/consultationTask"
       }else if(response.data.code===1){
-        alert("结束会诊失败,无权限结束");
+        message.error("结束会诊失败,无权限结束");
       }
     }).catch(function () {
-      alert("结束会诊操作失败")
+      message.error("结束会诊操作失败")
     })
   }
   quxiaoFujian(){
@@ -502,7 +505,11 @@ export default class LookConsultationTask extends Component{
       url:this.state.fileUrl   //附件URL
     };
     if(!data.message){
-      alert("会诊结论不能为空!");
+      message.warning("会诊结论不能为空!");
+      return false
+    }
+    if(data.message.length>=120){
+      message.error("结论字数120字以内!");
       return false
     }
     axios({
@@ -514,7 +521,7 @@ export default class LookConsultationTask extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       }
     }).then(function (response) {
-      alert("添加会诊结论成功");
+      message.success("添加会诊结论成功");
       let obj={};
       obj.id=response.data.result.id;
       obj.creatTime=startTime;
@@ -527,7 +534,6 @@ export default class LookConsultationTask extends Component{
         }
       });
       obj.doc=that.state.fileUrl;
-      console.log(obj)
       let getData=that.state.getData;
       let conclusion=that.state.conclusion;
       getData.conclusion=conclusion;
@@ -630,15 +636,15 @@ export default class LookConsultationTask extends Component{
           <ul className="search_ul">
             <li>
               <span className="most_flex">隶属医院</span>
-              <Input value={this.state.getData.consultation.hospitalname} className="search_input" size="large" placeholder="隶属医院" />
+              <Input readOnly value={this.state.getData.consultation.hospitalname} className="search_input" size="large" placeholder="隶属医院" />
             </li>
             <li>
               <span className="most_flex">会诊申请人</span>
-              <Input value={this.state.getData.consultation.applyName} className="search_input" size="large" placeholder="会诊申请人" />
+              <Input readOnly value={this.state.getData.consultation.applyName} className="search_input" size="large" placeholder="会诊申请人" />
             </li>
             <li>
               <span className="most_flex">会诊名称</span>
-              <Input value={this.state.getData.consultation.consultationName} className="search_input" size="large" placeholder="会诊名称" required  />
+              <Input readOnly value={this.state.getData.consultation.consultationName} className="search_input" size="large" placeholder="会诊名称" required  />
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
@@ -650,15 +656,15 @@ export default class LookConsultationTask extends Component{
           <ul className="search_ul">
             <li>
               <span className="most_flex">会诊对象</span>
-              <Input value={this.state.getData.consultation.username} className="search_input" size="large" placeholder="会诊对象" required  />
+              <Input readOnly value={this.state.getData.consultation.username} className="search_input" size="large" placeholder="会诊对象" required  />
             </li>
             <li>
               <span className="most_flex">手机号</span>
-              <Input value={this.state.getData.consultation.phone} className="search_input" size="large" placeholder="手机号" required   />
+              <Input readOnly value={this.state.getData.consultation.phone} className="search_input" size="large" placeholder="手机号" required   />
             </li>
             <li>
               <span className="most_flex">身份证号</span>
-              <Input value={this.state.getData.consultation.identification} className="search_input" size="large" placeholder="身份证号" required  />
+              <Input readOnly value={this.state.getData.consultation.identification} className="search_input" size="large" placeholder="身份证号" required  />
             </li>
             <li>
               <span className="most_flex">出生日期</span>
@@ -669,11 +675,11 @@ export default class LookConsultationTask extends Component{
           <ul className="search_ul">
             <li>
               <span className="most_flex">陪护家属</span>
-              <Input value={this.state.getData.consultation.famliyName} className="search_input" size="large" placeholder="陪护家属" />
+              <Input readOnly value={this.state.getData.consultation.famliyName} className="search_input" size="large" placeholder="陪护家属" />
             </li>
             <li>
               <span className="most_flex">手机号</span>
-              <Input value={this.state.getData.consultation.familyPhone} className="search_input" size="large" placeholder="手机号" />
+              <Input readOnly value={this.state.getData.consultation.familyPhone} className="search_input" size="large" placeholder="手机号" />
             </li>
 
             <li>
@@ -686,7 +692,7 @@ export default class LookConsultationTask extends Component{
           <ul className="search_ul2">
             <li>
               <span className="most_flex1">会诊描述</span>
-              <Input value={this.state.getData.consultation.content} className="search_input" type="textarea" rows={4} />
+              <Input readOnly value={this.state.getData.consultation.content} className="search_input" type="textarea" rows={4} />
             </li>
           </ul>
 
@@ -711,7 +717,7 @@ export default class LookConsultationTask extends Component{
             <ul className="search_ul">
               <li>
                 <span className="most_flex">病例编号</span>
-                <Input value={this.state.history1.sn} className="search_input" size="large" placeholder="病例编号" />
+                <Input readOnly value={this.state.history1.sn} className="search_input" size="large" placeholder="病例编号" />
               </li>
               <li>
               </li>
@@ -726,15 +732,15 @@ export default class LookConsultationTask extends Component{
             <ul className="search_ul">
               <li>
                 <span className="most_flex">病例医院</span>
-                <Input value={this.state.history1.hospital} className="search_input" size="large" placeholder="病例医院" required  />
+                <Input readOnly value={this.state.history1.hospital} className="search_input" size="large" placeholder="病例医院" required  />
               </li>
               <li>
                 <span className="most_flex">主治医生</span>
-                <Input value={this.state.history1.doctor} className="search_input" size="large" placeholder="主治医生" required   />
+                <Input readOnly value={this.state.history1.doctor} className="search_input" size="large" placeholder="主治医生" required   />
               </li>
               <li>
                 <span className="most_flex">病例名称</span>
-                <Input value={this.state.history1.name} className="search_input" size="large" placeholder="病例名称" required  />
+                <Input readOnly value={this.state.history1.name} className="search_input" size="large" placeholder="病例名称" required  />
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>
@@ -745,7 +751,7 @@ export default class LookConsultationTask extends Component{
             <ul className="search_ul2">
               <li>
                 <span className="most_flex1">临床诊断</span>
-                <Input value={this.state.history1.diagnosis}  className="search_input" type="textarea" rows={4} />
+                <Input readOnly value={this.state.history1.diagnosis}  className="search_input" type="textarea" rows={4} />
               </li>
             </ul>
           </div>
@@ -769,11 +775,11 @@ export default class LookConsultationTask extends Component{
               <ul className="search_ul">
                 <li>
                   <span className="most_flex">医嘱医院</span>
-                  <Input value={this.state.history2.hospital?this.state.history2.hospital:""} className="search_input" size="large" placeholder="医嘱医院" />
+                  <Input readOnly value={this.state.history2.hospital?this.state.history2.hospital:""} className="search_input" size="large" placeholder="医嘱医院" />
                 </li>
                 <li>
                   <span className="most_flex">医嘱医生</span>
-                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""} className="search_input" size="large" placeholder="医嘱医生" />
+                  <Input readOnly value={this.state.history2.doctor?this.state.history2.doctor:""} className="search_input" size="large" placeholder="医嘱医生" />
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
@@ -785,7 +791,7 @@ export default class LookConsultationTask extends Component{
               <ul className="search_ul2">
                 <li>
                   <span className="most_flex1">医嘱</span>
-                  <Input value={this.state.history2.advice?this.state.history2.advice:""}  className="search_input" type="textarea" rows={4} />
+                  <Input readOnly value={this.state.history2.advice?this.state.history2.advice:""}  className="search_input" type="textarea" rows={4} />
                 </li>
               </ul>
 
@@ -822,7 +828,7 @@ export default class LookConsultationTask extends Component{
             this.state.targetdoc&&this.state.targetdoc!=false? <ul className="search_ul2">
               <li className="search_li_last">
                 <span className="one_title">会诊医生</span>
-                <Input value={
+                <Input readOnly value={
                   this.state.targetdoc.map((ele)=>{
                     return ele.doctorName
                   })
@@ -852,7 +858,7 @@ export default class LookConsultationTask extends Component{
           <div className="conclusion_show">
                 <span className="one_title">结论记录</span>
                 <span className="one_title">
-                  <button className="btn_huizhen" onClick={()=>this.huizhenjielun()}>会诊结论</button>
+                  <button className="btn_huizhen" onClick={()=>this.huizhenjielun()}>新增结论</button>
                 </span>
                 <Table rowKey="id" className="search_input search_input_task"  columns={this.state.conclusionColumns} dataSource={this.state.conclusion} />
           </div>

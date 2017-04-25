@@ -148,17 +148,20 @@ export default class EditCnsulation extends Component{
           key: 'checkTime',
           render: (text) => (
             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
-          )
+          ),
+          width:"126px"
         },
         {
           title: '操作人',
           dataIndex: 'assistantName',
           key: 'assistantName',
+          width:"126px"
         },
         {
           title: '审核结果',
           dataIndex: 'checkResult',
           key: 'checkResult',
+          width:"126px"
         },
         {
           title: '退回原因',
@@ -174,12 +177,14 @@ export default class EditCnsulation extends Component{
           key: 'creatTime',
           render: (text) => (
             <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
-          )
+          ),
+          width:"126px"
         },
         {
           title: '操作人',
           dataIndex: 'doctorName',
           key: 'doctorName',
+          width:"126px"
         },
         {
           title: '会诊结论',
@@ -194,6 +199,7 @@ export default class EditCnsulation extends Component{
                <a href={record.doc} download={record.docName}>下载</a>
             </span>
           ),
+          width:"126px"
         }
       ],
       conclusion:[],

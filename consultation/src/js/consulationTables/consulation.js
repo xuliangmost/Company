@@ -7,7 +7,7 @@ let token=localStorage.getItem("robertUserName");
 import "../../less/editCnsulation.less"
 
 const url=["","/api/conference/summary/apply","/api/conference/summary/check","/api/conference/summary/mission"];
-let listValue=["全部","待提交","待审核","待会诊","已退回","已作废"];
+let listValue=["全部","待提交","待审核","待会诊","已退回","已作废","已结束"];
 let statValue=["","会诊申请","会诊审核","会诊任务"];
 export default class Consulation extends Component{
     constructor(props){
@@ -24,7 +24,6 @@ export default class Consulation extends Component{
           strDate = "0" + strDate;
         }
         return (date.getFullYear())
-
       })();
       this.state={
         applyPage:{
@@ -153,7 +152,6 @@ export default class Consulation extends Component{
       let total=0;
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
-      console.log()
       //第一个接口
       axios.request({
         url:"/api/conference/summary",
@@ -178,7 +176,6 @@ export default class Consulation extends Component{
   }
 
   selectStage(value){//选中阶段
-    console.log(value)
     this.setState({
       status:value
     })
@@ -191,7 +188,7 @@ export default class Consulation extends Component{
     })
   }
   selectState(value){//选中状态
-     if(value==0){
+     /*if(value==0){
        let dataSource=this.state.dataSourceFather;
        this.setState({
          dataSource
@@ -203,7 +200,21 @@ export default class Consulation extends Component{
        this.setState({
          dataSource
        })
-     }
+     }*/
+    if(value==0){
+      let applyPage=this.state.applyPage;
+      delete applyPage.status;
+      this.setState({
+        applyPage:applyPage
+      });
+    }else{
+      let applyPage=this.state.applyPage;
+      applyPage.status=value;
+      this.setState({
+        applyPage:applyPage
+      });
+    }
+
     this.setState({
       stage:value
     })
@@ -335,7 +346,6 @@ export default class Consulation extends Component{
               </li>
               <li>
                 <span className="most_flex">会诊状态</span>
-
                  <Select optionFilterProp="children" className="search_input" onChange={this.selectState.bind(this)}  defaultValue="全部">
                     <Option value="0">全部</Option>
                     <Option value="1">待提交</Option>
@@ -343,6 +353,7 @@ export default class Consulation extends Component{
                     <Option value="4">已退回</Option>
                     <Option value="3">待会诊</Option>
                     <Option value="5">已作废</Option>
+                    <Option value="6">已结束</Option>
                   </Select>
 
               </li>
