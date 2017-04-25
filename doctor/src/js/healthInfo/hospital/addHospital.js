@@ -341,7 +341,7 @@ export default class AddHospital extends Component{
               <span className="name">
                 地址
               </span>
-                <Input onChange={this.changeAddress.bind(this)} className="" size="large" placeholder="联系人地址" />
+                <Input onChange={this.changeAddress.bind(this)} className="" size="large" placeholder="医院地址" />
               </li>
 
               <li>
