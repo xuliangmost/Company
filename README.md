@@ -36,8 +36,10 @@
 ----apply 会议申请模块
 ------check 会议审核模块
 ------invalid 作废会诊模块
-------
-------
+
+
+------webpack setting
+------https://webpack.js.org/guides/code-splitting-libraries/
 
 
 
