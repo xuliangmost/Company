@@ -7,11 +7,12 @@ module.exports = {
     __dirname + '/src/routes/output.js',//要编译的js文件
   ],*/
   entry:{
-    main: './src/routes/output.js'
+    'main':'./src/routes/output.js',
+    'user':['react','react-dom','antd']
   },
   // 出口
   output: {
-    path: path.resolve(__dirname, './static/output'),
+    path: __dirname+'/static/lib',
     filename: '[name].[chunkhash].js',
   },
   module: {
@@ -48,6 +49,12 @@ module.exports = {
       }
     }),
     new webpack.optimize.UglifyJsPlugin(),*/
+    new HtmlWebpackPlugin({
+      filename: __dirname+'/static/lib/index.html',//生成html的路径，名字
+      template:__dirname+'/static/index.html',//按照哪个html模板渲染
+      inject:'body',
+      hash:true
+    }),//把html打包
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {
@@ -64,13 +71,8 @@ module.exports = {
     }),
 
 
-    
-    new HtmlWebpackPlugin({
-      filename: __dirname+'/static/output/index.html',//生成html的路径，名字
-      template:__dirname+'/static/index.html',//按照哪个html模板渲染
-      inject:'head',
-      hash:true
-    })//把html打包
+
+
 
   ],
 
