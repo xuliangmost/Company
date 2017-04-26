@@ -1000,7 +1000,9 @@ export default class AddConsultation extends Component{
       alert("出生日期不能为空!");
       return false
     }
-
+    if(!postConsulation.birthday){
+      postConsulation.birthday=startTime
+    }
 
     postConsulation.userId=this.state.userId?this.state.userId.toString().toString():"";
     delete postConsulation.id;

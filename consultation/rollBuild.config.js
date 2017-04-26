@@ -1,18 +1,17 @@
 var webpack = require('webpack');
-var ET = require('extract-text-webpack-plugin');//css合并抽离
-var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ET = require('extract-text-webpack-plugin');//css合并抽离
 module.exports = {
   /*entry: [
     __dirname + '/src/routes/output.js',//要编译的js文件
   ],*/
-  entry:{
-    'main':'./src/routes/output.js',
-    'user':['react','react-dom','antd']
-  },
+  entry:
+    {
+      'main':'./src/routes/output.js'
+    },
   // 出口
   output: {
-    path: __dirname+'/static/lib',
+    path: __dirname + '/static/lib',
     filename: '[name].[chunkhash].js',
   },
   module: {
@@ -25,6 +24,10 @@ module.exports = {
       {
         test: /\.css$/,
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader' })
+      },
+      {
+        test: /\.scss$/,
+        loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' })
       },
       {
         test: /\.less$/,
@@ -43,37 +46,24 @@ module.exports = {
     ]
   },
   plugins: [
-    /*new webpack.DefinePlugin({
+    new HtmlWebpackPlugin({
+      filename: __dirname+'/static/lib',
+      template:__dirname+'/static/index.html',
+      inject:'body',
+      hash:true,
+      chunks:['main','common.js']   // 这个模板对应上面那个节点
+    }),
+    new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin(),*/
-    new HtmlWebpackPlugin({
-      filename: __dirname+'/static/lib/index.html',//生成html的路径，名字
-      template:__dirname+'/static/index.html',//按照哪个html模板渲染
-      inject:'body',
-      hash:true
-    }),//把html打包
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module) {
-        // this assumes your vendor imports exist in the node_modules directory
-        return module.context && module.context.indexOf('node_modules') !== -1;
-      }//切割代码  生成多个js
-    }),
-
-
-
+    new webpack.optimize.UglifyJsPlugin(),
     new ET({
       filename: 'index.css',
       allChunks: true
     }),
-
-
-
-
-
+    new webpack.optimize.CommonsChunkPlugin('common.js')
   ],
 
 };

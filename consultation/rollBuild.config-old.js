@@ -21,6 +21,10 @@ module.exports = {
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader' })
       },
       {
+        test: /\.scss$/,
+        loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' })
+      },
+      {
         test: /\.less$/,
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' })
       },

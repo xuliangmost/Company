@@ -335,7 +335,7 @@ export default class Consulation extends Component{
                 <span className="most_flex">手机号</span>
                 <Input onChange={this.changeAPhone.bind(this)} className="search_input" size="large" placeholder="会诊对象" />
               </li>
-              <li>
+              {/*<li>
                 <span className="most_flex">会诊阶段</span>
                 <Select optionFilterProp="children" className="search_input" onChange={this.selectStage.bind(this)}  defaultValue="全部">
                   <Option value="0">全部</Option>
@@ -343,7 +343,8 @@ export default class Consulation extends Component{
                   <Option value="2">会诊审核</Option>
                   <Option value="3">会诊任务</Option>
                 </Select>
-              </li>
+              </li>*/}
+
               <li>
                 <span className="most_flex">会诊状态</span>
                  <Select optionFilterProp="children" className="search_input" onChange={this.selectState.bind(this)}  defaultValue="全部">
@@ -355,6 +356,9 @@ export default class Consulation extends Component{
                     <Option value="5">已作废</Option>
                     <Option value="6">已结束</Option>
                   </Select>
+
+              </li>
+              <li>
 
               </li>
             </ul>

@@ -2,24 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf0a397e-7b26-46c3-a3de-ac789fc7b810" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/consultation/新增会诊.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/consultation/破解码.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/system/node_modules__1.rar" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/NewConsultation.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/NewConsultation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/daiShen/daiShen.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/daiShen/daiShen.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/editCnsultation.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/editCnsultation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/apply/return/editReturn.js" afterPath="$PROJECT_DIR$/consultation/src/js/apply/return/editReturn.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/checked/checked.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/checked/checked.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/checked/lookChecked.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/checked/lookChecked.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/hadReturn.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/hadReturn.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/lookHadReturn.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/hadReturn/lookHadReturn.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/waitCheck.js" afterPath="$PROJECT_DIR$/consultation/src/js/check/waitCheck/waitCheck.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/consulationTables/consulation.js" afterPath="$PROJECT_DIR$/consultation/src/js/consulationTables/consulation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/consulationTables/lookConsulation.js" afterPath="$PROJECT_DIR$/consultation/src/js/consulationTables/lookConsulation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/task/consultationTask.js" afterPath="$PROJECT_DIR$/consultation/src/js/task/consultationTask.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js" afterPath="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/src/tools/checked.js" afterPath="$PROJECT_DIR$/consultation/src/tools/checked.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/package.json" afterPath="$PROJECT_DIR$/consultation/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/rollBuild.config.js" afterPath="$PROJECT_DIR$/consultation/rollBuild.config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/server.js" afterPath="$PROJECT_DIR$/consultation/server.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consultation/webpack.config.js" afterPath="$PROJECT_DIR$/consultation/webpack.config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doctor/webpack.config.js" afterPath="$PROJECT_DIR$/doctor/webpack.config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/webpack.config.js" afterPath="$PROJECT_DIR$/system/webpack.config.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -33,25 +23,35 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="lookConsultationTask.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/consultation/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="114" column="8" lean-forward="false" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
+            <state relative-caret-position="437">
+              <caret line="23" column="14" lean-forward="false" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="output.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/consultation/src/routes/output.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="456">
+              <caret line="41" column="24" lean-forward="false" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
               <folding>
-                <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#436#1167#0" expanded="false" />
-                <element signature="e#1185#2365#0" expanded="false" />
-                <element signature="e#1598#2325#0" expanded="false" />
-                <element signature="e#2983#3652#0" expanded="false" />
-                <element signature="e#3698#4309#0" expanded="false" />
-                <element signature="e#4403#4980#0" expanded="false" />
-                <element signature="e#5029#6036#0" expanded="false" />
-                <element signature="e#6073#6315#0" expanded="false" />
-                <element signature="e#6349#6576#0" expanded="false" />
-                <element signature="e#8036#8485#0" expanded="false" />
+                <element signature="e#1792#2919#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/consultation/webpack.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1178">
+              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,8 +98,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/doctor/src/js/healthInfo/hospital/editHospital.js" />
-        <option value="$PROJECT_DIR$/consultation/server.js" />
         <option value="$PROJECT_DIR$/doctor/server.js" />
         <option value="$PROJECT_DIR$/system/server.js" />
         <option value="$PROJECT_DIR$/system/src/js/rolemgmt/rolemgmt.js" />
@@ -149,6 +147,8 @@
         <option value="$PROJECT_DIR$/doctor/webpack.config.js" />
         <option value="$PROJECT_DIR$/system/webpack.config.js" />
         <option value="$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js" />
+        <option value="$PROJECT_DIR$/consultation/rollBuild.config.js" />
+        <option value="$PROJECT_DIR$/consultation/server.js" />
       </list>
     </option>
   </component>
@@ -215,34 +215,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Company" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Company" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="doctor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Company" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Company" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="consultation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -283,40 +255,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="task" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Company" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Company" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="consultation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="routes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -325,7 +271,7 @@
     <property name="JavaScriptPreferStrict" value="false" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../todos" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../huiZhen" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -333,11 +279,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Desktop\新建文件夹\Company\doctor" />
       <recent name="C:\Users\Administrator\Desktop\Company\system\src\common" />
       <recent name="C:\Users\Administrator\Desktop\Company\consultation\src\common" />
       <recent name="C:\Users\Administrator\Desktop\Company\doctor\src\js\healthInfo\hospital" />
       <recent name="C:\Users\Administrator\Desktop\Company\consultation\src\js\check\checked" />
-      <recent name="C:\Users\Administrator\Desktop\Company\consultation\src\js\check\hadReturn" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -440,23 +386,25 @@
       <workItem from="1492737226928" duration="13000" />
       <workItem from="1492737268786" duration="16677000" />
       <workItem from="1492996684272" duration="16686000" />
+      <workItem from="1493168195552" duration="1145000" />
+      <workItem from="1493169389994" duration="643000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="180890000" />
+    <option name="totallyTimeSpent" value="182678000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1088" y="-656" width="1096" height="1936" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24537037" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21296297" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30800405" sideWeight="0.50416666" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16593647" sideWeight="0.49583334" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1637459" sideWeight="0.49583334" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -523,7 +471,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/consultation/src/js/task/lookConsultationTask.js</url>
           <line>611</line>
-          <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
@@ -532,41 +479,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/system/src/js/rolemgmt/editRoleMgmt.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="48" column="13" lean-forward="true" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/editDoctorl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="215" column="3" lean-forward="true" selection-start-line="215" selection-start-column="3" selection-end-line="215" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/addDoctorl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="181" column="33" lean-forward="false" selection-start-line="181" selection-start-column="33" selection-end-line="181" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doctor/src/js/healthInfo/doctor/doctor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1596">
-          <caret line="154" column="0" lean-forward="true" selection-start-line="154" selection-start-column="0" selection-end-line="154" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/addUsrMgmt.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/src/js/usrmgmt/editUsrMgmt.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -686,13 +598,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="802">
           <caret line="1442" column="81" lean-forward="false" selection-start-line="1442" selection-start-column="81" selection-end-line="1442" selection-end-column="81" />
-          <folding>
-            <element signature="e#784#1974#0" expanded="false" />
-            <element signature="e#2843#4263#0" expanded="false" />
-            <element signature="e#4288#5292#0" expanded="false" />
-            <element signature="e#5308#5550#0" expanded="false" />
-            <element signature="e#5564#5791#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -728,7 +633,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="204" column="20" lean-forward="true" selection-start-line="204" selection-start-column="20" selection-end-line="204" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -736,7 +640,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1037">
           <caret line="200" column="25" lean-forward="false" selection-start-line="200" selection-start-column="25" selection-end-line="200" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -744,7 +647,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="696">
           <caret line="203" column="17" lean-forward="true" selection-start-line="203" selection-start-column="17" selection-end-line="203" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -759,7 +661,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1045">
           <caret line="59" column="12" lean-forward="false" selection-start-line="56" selection-start-column="10" selection-end-line="59" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -767,7 +668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="896">
           <caret line="160" column="0" lean-forward="true" selection-start-line="160" selection-start-column="0" selection-end-line="160" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -775,7 +675,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5643">
           <caret line="379" column="8" lean-forward="true" selection-start-line="379" selection-start-column="8" selection-end-line="379" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -801,7 +700,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
           <caret line="41" column="13" lean-forward="false" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -809,7 +707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
           <caret line="102" column="14" lean-forward="false" selection-start-line="93" selection-start-column="10" selection-end-line="102" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -817,7 +714,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1162">
           <caret line="657" column="49" lean-forward="false" selection-start-line="657" selection-start-column="49" selection-end-line="657" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -825,13 +721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1243">
           <caret line="1528" column="24" lean-forward="true" selection-start-line="1528" selection-start-column="24" selection-end-line="1528" selection-end-column="24" />
-          <folding>
-            <element signature="e#333#1522#0" expanded="false" />
-            <element signature="e#3315#4771#0" expanded="false" />
-            <element signature="e#4796#5757#0" expanded="false" />
-            <element signature="e#5773#6015#0" expanded="false" />
-            <element signature="e#6029#6256#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -839,15 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="76" column="11" lean-forward="true" selection-start-line="76" selection-start-column="11" selection-end-line="76" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consultation/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -855,7 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
           <caret line="37" column="20" lean-forward="true" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -863,18 +742,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consultation/src/routes/output.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="41" column="24" lean-forward="true" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
-          <folding>
-            <element signature="e#1040#1078#0" expanded="true" />
-            <element signature="e#1792#2919#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -882,7 +749,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="5" column="33" lean-forward="false" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -890,7 +756,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="962">
           <caret line="186" column="23" lean-forward="false" selection-start-line="186" selection-start-column="23" selection-end-line="186" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -898,7 +763,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="793">
           <caret line="670" column="0" lean-forward="true" selection-start-line="670" selection-start-column="0" selection-end-line="670" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -906,23 +770,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-21318">
           <caret line="79" column="0" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#831#2021#0" expanded="false" />
-            <element signature="e#2894#4230#0" expanded="false" />
-            <element signature="e#4255#5310#0" expanded="false" />
-            <element signature="e#5326#5568#0" expanded="false" />
-            <element signature="e#5582#5809#0" expanded="false" />
-            <element signature="e#8244#9653#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consultation/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1330">
-          <caret line="67" column="2" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -930,7 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1349">
           <caret line="68" column="0" lean-forward="true" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -938,7 +784,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1349">
           <caret line="68" column="0" lean-forward="true" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -947,18 +792,69 @@
         <state relative-caret-position="304">
           <caret line="114" column="8" lean-forward="false" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="false" />
             <element signature="e#436#1167#0" expanded="false" />
             <element signature="e#1185#2365#0" expanded="false" />
             <element signature="e#1598#2325#0" expanded="false" />
             <element signature="e#2983#3652#0" expanded="false" />
             <element signature="e#3698#4309#0" expanded="false" />
-            <element signature="e#4403#4980#0" expanded="false" />
-            <element signature="e#5029#6036#0" expanded="false" />
-            <element signature="e#6073#6315#0" expanded="false" />
-            <element signature="e#6349#6576#0" expanded="false" />
-            <element signature="e#8036#8485#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/node_modules/q/q.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="38" column="30" lean-forward="true" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doctor/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/.babelrc" />
+    <entry file="file://$PROJECT_DIR$/consultation/rollBuild.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="30" column="8" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="14" lean-forward="false" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/src/routes/output.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="41" column="24" lean-forward="false" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+          <folding>
+            <element signature="e#1792#2919#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consultation/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1178">
+          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

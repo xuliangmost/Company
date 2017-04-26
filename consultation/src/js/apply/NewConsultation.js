@@ -994,7 +994,9 @@ export default class NewConsultation extends Component{
       alert("身份证号不能为空或身份证号格式填写错误!");
       return false
     }
-
+    if(!postConsulation.birthday){
+      postConsulation.birthday=startTime
+    }
     postConsulation.userId=this.state.userId?this.state.userId.toString().toString():"";
     delete postConsulation.id;
     console.log(postConsulation);
