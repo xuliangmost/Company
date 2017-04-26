@@ -1,6 +1,7 @@
 dist
 node_modules
 consultation.
+lib
 .DS_Store
 .idea/
 *.iml

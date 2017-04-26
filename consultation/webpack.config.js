@@ -52,5 +52,4 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),//允许错误不打断程序
     // new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js')
   ],
-
 };
