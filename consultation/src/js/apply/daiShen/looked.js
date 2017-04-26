@@ -135,7 +135,7 @@ export default class Looked extends Component{
           render: (text, record) => (
             <span>
                <a  className="apply_link" href={record.url} download={record.fileName}>下载</a>
-               <a  className="apply_link" href={record.url}>查看</a>
+               <a  className="apply_link" href={record.url} target="blank">查看</a>
             </span>
           ),
         }

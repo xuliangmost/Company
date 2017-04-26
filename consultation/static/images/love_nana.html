@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>time</title>
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<style type="text/css">
+		.div1,.div3,.div4,.div5,.div6{
+			float: left;
+		}
+		.div1,.div4,.div5,.div6{
+			width: 100px;
+			height: 240px;
+			display: flex;
+			margin: 20px;
+		}
+
+		.div3,.div6{
+			width: 50px;
+			height: 400px;
+			display: flex;
+			flex-direction:column ;
+		}
+
+		.div1>.div2{
+			flex: 1;
+			display: flex;
+			flex-direction:column ;
+		}
+		.div1>.div2>.sp1{
+			flex:1;
+			text-align: center;
+			line-height: 50px;
+			transform: rotateZ(90deg);
+		}
+		.div1>.div2>.sp2{
+			flex:1;
+			text-align: center;
+			line-height: 50px;
+			transform: rotateZ(-90deg);
+		}
+
+
+
+		.div5>.div2{
+			flex: 1;
+			display: flex;
+			flex-direction:column ;
+		}
+		.div5>.div2>.sp1{
+			flex:1;
+			text-align: center;
+			transform: rotateZ(90deg);
+		}
+		.div5>.div2>.sp2{
+			flex:1;
+			text-align: center;
+			transform: rotateZ(90deg) rotateX(180deg);
+		}
+
+		.div4>.div2{
+			flex: 1;
+			display: flex;
+			flex-direction:column ;
+		}
+		.div4>.div2>.sp1{
+			flex:1;
+			text-align: center;
+			transform: rotateZ(-90deg);
+		}
+		.div4>.div2>.sp2{
+			flex:1;
+			text-align: center;
+			transform: rotateZ(90deg);
+		}
+
+
+
+
+		.div3>.div2{
+			flex: 1;
+			display: flex;
+			flex-direction:column ;
+		}
+		.div3>.div2:nth-of-type(1){
+			flex: 1;
+			display: flex;
+			flex-direction:column ;
+			transform: rotateZ(-180deg);
+		}
+		.div3>.div2>.sp1{
+			flex:1;
+			text-align: center;
+			
+			
+		}
+		.div3>.div2>.sp2{
+			flex:1;
+			text-align: center;
+		}
+
+
+
+
+		.div6>.div2{
+			flex: 1;
+			display: flex;
+			flex-direction:column ;
+			transform: rotateZ(180deg) rotateY(180deg);
+		}
+		.div6>.div2:nth-of-type(2){
+			flex: 1;
+			display: flex;
+			flex-direction:column ;
+			transform: rotateZ(-180deg) rotateX(180deg);
+		}
+		.div6>.div2>.sp1{
+			flex:1;
+			text-align: center;
+		}
+		.div6>.div2>.sp2{
+			flex:1;
+			text-align: center;
+			transform: rotateX(0deg) rotateY(180deg);
+		}
+	</style>
+</head>
+<body>
+<!-- <div style="height: 500px;width: 500px;background: blue" class="nana">
+	<div style="height: 300px;width: 300px;background: red" class="na">
+	</div>
+</div>
+	
+	<div id="nana" data-id="1"></div> -->
+	
+	<div class="div1">
+		<div class="div2">
+			<span class="sp1">我</span>
+			<span class="sp1">爱</span>
+			<span class="sp1">小</span>
+			<span class="sp1">娜</span>
+			<span class="sp1">娜</span>
+		</div>
+		<div class="div2">
+			<span class="sp2">我</span>
+			<span class="sp2">爱</span>
+			<span class="sp2">小</span>
+			<span class="sp2">娜</span>
+			<span class="sp2">娜</span>
+		</div>
+	</div>
+
+
+	<div class="div5">
+		<div class="div2">
+			<span class="sp1">I</span>
+			<span class="sp1">love</span>
+			<span class="sp1">you</span>
+			<span class="sp1">na</span>
+			<span class="sp1">na</span>
+		</div>
+		<div class="div2">
+			<span class="sp2">I</span>
+			<span class="sp2">love</span>
+			<span class="sp2">you</span>
+			<span class="sp2">na</span>
+			<span class="sp2">na</span>
+		</div>
+	</div>
+
+	<div class="div4">
+		<div class="div2">
+			<span class="sp1">我</span>
+			<span class="sp1">爱</span>
+			<span class="sp1">小</span>
+			<span class="sp1">娜</span>
+			<span class="sp1">娜</span>
+		</div>
+		<div class="div2">
+			<span class="sp2">我</span>
+			<span class="sp2">爱</span>
+			<span class="sp2">小</span>
+			<span class="sp2">娜</span>
+			<span class="sp2">娜</span>
+		</div>
+	</div>
+	<div class="div3">
+		<div class="div2">
+			<span class="sp1">我</span>
+			<span class="sp1">爱</span>
+			<span class="sp1">小</span>
+			<span class="sp1">娜</span>
+			<span class="sp1">娜</span>
+		</div>
+		<br/>
+		<br/>
+		<div class="div2">
+			<span class="sp2">我</span>
+			<span class="sp2">爱</span>
+			<span class="sp2">小</span>
+			<span class="sp2">娜</span>
+			<span class="sp2">娜</span>
+		</div>
+	</div>
+
+
+	<div class="div6">
+		<div class="div2">
+			<span class="sp1">I</span>
+			<span class="sp1">love</span>
+			<span class="sp1">you</span>
+			<span class="sp1">na</span>
+			<span class="sp1">na</span>
+		</div>
+		<div class="div2">
+			<span class="sp2">I</span>
+			<span class="sp2">love</span>
+			<span class="sp2">you</span>
+			<span class="sp2">na</span>
+			<span class="sp2">na</span>
+		</div>
+	</div>
+
+
+
+
+
+
+	<script type="text/javascript">
+	console.log($("#nana").attr("data-id"))
+
+	$(".na").click(function(e){
+		 e.stopPropagation()
+		alert(1)
+	})
+
+	function Calculation(a,b){//a 开会时间，b当前时间
+		let date1 = new Date(a.split("-").join("/"))
+		let date2 = new Date(b.split("-").join("/"))
+		let s1 = date1.getTime(),s2 = date2.getTime();
+		let total = (s1 - s2)/1000;
+		let day = parseInt(total / (24*60*60));//计算整数天数
+		let afterDay = total - day*24*60*60;//取得算出天数后剩余的秒数
+		let hour = parseInt(afterDay/(60*60));//计算整数小时数
+		let afterHour = total - day*24*60*60 - hour*60*60;//取得算出小时数后剩余的秒数
+		let min = parseInt(afterHour/60);//计算整数分
+		if(day>=0&&afterDay>=0&&hour>=0&&afterHour>=0&&min>=10){
+			return true
+		}else{
+			return false
+		}
+	}
+	
+
+	</script>
+</body>
+</html>

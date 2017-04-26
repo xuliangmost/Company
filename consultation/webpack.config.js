@@ -47,11 +47,12 @@ module.exports = {
     ]
   },
   plugins: [
+
     new ET({
       filename: 'index.css',  //样式单独合并
       allChunks: true
     }),
-   new webpack.HotModuleReplacementPlugin(),//代码热替换
+    new webpack.HotModuleReplacementPlugin(),//代码热替换
 
     new webpack.NoEmitOnErrorsPlugin(),//允许错误不打断程序
   ],

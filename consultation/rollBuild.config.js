@@ -1,17 +1,17 @@
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ET = require('extract-text-webpack-plugin');//css合并抽离
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+let extractCSS = new ET('[name].css');
 module.exports = {
   /*entry: [
-    __dirname + '/src/routes/output.js',//要编译的js文件
-  ],*/
-  entry:
-    {
-      'main':'./src/routes/output.js'
-    },
+   __dirname + '/src/routes/output.js',//要编译的js文件
+   ],*/
+  entry:{
+    'main':'./src/routes/output.js'
+  },
   // 出口
   output: {
-    path: __dirname + '/static/lib',
+    path: __dirname+'/static/lib',
     filename: '[name].[chunkhash].js',
   },
   module: {
@@ -26,17 +26,13 @@ module.exports = {
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader' })
       },
       {
-        test: /\.scss$/,
-        loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' })
-      },
-      {
         test: /\.less$/,
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' })
       },
       {
         test: /\.(jpg|png)$/,
         exclude: /node_modules/,
-        loader: 'url?limit=4000'
+        loader: 'url-loader?limit=3000'
       },
       {
         test: /\.jsx$/,
@@ -47,23 +43,24 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: __dirname+'/static/lib',
-      template:__dirname+'/static/index.html',
+      filename: __dirname+'/static/lib/index.html',//生成html的路径，名字
+      template:__dirname+'/static/index.html',//按照哪个html模板渲染
       inject:'body',
-      hash:true,
-      chunks:['main','common.js']   // 这个模板对应上面那个节点
-    }),
+      hash:true
+    }),//把html打包
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin(),
-    new ET({
-      filename: 'index.css',
-      allChunks: true
-    }),
-    new webpack.optimize.CommonsChunkPlugin('common.js')
-  ],
 
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module) {
+        return module.context && module.context.indexOf('node_modules') !== -1;
+      }//切割代码  生成多个js
+    }),
+    extractCSS
+  ],
 };

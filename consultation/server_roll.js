@@ -3,7 +3,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var config = require('./rollBuild.config.js');
 
 new WebpackDevServer(webpack(config), {
-  contentBase: __dirname + '/static/lib',
+  contentBase: __dirname + '/static/lib/',
   hot: true,
   inline: true,
   proxy: {

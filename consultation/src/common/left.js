@@ -2,6 +2,8 @@ import React,{Component} from "react"
 import { Menu, Icon } from 'antd';
 import 'antd/dist/antd.less'
 import { Link } from 'react-router';
+import api from "./API"
+let serverD=api().serverAdress;
 const SubMenu = Menu.SubMenu;
 const jwtDecode = require('jwt-decode');
 let q=["6","7","8","9","10","11","12","13","14"];
@@ -34,7 +36,7 @@ export default class Left extends Component {
       });
       if(flag){
         alert("您无查看权限!");
-        location.href="http://192.168.100.133:8787/#/entrance"
+        location.href=serverD+"/#/entrance"
       }
     }
   }

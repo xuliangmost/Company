@@ -1,5 +1,6 @@
 dist
 node_modules
+consultation.
 .DS_Store
 .idea/
 *.iml

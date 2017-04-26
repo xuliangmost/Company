@@ -1,4 +1,5 @@
-
+import api from "../common/API"
+let serverD=api().serverAdress;
 function isEmpty(value) {
   return value === null || value === undefined || value=== '';
 }
@@ -71,7 +72,7 @@ function FormatDate(strTime) {
 function checked(){
   if(!localStorage.getItem("robertUserName")){
     localStorage.setItem("history",location.href);
-    location.href="http://192.168.100.133:8787/conference/#/"
+    location.href=serverD+"/conference/#/"
   }
   let xhr=new XMLHttpRequest();
   xhr.open("get","/api/conference/page?id=1",true);
@@ -80,7 +81,7 @@ function checked(){
       if(xhr.status === 401){
         localStorage.removeItem("history");
         localStorage.setItem("history",location.href);
-        location.href="http://192.168.100.133:8787/conference/#/"
+        location.href=serverD+"/conference/#/"
       }
     }
   };
