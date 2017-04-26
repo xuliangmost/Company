@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var ET = require('extract-text-webpack-plugin');//css合并抽离
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 let extractCSS = new ET('[name].css');
+let extractCSS1 = new ET('[name].css');
 module.exports = {
   /*entry: [
    __dirname + '/src/routes/output.js',//要编译的js文件
@@ -32,7 +33,7 @@ module.exports = {
       {
         test: /\.(jpg|png)$/,
         exclude: /node_modules/,
-        loader: 'url-loader?limit=3000'
+        loader: 'url-loader?limit=2000'
       },
       {
         test: /\.jsx$/,
@@ -44,7 +45,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: __dirname+'/static/lib/index.html',//生成html的路径，名字
-      template:__dirname+'/static/index.html',//按照哪个html模板渲染
+      template:__dirname+'/static/index_template.html',//按照哪个html模板渲染
       inject:'body',
       hash:true
     }),//把html打包
@@ -54,13 +55,13 @@ module.exports = {
       }
     }),
     new webpack.optimize.UglifyJsPlugin(),
-
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {
         return module.context && module.context.indexOf('node_modules') !== -1;
       }//切割代码  生成多个js
     }),
-    extractCSS
+    extractCSS,
+    extractCSS1
   ],
 };
