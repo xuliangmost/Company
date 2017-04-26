@@ -1,15 +1,14 @@
 var webpack = require('webpack');
 var ET = require('extract-text-webpack-plugin');//css合并抽离
 module.exports = {
-  // 入口
   entry: [
     __dirname + '/src/routes/output.js',//要编译的js文件
   ],
+  // 出口
   output: {
     path: __dirname + '/static/lib',
     filename: "index.js",
   },
-  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -32,7 +31,7 @@ module.exports = {
       {
         test: /\.(jpg|png)$/,
         exclude: /node_modules/,
-        loader: 'url-loader?limit=2000'
+        loader: 'url?limit=4000'
       },
       {
         test: /\.jsx$/,
@@ -41,16 +40,17 @@ module.exports = {
       }
     ]
   },
-  //plugins定义
   plugins: [
-    new ET({
-      filename: 'index.css',  //样式单独合并
-      allChunks: true
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
     }),
-    new webpack.HotModuleReplacementPlugin(),//代码热替换
-
-    new webpack.NoEmitOnErrorsPlugin(),//允许错误不打断程序
-    // new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js')
+    new webpack.optimize.UglifyJsPlugin(),
+    new ET({
+      filename: 'index.css',
+      allChunks: true
+    })
   ],
 
 };
