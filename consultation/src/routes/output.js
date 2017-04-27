@@ -4,7 +4,7 @@ import Header from "../common/header"
 import Left from "../common/left"
 import Content from "../common/content"
 
-
+import api from "../common/API"
 import {Router,Route,hashHistory} from "react-router"
 import Apply from "../js/apply/apply"//申请会诊
 import DaiShen from "../js/apply/daiShen/daiShen"//待审会诊
@@ -21,7 +21,7 @@ import Consulation from "../js/consulationTables/consulation"//会诊总表-查�
 import LookConsulation from "../js/consulationTables/lookConsulation"//会诊总表-查看
 const jwtDecode = require('jwt-decode');
 
-import checked from "../tools/checked"
+import check from "../tools/checked"
 
 import Checked from "../js/check/checked/checked"
 import LookChecked from "../js/check/checked/lookChecked"
@@ -32,6 +32,7 @@ import LookWaitCheck from "../js/check/waitCheck/lookWaitCheck"
 import ConsultationTask from "../js/task/consultationTask"
 import LookConsultationTask from "../js/task/lookConsultationTask"
 let reg = /^[0-9]+.?[0-9]*$/;
+let serverD=api().serverAdress;
 function matches(str) {
   let ar=str.split("/");
   if(reg.test(ar[ar.length-1])){
@@ -122,7 +123,7 @@ class PageBottom extends Component{
         super(props);
     }
     componentWillMount(){
-      checked.checked();
+      check.checked();
       this.checkAuthorization()
     }
     componentWillUpdate(){
@@ -147,8 +148,7 @@ class PageBottom extends Component{
             }
           });
           if(flag){
-
-            location.href="http://192.168.100.133:8787/#/entrance"
+            location.href=serverD+"/#/entrance"
           }
         }
       }
