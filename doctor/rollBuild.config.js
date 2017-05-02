@@ -2,7 +2,6 @@ var webpack = require('webpack');
 var ET = require('extract-text-webpack-plugin');//css合并抽离
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 let extractCSS = new ET('[name].css');
-let extractCSS1 = new ET('[name].css');
 module.exports = {
   /*entry: [
    __dirname + '/src/routes/output.js',//要编译的js文件
@@ -61,7 +60,6 @@ module.exports = {
         return module.context && module.context.indexOf('node_modules') !== -1;
       }//切割代码  生成多个js
     }),
-    extractCSS,
-    extractCSS1
+    extractCSS
   ],
 };

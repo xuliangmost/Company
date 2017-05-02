@@ -812,7 +812,11 @@ export default class AddConsultation extends Component{
       alert("病例医院不能为空!!!");
       return false
     }
-    let advice=JSON.parse(JSON.stringify(postCase.advice))
+      if(!postCase.diagnosisTime){
+          alert("诊治日期不能为空!!!");
+          return false
+      }
+    let advice=JSON.parse(JSON.stringify(postCase.advice));
     delete postCase.advice;
     postCase.id=this.state.consultationId;
     postCase.userId=this.state.getData.consultation.userId.toString();
@@ -1036,6 +1040,18 @@ export default class AddConsultation extends Component{
   saveAdvice(){//保存医嘱
     if(this.state.saveCase){
       let postAdvice=JSON.parse(JSON.stringify(this.state.getData.case[this.state.history1Index].advice[this.state.history2Index]));
+      if(tool.isEmpty(postAdvice.hospital)){
+          alert("医嘱医院不能为空!");
+          return false
+      }
+      if(tool.isEmpty(postAdvice.doctor)){
+          alert("医嘱医生不能为空!");
+          return false
+      }
+      if(tool.isEmpty(postAdvice.adviceTime)){
+          alert("医嘱时间不能为空!");
+          return false
+      }
       let prescription=JSON.parse(JSON.stringify(postAdvice.prescription))
       delete postAdvice.prescription;
       if(postAdvice.id){
@@ -1056,6 +1072,7 @@ export default class AddConsultation extends Component{
         if(response.data.id){
           postAdvice.id=response.data.id
         }
+
         postAdvice.prescription=prescription;
         let getData=JSON.parse(JSON.stringify(that.state.getData));
         getData.case[that.state.history1Index].advice[that.state.history2Index]=postAdvice;
@@ -1126,7 +1143,7 @@ export default class AddConsultation extends Component{
     if(this.state.saveAdvice){
       //这里会有一个数据请求，获取处方的id
       let obj={
-        "prescriptionTime": startTime, //开方时间
+        "prescriptionTime": "", //开方时间
         "doctorName": "", //开方医生姓名
         "medicineTime": "",//药品名称
         "total": "", //总量
@@ -1219,6 +1236,10 @@ export default class AddConsultation extends Component{
   closePrescription(){//保存处方并关闭处方弹出框
 
       let postData=this.state.centerPrescription;
+      if(tool.isEmpty(postData.prescriptionTime)){
+          alert('开方时间未选择!');
+          return false
+      }
       postData.adId=this.state.history2.id.toString();
       let that=this;
       axios.request({
@@ -1506,7 +1527,7 @@ export default class AddConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">出生日期</span>
-              <DatePicker  allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
+              <DatePicker  placeholder="必填"  allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
             </li>
           </ul>
 

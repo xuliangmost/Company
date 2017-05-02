@@ -32,7 +32,7 @@ export default class Left extends Component {
       });
       if(flag){
         alert("您无查看权限!");
-        location.href="http://192.168.100.133:8787/#/entrance"
+        location.href="https://shipin1.ycsjjqr.cn/#/entrance"
       }
     }
   }
@@ -65,10 +65,10 @@ export default class Left extends Component {
       <div className="left">
         <Menu
           mode="inline"
-          openKeys={this.state.openKeys}
+          defaultOpenKeys={this.state.openKeys}
           selectedKeys={[this.state.current]}
           style={{ width: 260 }}
-          onOpenChange={this.onOpenChange.bind(this)}
+          /*onOpenChange={this.onOpenChange.bind(this)}*/
           onClick={this.handleClick.bind(this)}
         >
 

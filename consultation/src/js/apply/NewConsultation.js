@@ -45,7 +45,7 @@ const allData={
       "hospital": "",  //case医院
       "doctor": "", //主治医生
       "name": "", //病例名称
-      "diagnosisTime": startTime, //诊治时间
+      "diagnosisTime": "", //诊治时间
       "diagnosis": "", //临床诊断
       "doc": "", //病例资料
       "file":[],
@@ -55,12 +55,12 @@ const allData={
           "hospital": "",
           "statusId":'1',
           "doctor": "",
-          "adviceTime": startTime,
+          "adviceTime": "",
           "advice": "",
           "prescription": [
             {
               "id":"0",
-              "prescriptionTime":startTime, //开方时间
+              "prescriptionTime":"", //开方时间
               "doctorName": "", //开方医生姓名
               "medicineTime": "",//药品名称
               "total": "", //总量
@@ -828,7 +828,10 @@ export default class NewConsultation extends Component{
       alert("病例医院不能为空!!!");
       return false
     }
-
+      if(!postCase.diagnosisTime){
+          alert("诊治日期不能为空!!!");
+          return false
+      }
     let advice=JSON.parse(JSON.stringify(postCase.advice));
     delete postCase.advice;
     postCase.consultationId=this.state.consultationId;
@@ -914,7 +917,7 @@ export default class NewConsultation extends Component{
       },
     }).then(function(response) {
       if(response.data.result!==false){
-        let getData=that.state.getData;
+        let getData=JSON.parse(JSON.stringify(that.state.getData));
         let hospital=getData.consultation.hospital;
         let applicant=getData.consultation.applicant;
         let consultationName=getData.consultation.consultationName;
@@ -994,6 +997,10 @@ export default class NewConsultation extends Component{
       alert("身份证号不能为空或身份证号格式填写错误!");
       return false
     }
+    if(tool.isEmpty(postConsulation.birthday)){
+        alert("出生日期不能为空!");
+        return false
+    }
     if(!postConsulation.birthday){
       postConsulation.birthday=startTime
     }
@@ -1012,7 +1019,6 @@ export default class NewConsultation extends Component{
     }).then(function(response) {
       if(response.data.result){
         postConsulation.id=response.data.id;
-        console.log(response.data.userId)
         let getData=JSON.parse(JSON.stringify(that.state.getData));
         getData.consultation=postConsulation;
         that.setState({
@@ -1031,6 +1037,10 @@ export default class NewConsultation extends Component{
 
 
   saveAdvice(){//保存医嘱
+
+
+
+
     if(this.state.saveCase){
       let postAdvice=JSON.parse(JSON.stringify(this.state.getData.case[this.state.history1Index].advice[this.state.history2Index]));
       let prescription=JSON.parse(JSON.stringify(postAdvice.prescription));
@@ -1038,6 +1048,20 @@ export default class NewConsultation extends Component{
       if(postAdvice.id){
         postAdvice.id=postAdvice.id.toString()
       }
+
+      if(tool.isEmpty(postAdvice.hospital)){
+          alert("医嘱医院不能为空!");
+          return false
+      }
+      if(tool.isEmpty(postAdvice.doctor)){
+          alert("医嘱医生不能为空!");
+          return false
+      }
+      if(tool.isEmpty(postAdvice.adviceTime)){
+          alert("医嘱时间不能为空!");
+          return false
+      }
+
       postAdvice.caseId=this.state.history1.id.toString();
       let url=postAdvice.id?"/api/conference/edit/advice":"/api/conference/add/advice";
       let that=this;
@@ -1123,7 +1147,7 @@ export default class NewConsultation extends Component{
     if(this.state.saveAdvice){
       //这里会有一个数据请求，获取处方的id
       let obj={
-        "prescriptionTime": startTime, //开方时间
+        "prescriptionTime": "", //开方时间
         "doctorName": "", //开方医生姓名
         "medicineTime": "",//药品名称
         "total": "", //总量
@@ -1216,7 +1240,10 @@ export default class NewConsultation extends Component{
   closePrescription(){//保存处方并关闭处方弹出框
 
     let postData=this.state.centerPrescription;
-    console.log(this.state.history2)
+    if(tool.isEmpty(postData.prescriptionTime)){
+      alert('开方时间未选择!');
+        return false
+    }
     postData.adId=this.state.history2.id.toString();
     let that=this;
     axios.request({
@@ -1503,7 +1530,7 @@ export default class NewConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">出生日期</span>
-              <DatePicker placeholder="出生日期"  format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
+              <DatePicker placeholder="必填"  format={dateFormat} size="large" className="search_input" onChange={this.changeBirthday.bind(this)} />
             </li>
           </ul>
 
@@ -1593,7 +1620,7 @@ export default class NewConsultation extends Component{
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>
-                <DatePicker     format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
+                <DatePicker format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
               </li>
             </ul>
 

@@ -9,7 +9,7 @@ import moment from 'moment';
 //dataIndex  key要一样
 let token=localStorage.getItem("robertUserName");
 
-let startTime=(function show_cur_times(){
+let startTime=function show_cur_times(){
 //获取当前日期
   var date_time = new Date();
   //年
@@ -56,7 +56,7 @@ let startTime=(function show_cur_times(){
 
   //拼接年月日时分秒
   return (year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds)
-})();
+}
 
 let allData={
   //会诊
@@ -461,7 +461,10 @@ export default class LookConsultationTask extends Component{
   }
   huizhenjielun(){
     this.setState({
-      isShow:true
+      isShow:true,
+      fujianText:"", //会诊结论
+      fileName:"",
+      fileUrl:""   //附件URL
     })
   }
   listReturn(){
@@ -524,7 +527,7 @@ export default class LookConsultationTask extends Component{
       message.success("添加会诊结论成功");
       let obj={};
       obj.id=response.data.result.id;
-      obj.creatTime=startTime;
+      obj.creatTime=startTime();
       obj.message=data.message;
       obj.docName=data.fileName;
       obj.doctorId=response.data.result.doctorId;
@@ -891,7 +894,7 @@ export default class LookConsultationTask extends Component{
           <div className="btn_save">
             <div className="btn_save_index">
               {
-                this.state.meetingId?<a href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} >
+                this.state.meetingId?<a href={"https://shipin1.ycsjjqr.cn/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} >
                   <Button disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "),startTime)||this.state.getData.consultation.stat===3}  type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }

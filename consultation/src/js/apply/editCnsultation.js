@@ -1,5 +1,6 @@
 import React,{Component} from "react"
 import { Button,DatePicker,Input,Table,Transfer,Icon,Upload,message  } from 'antd';
+import tool from "../../tools/checked"
 import { Link } from 'react-router';
 import "../../less/editCnsulation.less"
 import axios from 'axios';
@@ -26,11 +27,11 @@ let allData={
     "hospital": "", //隶属医院
     "applicant": "", //会诊申请人
     "consultationName": "", //会诊名称
-    "startTime": "2999-12-31 00:00:00.000", //会诊时间
+    "startTime": "", //会诊时间
     "username": "", //会诊对象
     "phone": "", //会诊对象的手机号
     "identification": "", //身份证号
-    "birthday": "2999-12-31 00:00:00.000", //出生日期
+    "birthday": "", //出生日期
     "famliyName": "", //陪护家属
     "familyPhone": "", //家属手机号
     "content": "" //会诊描述
@@ -803,7 +804,10 @@ alert(1)
       alert("病例医院不能为空!!!");
       return false
     }
-
+    if(!postCase.diagnosisTime){
+        alert("诊治日期不能为空!!!");
+        return false
+    }
     let advice=JSON.parse(JSON.stringify(postCase.advice))
     delete postCase.advice;
     postCase.consultationId=this.state.consultationId;
@@ -843,11 +847,25 @@ alert(1)
   saveAdvice(){//保存医嘱
     if(this.state.saveCase){
       let postAdvice=JSON.parse(JSON.stringify(this.state.getData.case[this.state.history1Index].advice[this.state.history2Index]));
-      let prescription=JSON.parse(JSON.stringify(postAdvice.prescription))
+        if(tool.isEmpty(postAdvice.hospital)){
+            alert("医嘱医院不能为空!");
+            return false
+        }
+        if(tool.isEmpty(postAdvice.doctor)){
+            alert("医嘱医生不能为空!");
+            return false
+        }
+        if(tool.isEmpty(postAdvice.adviceTime)){
+            alert("医嘱时间不能为空!");
+            return false
+        }
+      let prescription=JSON.parse(JSON.stringify(postAdvice.prescription));
       delete postAdvice.prescription;
       if(postAdvice.id){
         postAdvice.id=postAdvice.id.toString()
       }
+
+
       postAdvice.caseId=this.state.history1.id.toString();
       let url=postAdvice.id?"/api/conference/edit/advice":"/api/conference/add/advice";
       let that=this;
@@ -934,7 +952,7 @@ alert(1)
     if(this.state.saveAdvice){
       //这里会有一个数据请求，获取处方的id
       let obj={
-        "prescriptionTime": startTime, //开方时间
+        "prescriptionTime": "", //开方时间
         "doctorName": "", //开方医生姓名
         "medicineTime": "",//药品名称
         "total": "", //总量
@@ -1017,21 +1035,16 @@ alert(1)
        data:data1
        })
     });
-
-
-
-
-
-
-
-
-
   }
 
 
   closePrescription(){//保存处方并关闭处方弹出框
 
       let postData=this.state.centerPrescription;
+      if(tool.isEmpty(postData.prescriptionTime)){
+          alert('开方时间未选择!');
+          return false
+      }
       postData.adId=this.state.history2.id.toString();
       let that=this;
       axios.request({

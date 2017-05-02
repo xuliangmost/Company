@@ -53,9 +53,9 @@ export default class Left extends Component {
     if (latestOpenKey) {
       nextOpenKeys = this.getAncestorKeys(latestOpenKey).concat(latestOpenKey);
     }
-    if (latestCloseKey) {
+    /*if (latestCloseKey) {
       nextOpenKeys = this.getAncestorKeys(latestCloseKey);
-    }
+    }*/
     this.setState({ openKeys: nextOpenKeys });
   };
   getAncestorKeys(key){
@@ -69,10 +69,10 @@ export default class Left extends Component {
       <div className="left">
         <Menu
           mode="inline"
-          openKeys={this.state.openKeys}
+          defaultOpenKeys={this.state.openKeys}
           selectedKeys={[this.state.current]}
           style={{ width: 260 }}
-          onOpenChange={this.onOpenChange.bind(this)}
+         /* onOpenChange={this.onOpenChange.bind(this)}*/
           onClick={this.handleClick.bind(this)}
         >
 

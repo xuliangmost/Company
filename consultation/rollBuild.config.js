@@ -3,12 +3,12 @@ var ET = require('extract-text-webpack-plugin');//css合并抽离
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 let extractCSS = new ET('[name].css');
 module.exports = {
-  /*entry: [
+  entry: [
    __dirname + '/src/routes/output.js',//要编译的js文件
-   ],*/
-  entry:{
+   ],
+  /*entry:{
     'main':'./src/routes/output.js'
-  },
+  },*/
   // 出口
   output: {
     path: __dirname+'/static/lib',

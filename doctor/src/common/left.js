@@ -2,6 +2,8 @@ import React,{Component} from "react"
 import { Menu, Icon } from 'antd';
 import 'antd/dist/antd.less'
 import { Link } from 'react-router';
+import api from "../common/API"
+let serverD=api().serverAdress;
 const SubMenu = Menu.SubMenu;
 const jwtDecode = require('jwt-decode');
 let q=["20","21","22","23","24","25","26","27","28","29","30","31","32"];
@@ -31,7 +33,7 @@ export default class Left extends Component {
       });
       if(flag){
         alert("您无查看权限!");
-        location.href="http://192.168.100.133:8787/#/entrance"
+        location.href=serverD+"/#/entrance"
       }
     }
   }
@@ -64,10 +66,10 @@ export default class Left extends Component {
       <div className="left">
         <Menu
           mode="inline"
-          openKeys={this.state.openKeys}
+          defaultOpenKeys={this.state.openKeys}
           selectedKeys={[this.state.current]}
           style={{ width: 260 }}
-          onOpenChange={this.onOpenChange.bind(this)}
+          /*onOpenChange={this.onOpenChange.bind(this)}*/
           onClick={this.handleClick.bind(this)}
         >
           {

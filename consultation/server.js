@@ -1,21 +1,21 @@
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config.js');
-var serverD="http://192.168.100.133:8787";
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const config = require('./webpack.config.js');
+const serverD = 'http://192.168.100.133:8787';
 new WebpackDevServer(webpack(config), {
-  contentBase: __dirname + '/static/',
+  contentBase: `${__dirname}/static/`,
   hot: true,
   inline: true,
   proxy: {
-    "/api": {
+    '/api': {
       target: serverD,
       changeOrigin: true,
     },
-    "/upload": {
+    '/upload': {
       target: serverD,
       changeOrigin: true,
     },
-    "/newToken": {
+    '/newToken': {
       target: serverD,
       changeOrigin: true,
     },

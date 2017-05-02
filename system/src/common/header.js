@@ -26,18 +26,18 @@ export default class Header extends Component{
     cancelLation(){
       localStorage.removeItem("history");
       localStorage.removeItem("robertUserName");
-      location.href="http://192.168.100.133:8787"
+      location.href="https://shipin1.ycsjjqr.cn"
     }
     render(){
       let style={"marginTop":"10px","marginLeft":"10px"};
         return(
             <div className="header">
-              <a href="http://192.168.100.133:8787/#/entrance">
+              <a href="https://shipin1.ycsjjqr.cn/#/entrance">
                     <img style={style} src="./images/logo.png" alt="远程视界机器人"/>
                 </a>
               {
                 this.state.loginName?<div className="loginName">
-                  <a href="http://192.168.100.133:8787/#/entrance" className="header_sp1">切换系统</a>
+                  <a href="https://shipin1.ycsjjqr.cn/#/entrance" className="header_sp1">切换系统</a>
                   <span className="header_sp2">
                   </span>
                   <a className="header_sp1">{this.state.loginName}</a>

@@ -3,6 +3,8 @@ import { Button,Select,Input,Table } from 'antd';
 import { Link } from 'react-router';
 import "../../../less/hospital.less"
 import axios from "axios";
+import api from "../../../common/API"
+let serverD=api().serverAdress;
 const Option = Select.Option;
 
 let token=localStorage.getItem("robertUserName");

@@ -150,7 +150,7 @@ export default class ConsultationTask extends Component{
               <Link to={"task/lookConsultationTask/"+record.id}>查看</Link>&nbsp;
 
               {
-                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)||record.stat==="已结束"} href={"http://192.168.100.133:8787/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} >参加</a>:""
+                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)||record.stat==="已结束"} href={"https://shipin1.ycsjjqr.cn/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} >参加</a>:""
               }
               </span>
           )

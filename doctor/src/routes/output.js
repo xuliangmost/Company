@@ -82,7 +82,7 @@ class PageBottom extends Component{
           });
           if(flag){
 
-            location.href="http://192.168.100.133:8787/#/entrance"
+            location.href=""
           }
         }
       }

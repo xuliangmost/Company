@@ -1,4 +1,5 @@
-
+import api from "../common/API"
+let serverD=api().serverAdress;
 function isEmpty(value) {
   return value === null || value === undefined || value=== '';
 }
@@ -27,7 +28,7 @@ function FormatDate(strTime) {
 function checked(){
   if(!localStorage.getItem("robertUserName")){
     localStorage.setItem("history",location.hash);
-    location.hash="http://192.168.100.133:8787/conference/#/"
+    location.href=serverD+"/conference/#/"
   }
   let xhr=new XMLHttpRequest();
   xhr.open("get","/api/conference/page?id=1",true);
@@ -35,7 +36,7 @@ function checked(){
     if(xhr.readyState === 4){
       if(xhr.status === 401){
         localStorage.setItem("history",location.href);
-        location.href="http://192.168.100.133:8787/conference/#/"
+        location.href=serverD+"/conference/#/"
       }
     }
   };

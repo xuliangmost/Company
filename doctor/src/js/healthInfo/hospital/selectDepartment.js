@@ -4,6 +4,8 @@ import { Link } from 'react-router';
 import axios from "axios";
 import "../../../less/editHospital.less"
 import tools from "../../../tools/checked"
+import api from "../../../common/API"
+let serverD=api().serverAdress;
 const Option = Select.Option;
 const TreeNode = Tree.TreeNode;
 let token=localStorage.getItem("robertUserName");
