@@ -1311,7 +1311,7 @@ alert(1)
             </li>
             <li>
               <span className="most_flex">会诊名称</span>
-              <Input readOnly value={this.state.getData.consultation.consultationName} className="search_input" size="large" placeholder="必填" required  />
+              <Input readOnly value={this.state.getData.consultation.consultationName} className="search_input" size="large" placeholder="必填"  />
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
@@ -1323,15 +1323,15 @@ alert(1)
           <ul className="search_ul">
             <li>
               <span className="most_flex">会诊对象</span>
-              <Input readOnly value={this.state.getData.consultation.username} className="search_input" size="large" placeholder="必填" required  />
+              <Input readOnly value={this.state.getData.consultation.username} className="search_input" size="large" placeholder="必填"  />
             </li>
             <li>
               <span className="most_flex">手机号</span>
-              <Input readOnly value={this.state.getData.consultation.phone} className="search_input" size="large" placeholder="必填" required   />
+              <Input readOnly value={this.state.getData.consultation.phone} className="search_input" size="large" placeholder="必填"   />
             </li>
             <li>
               <span className="most_flex">身份证号</span>
-              <Input readOnly value={this.state.getData.consultation.identification} className="search_input" size="large" placeholder="必填" required  />
+              <Input readOnly value={this.state.getData.consultation.identification} className="search_input" size="large" placeholder="必填"  />
             </li>
             <li>
               <span className="most_flex">出生日期</span>

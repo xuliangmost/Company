@@ -21,7 +21,7 @@ new WebpackDevServer(webpack(config), {
     },
   }
 })
-  .listen(8811, 'localhost', function (err) {
+  .listen(8811,"0.0.0.0",function (err) {
     if (err) {
       console.log(err);
     }

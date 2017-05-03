@@ -647,7 +647,7 @@ export default class LookConsultationTask extends Component{
             </li>
             <li>
               <span className="most_flex">会诊名称</span>
-              <Input readOnly value={this.state.getData.consultation.consultationName} className="search_input" size="large" placeholder="会诊名称" required  />
+              <Input readOnly value={this.state.getData.consultation.consultationName} className="search_input" size="large" placeholder="会诊名称"  />
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
@@ -659,15 +659,15 @@ export default class LookConsultationTask extends Component{
           <ul className="search_ul">
             <li>
               <span className="most_flex">会诊对象</span>
-              <Input readOnly value={this.state.getData.consultation.username} className="search_input" size="large" placeholder="会诊对象" required  />
+              <Input readOnly value={this.state.getData.consultation.username} className="search_input" size="large" placeholder="会诊对象"  />
             </li>
             <li>
               <span className="most_flex">手机号</span>
-              <Input readOnly value={this.state.getData.consultation.phone} className="search_input" size="large" placeholder="手机号" required   />
+              <Input readOnly value={this.state.getData.consultation.phone} className="search_input" size="large" placeholder="手机号"   />
             </li>
             <li>
               <span className="most_flex">身份证号</span>
-              <Input readOnly value={this.state.getData.consultation.identification} className="search_input" size="large" placeholder="身份证号" required  />
+              <Input readOnly value={this.state.getData.consultation.identification} className="search_input" size="large" placeholder="身份证号"  />
             </li>
             <li>
               <span className="most_flex">出生日期</span>
@@ -735,15 +735,15 @@ export default class LookConsultationTask extends Component{
             <ul className="search_ul">
               <li>
                 <span className="most_flex">病例医院</span>
-                <Input readOnly value={this.state.history1.hospital} className="search_input" size="large" placeholder="病例医院" required  />
+                <Input readOnly value={this.state.history1.hospital} className="search_input" size="large" placeholder="病例医院"  />
               </li>
               <li>
                 <span className="most_flex">主治医生</span>
-                <Input readOnly value={this.state.history1.doctor} className="search_input" size="large" placeholder="主治医生" required   />
+                <Input readOnly value={this.state.history1.doctor} className="search_input" size="large" placeholder="主治医生"   />
               </li>
               <li>
                 <span className="most_flex">病例名称</span>
-                <Input readOnly value={this.state.history1.name} className="search_input" size="large" placeholder="病例名称" required  />
+                <Input readOnly value={this.state.history1.name} className="search_input" size="large" placeholder="病例名称"  />
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>

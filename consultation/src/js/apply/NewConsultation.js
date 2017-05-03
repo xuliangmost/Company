@@ -917,12 +917,12 @@ export default class NewConsultation extends Component{
       },
     }).then(function(response) {
       if(response.data.result!==false){
-        let getData=JSON.parse(JSON.stringify(that.state.getData));
+        let getData=that.state.getData;
         let hospital=getData.consultation.hospital;
         let applicant=getData.consultation.applicant;
         let consultationName=getData.consultation.consultationName;
         let startTime=getData.consultation.startTime;
-        getData.consultation=response.data.result[0];
+        getData.consultation=response.data.result[0]?response.data.result[0]:getData.consultation;
         getData.consultation.hospital=hospital;
         getData.consultation.applicant=applicant;
         getData.consultation.startTime=startTime;
@@ -1505,7 +1505,7 @@ export default class NewConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊名称</span>
-              <Input  value={this.state.getData.consultation.consultationName} onChange={this.changeConsultationName.bind(this)} className="search_input" size="large" placeholder="必填" required  />
+              <Input  value={this.state.getData.consultation.consultationName} onChange={this.changeConsultationName.bind(this)} className="search_input" size="large" placeholder="必填"  />
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}

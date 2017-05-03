@@ -325,7 +325,7 @@ export default class Consulation extends Component{
             <ul className="search_ul">
               <li>
                 <span className="most_flex">所属医院</span>
-                <Input onChange={this.changeHospital.bind(this)} className="search_input" size="large" placeholder="会诊名称" />
+                <Input onChange={this.changeHospital.bind(this)} className="search_input" size="large" placeholder="所属医院" />
               </li>
               <li>
                 <span className="most_flex">申请人</span>
@@ -333,7 +333,7 @@ export default class Consulation extends Component{
               </li>
               <li>
                 <span className="most_flex">手机号</span>
-                <Input onChange={this.changeAPhone.bind(this)} className="search_input" size="large" placeholder="会诊对象" />
+                <Input onChange={this.changeAPhone.bind(this)} className="search_input" size="large" placeholder="手机号" />
               </li>
               {/*<li>
                 <span className="most_flex">会诊阶段</span>

@@ -8,7 +8,7 @@
     "start": "node server.js",
     "build": "webpack --config rollBuild.config.js"
   },
-  "author": "Man Li",
+  "author": "Most",
   "license": "ISC",
   "dependencies": {
     "antd": "^2.8.2",

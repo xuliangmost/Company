@@ -1502,7 +1502,7 @@ export default class AddConsultation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊名称</span>
-              <Input  value={this.state.getData.consultation.consultationName} onChange={this.changeConsultationName.bind(this)} className="search_input" size="large" placeholder="必填" required  />
+              <Input  value={this.state.getData.consultation.consultationName} onChange={this.changeConsultationName.bind(this)} className="search_input" size="large" placeholder="必填"  />
             </li>
             <li>
               <span className="most_flex">会诊时间</span>{/*这里要加上一个判断， 判断不为空*/}
