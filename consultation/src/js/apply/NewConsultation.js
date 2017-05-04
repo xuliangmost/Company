@@ -274,7 +274,7 @@ export default class NewConsultation extends Component{
           title: docArr[i].doctorName,
           description: docArr[i].hospitalName,
           chosen:(function (a) {
-            return responseDoc.indexOf(a)>-1?true:false
+            return responseDoc.indexOf(a)>-1
           })(docArr[i].doctorId),
         };
         if (data.chosen) {
@@ -407,8 +407,6 @@ export default class NewConsultation extends Component{
     }).catch(function () {
 
     });
-
-
   }
 
   handleChange(targetKeys){
@@ -501,7 +499,7 @@ export default class NewConsultation extends Component{
   renderItem (item){
     const customLabel = (
       <span className="custom-item">
-        {item.title} - {item.description}
+        {item.description} - {item.title}
       </span>
     );
     return {
@@ -1430,7 +1428,7 @@ export default class NewConsultation extends Component{
               <ul>
                 <li>
                   <span>开方时间</span>
-                  <DatePicker   showTime format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方时间" />
+                  <DatePicker   showTime format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="必填"  />
                 </li>
                 <li>
                   <span>开方医生姓名</span>
@@ -1620,7 +1618,7 @@ export default class NewConsultation extends Component{
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>
-                <DatePicker format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
+                <DatePicker format={dateFormat} size="large" className="search_input"  placeholder="必填"  onChange={this.changeDagnosisTime.bind(this)} />
               </li>
             </ul>
 
@@ -1673,15 +1671,15 @@ export default class NewConsultation extends Component{
               <ul className="search_ul">
                 <li>
                   <span className="most_flex">医嘱医院</span>
-                  <Input value={this.state.history2.hospital?this.state.history2.hospital:""} onChange={this.changeAdviceHospital.bind(this)} className="search_input" size="large" placeholder="医嘱医院" />
+                  <Input value={this.state.history2.hospital?this.state.history2.hospital:""} onChange={this.changeAdviceHospital.bind(this)} className="search_input"  placeholder="必填"  size="large"  />
                 </li>
                 <li>
                   <span className="most_flex">医嘱医生</span>
-                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""} onChange={this.changeAdviceDoctor.bind(this)}  className="search_input" size="large" placeholder="医嘱医生" />
+                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""} onChange={this.changeAdviceDoctor.bind(this)}  className="search_input"  placeholder="必填"  size="large"  />
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
-                  <DatePicker   format={dateFormat}  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
+                  <DatePicker   format={dateFormat}  size="large" className="search_input"  placeholder="必填"  onChange={this.changeAdviceTime.bind(this)} />
                 </li>
                 <li>
                 </li>

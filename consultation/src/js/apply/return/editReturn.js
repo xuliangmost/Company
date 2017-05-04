@@ -511,7 +511,7 @@ export default class EditCnsulation extends Component{
   renderItem (item){
     const customLabel = (
       <span className="custom-item">
-        {item.title} - {item.description}
+         {item.description} - {item.title}
       </span>
     );
     return {

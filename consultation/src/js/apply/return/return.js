@@ -6,7 +6,7 @@ import axios from "axios";
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 
 let token=localStorage.getItem("robertUserName");
-
+const { RangePicker } = DatePicker;
 export default class ReturnRecord extends Component{
     constructor(props){
         super(props);
@@ -27,11 +27,13 @@ export default class ReturnRecord extends Component{
       this.state={
         applyPage:{
           pageSize:10,
-          consultationName:"",
-          username:"",
-          phone:"",
+          consultationName:null,
+          username:null,
+          phone:null,
           status:4,
-          startTime:""
+          startTime:null,
+            endTime:null
+
         },
         total:10,
         current:1,
@@ -166,11 +168,12 @@ export default class ReturnRecord extends Component{
 
 
   onChange(date, dateString){
-    let applyPage=this.state.applyPage;
-    applyPage.startTime=dateString;
-    this.setState({
-      applyPage:applyPage
-    });
+      let applyPage=this.state.applyPage;
+      applyPage.startTime=dateString[0];
+      applyPage.endTime=dateString[1];
+      this.setState({
+          applyPage:applyPage
+      });
   }
     render(){
       return (
@@ -187,7 +190,7 @@ export default class ReturnRecord extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>
-              <DatePicker allowClear={false} size="large" className="search_input" onChange={this.onChange.bind(this)} />
+              <RangePicker allowClear={false} size="large" className="search_input" onChange={this.onChange.bind(this)} />
             </li>
             <li>
               <span className="most_flex">会诊对象</span>

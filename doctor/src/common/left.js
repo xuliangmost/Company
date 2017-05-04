@@ -11,7 +11,7 @@ export default class Left extends Component {
   constructor(props){
     super(props);
     this.state = {
-      current: '1',
+      current: '',
       openKeys: ['sub1','sub2','sub3'],
       permissions:[]
     };

@@ -484,7 +484,7 @@ alert(1)
   renderItem (item){
     const customLabel = (
       <span className="custom-item">
-        {item.title} - {item.description}
+         {item.description} - {item.title}
       </span>
     );
     return {
@@ -1235,7 +1235,7 @@ alert(1)
               <ul>
                 <li>
                   <span>开方时间</span>
-                  <DatePicker  allowClear={false} showTime  format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="开方医生姓名" />
+                  <DatePicker  allowClear={false} showTime  format={dateFormat} onChange={this.changePrescriptionTime.bind(this)}  placeholder="必填"  size="large"   />
                 </li>
                 <li>
                   <span>开方医生姓名</span>
@@ -1417,7 +1417,7 @@ alert(1)
               </li>
               <li>
                 <span className="most_flex">诊治日期</span>
-                <DatePicker   allowClear={false} value={moment(this.state.history1.diagnosisTime, dateFormat)} format={dateFormat} size="large" className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
+                <DatePicker   allowClear={false} value={moment(this.state.history1.diagnosisTime, dateFormat)} format={dateFormat} size="large"  placeholder="必填"  className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
               </li>
             </ul>
 
@@ -1468,15 +1468,15 @@ alert(1)
               <ul className="search_ul">
                 <li>
                   <span className="most_flex">医嘱医院</span>
-                  <Input value={this.state.history2.hospital?this.state.history2.hospital:""} onChange={this.changeAdviceHospital.bind(this)} className="search_input" size="large" placeholder="医嘱医院" />
+                  <Input value={this.state.history2.hospital?this.state.history2.hospital:""} onChange={this.changeAdviceHospital.bind(this)} className="search_input" size="large"  placeholder="必填"  />
                 </li>
                 <li>
                   <span className="most_flex">医嘱医生</span>
-                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""} onChange={this.changeAdviceDoctor.bind(this)}  className="search_input" size="large" placeholder="医嘱医生" />
+                  <Input value={this.state.history2.doctor?this.state.history2.doctor:""} onChange={this.changeAdviceDoctor.bind(this)}  className="search_input" size="large"  placeholder="必填"  />
                 </li>
                 <li>
                   <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
-                  <DatePicker  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
+                  <DatePicker  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  placeholder="必填"  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
                 </li>
                 <li>
                 </li>

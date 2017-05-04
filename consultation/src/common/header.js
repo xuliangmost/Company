@@ -28,7 +28,6 @@ export default class Header extends Component{
       location.href=serverD
     }
     render(){
-      //var imgUrl=require('./images/logo.png');
       let style={"marginTop":"10px","marginLeft":"10px"};
         return(
             <div className="header">

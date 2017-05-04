@@ -1,7 +1,10 @@
 import React,{Component} from "react"
 import "../less/common.less"
-
+import logo from "./logo.png"
 import checked from "../tools/checked"
+
+import api from "../common/API"
+let serverD=api().serverAdress;
 const jwtDecode = require('jwt-decode');
 
 export default class Header extends Component{
@@ -26,18 +29,18 @@ export default class Header extends Component{
     cancelLation(){
       localStorage.removeItem("history");
       localStorage.removeItem("robertUserName");
-      location.href="https://shipin1.ycsjjqr.cn"
+      location.href=serverD
     }
     render(){
       let style={"marginTop":"10px","marginLeft":"10px"};
         return(
             <div className="header">
-              <a href="https://shipin1.ycsjjqr.cn/#/entrance">
-                    <img style={style} src="./images/logo.png" alt="远程视界机器人"/>
+              <a href={serverD+"/#/entrance"}>
+                    <img style={style} src={logo} alt="远程视界机器人"/>
                 </a>
               {
                 this.state.loginName?<div className="loginName">
-                  <a href="https://shipin1.ycsjjqr.cn/#/entrance" className="header_sp1">切换系统</a>
+                  <a  href={serverD+"/#/entrance"} className="header_sp1">切换系统</a>
                   <span className="header_sp2">
                   </span>
                   <a className="header_sp1">{this.state.loginName}</a>

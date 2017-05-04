@@ -1,7 +1,8 @@
 import React,{Component} from "react"
 import { Menu, Icon } from 'antd';
 import 'antd/dist/antd.less'
-import { Link } from 'react-router';
+import api from "../common/API"
+let serverD=api().serverAdress;
 const jwtDecode = require('jwt-decode');
 const SubMenu = Menu.SubMenu;
 let q=["1","2","3","4","5",];
@@ -9,7 +10,7 @@ export default class Left extends Component {
   constructor(props){
     super(props);
     this.state = {
-      current: '1',
+      current: '',
       openKeys: ['sub1'],
       permissions:[]
     };
@@ -32,7 +33,7 @@ export default class Left extends Component {
       });
       if(flag){
         alert("您无查看权限!");
-        location.href="https://shipin1.ycsjjqr.cn/#/entrance"
+        location.href=serverD+"/#/entrance"
       }
     }
   }

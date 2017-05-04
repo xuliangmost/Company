@@ -5,6 +5,9 @@ import "../../less/apply.less"
 import tools from "../../tools/checked"
 import moment from 'moment';
 import axios from "axios";
+import api from "../../common/API"
+let serverD=api().serverAdress;
+const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 let startTime=(function show_cur_times(){
 //获取当前日期
@@ -66,14 +69,14 @@ export default class ConsultationTask extends Component{
       applyPage:{
         pageSize:10,
         status:"3",
-        consultationName:"",
-        username:"",
-        phone:"",
-        startTime:"",
-        hospital:"",
-        applicant:"",
-        aPhone:"",
-        stat:""
+        consultationName:null,
+        username:null,
+        phone:null,
+        startTime:null,
+        hospital:null,
+        applicant:null,
+        aPhone:null,
+        stat:null
 
       },
       total:10,
@@ -150,7 +153,7 @@ export default class ConsultationTask extends Component{
               <Link to={"task/lookConsultationTask/"+record.id}>查看</Link>&nbsp;
 
               {
-                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)||record.stat==="已结束"} href={"https://shipin1.ycsjjqr.cn/conference/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} >参加</a>:""
+                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)||record.stat==="已结束"} href={serverD+"/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} >参加</a>:""
               }
               </span>
           )
@@ -167,15 +170,16 @@ export default class ConsultationTask extends Component{
     this.query(1);
   }
   onChange(date, dateString){
-    let apply=this.state.applyPage;
-    apply.startTime=dateString;
-    this.setState({
-      applyPage:apply
-    });
+      let applyPage=this.state.applyPage;
+      applyPage.startTime=dateString[0];
+      applyPage.endTime=dateString[1];
+      this.setState({
+          applyPage:applyPage
+      });
 
-    this.setState({
+    /*this.setState({
       startTime:dateString
-    })
+    })*/
   }
 
   changeConsultationName(e){
@@ -285,7 +289,7 @@ export default class ConsultationTask extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>
-              <DatePicker size="large" className="search_input" onChange={this.onChange.bind(this)} />
+              <RangePicker size="large" className="search_input" onChange={this.onChange.bind(this)} />
             </li>
             <li>
               <span className="most_flex">会诊对象</span>

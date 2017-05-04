@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import Header from "../common/header"
 import Left from "../common/left"
 import Content from "../common/content"
-
+import api from "../common/API"
 import {Router,Route,hashHistory} from "react-router"
 import UsrMgmt from "../js/usrmgmt/usrMgmt"
 import AddUsrMgmt from "../js/usrmgmt/addUsrMgmt"
@@ -15,9 +15,9 @@ import GiveAuthorization from "../js/rolemgmt/giveAuthorization"
 import Memuauthority from "../js/memuauthority/memuauthority"
 import MenuAuthorization from "../js/memuauthority/menuAuthorization"
 import EditMemuauthority from "../js/memuauthority/editMmemuauthority"
-
-
 import checked from "../tools/checked"
+
+let serverD=api().serverAdress;
 const jwtDecode = require('jwt-decode');
 let auth=[
   {
@@ -90,7 +90,7 @@ class PageBottom extends Component{
           });
           if(flag){
 
-            location.href="https://shipin1.ycsjjqr.cn/#/entrance"
+            location.href=serverD+"/#/entrance"
           }
         }
       }

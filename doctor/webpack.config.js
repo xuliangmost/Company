@@ -22,10 +22,6 @@ module.exports = {
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader' })
       },
       {
-        test: /\.scss$/,
-        loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' })
-      },
-      {
         test: /\.less$/,
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!less-loader' })
       },
@@ -52,5 +48,4 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),//允许错误不打断程序
     // new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js')
   ],
-
 };

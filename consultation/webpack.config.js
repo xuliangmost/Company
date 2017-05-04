@@ -1,12 +1,12 @@
-const webpack = require('webpack');
-const ET = require('extract-text-webpack-plugin');//css合并抽离
+var webpack = require('webpack');
+var ET = require('extract-text-webpack-plugin');//css合并抽离
 module.exports = {
   // 入口
   entry: [
     __dirname + '/src/routes/output.js',//要编译的js文件
   ],
   output: {
-    path: `${__dirname}'/static/lib'`,
+    path: __dirname + '/static/lib',
     filename: "index.js",
   },
   devtool: 'source-map',
@@ -20,10 +20,6 @@ module.exports = {
       {
         test: /\.css$/,
         loader: ET.extract({ fallback: 'style-loader', use: 'css-loader' })
-      },
-      {
-        test: /\.scss$/,
-        loader: ET.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' })
       },
       {
         test: /\.less$/,

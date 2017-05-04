@@ -5,7 +5,7 @@ import axios from "axios";
 const Option = Select.Option;
 let token=localStorage.getItem("robertUserName");
 import "../../less/editCnsulation.less"
-
+const { RangePicker } = DatePicker;
 const url=["","/api/conference/summary/apply","/api/conference/summary/check","/api/conference/summary/mission"];
 let listValue=["全部","待提交","待审核","待会诊","已退回","已作废","已结束"];
 let statValue=["","会诊申请","会诊审核","会诊任务"];
@@ -29,13 +29,14 @@ export default class Consulation extends Component{
         applyPage:{
           pageNum:"1",
           pageSize:"10",
-          consultationName:"",
-          username:"",
-          phone:"",
-          startTime:"",
-          hospital:"",
-          applicant:"",
-          aPhone:""
+          consultationName:null,
+          username:null,
+          phone:null,
+          startTime:null,
+          hospital:null,
+          applicant:null,
+          aPhone:null,
+          endTime:null
         },
         total:10,
         current:1,//当前页数
@@ -249,11 +250,12 @@ export default class Consulation extends Component{
 
   //修改会诊时间
   changeStartTime(data,dateString){
-    let applyPage=this.state.applyPage;
-    applyPage.startTime=dateString;
-    this.setState({
-      applyPage:applyPage
-    });
+      let applyPage=this.state.applyPage;
+      applyPage.startTime=dateString[0];
+      applyPage.endTime=dateString[1];
+      this.setState({
+          applyPage:applyPage
+      });
   }
 
   //修改所属医院
@@ -282,14 +284,13 @@ export default class Consulation extends Component{
       applyPage:applyPage
     });
   }
-
-
   onChange(date, dateString){
-    let applyPage=this.state.applyPage;
-    applyPage.startTime=dateString;
-    this.setState({
-      applyPage:applyPage
-    });
+      let applyPage=this.state.applyPage;
+      applyPage.startTime=dateString[0];
+      applyPage.endTime=dateString[1];
+      this.setState({
+          applyPage:applyPage
+      });
   }
     render(){
       return (
@@ -307,7 +308,7 @@ export default class Consulation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>
-              <DatePicker  size="large" className="search_input" onChange={this.onChange.bind(this)} />
+              <RangePicker  size="large" className="search_input" onChange={this.onChange.bind(this)} />
             </li>
             <li>
               <span className="most_flex">会诊对象</span>

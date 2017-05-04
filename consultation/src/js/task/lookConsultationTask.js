@@ -4,6 +4,8 @@ import { Link } from 'react-router';
 import "../../less/editCnsulation.less"
 import "../../less/lookWaitCheck.less"
 import axios from 'axios';
+import api from "../../common/API"
+let serverD=api().serverAdress;
 import tools from "../../tools/checked"
 import moment from 'moment';
 //dataIndex  key要一样
@@ -135,7 +137,10 @@ export default class LookConsultationTask extends Component{
         {
           title: '开方时间',
           dataIndex: 'prescriptionTime',
-          key: 'prescriptionTime'
+          key: 'prescriptionTime',
+            render: (text) => (
+                <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+            ),
         },
         {
           title: '开方医生姓名',
@@ -167,26 +172,29 @@ export default class LookConsultationTask extends Component{
       fileListColumns :[
         {
           title: '文件名',
-          dataIndex: 'diagnosis',
-          key: 'diagnosis'
+          dataIndex: 'fileName',
+          key: 'fileName'
         },
         {
           title: '大小',
-          dataIndex: 'doctorName',
-          key: 'doctorName',
+          dataIndex: 'fileSize',
+          key: 'fileSize',
         },
         {
           title: '上传时间',
-          dataIndex: 'diagnosisTime',
-          key: 'diagnosisTime',
+          dataIndex: 'uploadAt',
+          key: 'uploadAt',
+          render: (text) => (
+              <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+          )
         },
         {
           title: '操作',
           key: 'action',
           render: (text, record) => (
             <span>
-               <a href={record.doc} download={record.diagnosis}>下载</a>
-               <a href={record.doc}>查看</a>
+               <a href={record.url} download={record.fileName}>下载</a>&nbsp;
+               <a href={record.url} target="blank">查看</a>
             </span>
           ),
         }
@@ -312,7 +320,7 @@ export default class LookConsultationTask extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      message.success("删除成功")
+      message.success("删除成功");
       let getData=that.state.getData;
       let conclusion=that.state.conclusion;
       conclusion.splice(index,1);
@@ -391,20 +399,21 @@ export default class LookConsultationTask extends Component{
       });
       let getData=response.data;
       let data=[];
-
+        let fileList=[];
       if(getData.case&&getData.case!=false){
         if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
           getData.case[0].advice[0].prescription.map((ele)=>{
             data.push(ele);
           });
         }
+        fileList=getData.case[0].file?getData.case[0].file:[]
       }else{
         getData.case=allData.case;
         getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
           data.push(ele);
         }):"";
       }
-
+      console.log(fileList)
       let conclusion=getData.conclusion?getData.conclusion:[];//获取结论
       let checkData=getData.check?getData.check:[];
       that.setState({
@@ -415,6 +424,7 @@ export default class LookConsultationTask extends Component{
         data:data,
         conclusion,
         checkData,
+        fileList,
         meetingId:getData.consultation.conId,
         userId:getData.consultation.userId,
         docList:getData.doctor
@@ -881,7 +891,6 @@ export default class LookConsultationTask extends Component{
                   this.state.fileList.map((ele, index) => {
                     return <li key={index}>{ ele.name }</li>
                   })
-
                 }
               </ul>
               <div className="btn_fujian">
@@ -894,7 +903,7 @@ export default class LookConsultationTask extends Component{
           <div className="btn_save">
             <div className="btn_save_index">
               {
-                this.state.meetingId?<a href={"https://shipin1.ycsjjqr.cn/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} >
+                this.state.meetingId?<a href={serverD+"/conference/#/mainFrame/personMeeting/addMeeting/"+this.state.meetingId+"/1"} >
                   <Button disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "),startTime)||this.state.getData.consultation.stat===3}  type="primary">参加会诊</Button>&nbsp;
                 </a>:""
               }

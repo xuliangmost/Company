@@ -4,6 +4,7 @@ import "../less/common.less"
 import checked from "../tools/checked"
 
 import api from "../common/API"
+import logo from "./logo.png"
 let serverD=api().serverAdress;
 const jwtDecode = require('jwt-decode');
 
@@ -36,7 +37,7 @@ export default class Header extends Component{
         return(
             <div className="header">
               <a href={serverD+"/#/entrance"}>
-                    <img style={style} src="./images/logo.png" alt="远程视界机器人"/>
+                    <img style={style} src={logo} alt="远程视界机器人"/>
                 </a>
               {
                 this.state.loginName?<div className="loginName">
