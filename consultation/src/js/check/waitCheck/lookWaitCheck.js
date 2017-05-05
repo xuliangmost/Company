@@ -437,6 +437,10 @@ checkHadChecked(){
   conFirmReturn(){
     let that=this;
     let returnReason=this.state.returnReason;
+    if(!returnReason){
+        message.error("必须写退回原因!");
+        return false
+    }
     if(returnReason.length>=120){
       message.error("结论字数120字以内!");
       return false

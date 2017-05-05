@@ -100,9 +100,6 @@ export default class WaitCheck extends Component{
         ],
         dataSource : []
       }
-
-
-
     }
 
 

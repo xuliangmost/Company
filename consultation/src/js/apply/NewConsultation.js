@@ -45,7 +45,7 @@ const allData={
       "hospital": "",  //case医院
       "doctor": "", //主治医生
       "name": "", //病例名称
-      "diagnosisTime": "", //诊治时间
+      "diagnosisTime": startTime, //诊治时间
       "diagnosis": "", //临床诊断
       "doc": "", //病例资料
       "file":[],
@@ -55,7 +55,7 @@ const allData={
           "hospital": "",
           "statusId":'1',
           "doctor": "",
-          "adviceTime": "",
+          "adviceTime": startTime,
           "advice": "",
           "prescription": [
             {
@@ -85,12 +85,12 @@ export default class NewConsultation extends Component{
     super(props);
     this.state={
       consultationId:null,
-      saveCase:false,//是否保存了病历
+      saveCase:true,//是否保存了病历
       userId:null,
       hospitalId:null,
       savePrescription:false,//是否保存了处方
       saveConsultationL:false,//是否保存了会诊
-      saveAdvice:false,//是否保存了医嘱
+      saveAdvice:true,//是否保存了医嘱
       caseId:false,//是否显示添加医嘱按钮
       showPrescription:false,//是否显示新增处方弹出框
       getData:allData,
@@ -104,7 +104,6 @@ export default class NewConsultation extends Component{
       dis:false,//是否禁用保存会诊
       history1Index:0,//当前显示的病历的下标
       history2Index:0,//当前显示的医嘱的下标
-
       columns :[
         {
           title: '开方时间',
@@ -210,6 +209,7 @@ export default class NewConsultation extends Component{
         id: '0',
         "prescriptionTime": "-", //开方时间
         "doctorName": "-", //开方医生姓名
+
         "medicineTime": "-",//药品名称
         "total": "-", //总量
         "singleDose": "-",//单次用量
@@ -563,7 +563,7 @@ export default class NewConsultation extends Component{
   changeHistory1(index){        //切换病历
 
     if(!this.state.saveCase){
-      if(index!=this.state.history1Index){
+      if(index!==this.state.history1Index){
         alert("当前病历未保存!");
         return false
       }
@@ -571,8 +571,8 @@ export default class NewConsultation extends Component{
 
 
     let data=[];
-    if(this.state.getData.case[index].advice&&this.state.getData.case[index].advice!=false){
-      if(this.state.getData.case[index].advice[0].prescription&&this.state.getData.case[index].advice[0].prescription!=false){
+    if(this.state.getData.case[index].advice&&this.state.getData.case[index].advice!==false){
+      if(this.state.getData.case[index].advice[0].prescription&&this.state.getData.case[index].advice[0].prescription!==false){
         this.state.getData.case[index].advice[0].prescription.map((ele)=>{
           data.push(ele);
         })
@@ -586,7 +586,7 @@ export default class NewConsultation extends Component{
     if(this.state.getData.case[index].statusId){
       caseShow=true;
     }
-    if(this.state.getData.case[index].file&&this.state.getData.case[index].file!=false){
+    if(this.state.getData.case[index].file&&this.state.getData.case[index].file!==false){
     }
     this.setState({
       history1:this.state.getData.case[index],
@@ -594,20 +594,20 @@ export default class NewConsultation extends Component{
       history2:this.state.getData.case[index].advice?this.state.getData.case[index].advice[0]:null,
       data:data,
       caseId:caseShow,
-      fileList:this.state.getData.case[index].file&&this.state.getData.case[index].file!=false?this.state.getData.case[index].file:null,
+      fileList:this.state.getData.case[index].file&&this.state.getData.case[index].file!==false?this.state.getData.case[index].file:null,
     })
   }
 
   changeHistory2(index){        //切换医嘱
     if(!this.state.saveAdvice){
-      if(index!=this.state.history2Index){
+      if(index!==this.state.history2Index){
         alert("当前医嘱未保存!");
         return false
       }
     }
     let history2=this.state.history1.advice?this.state.history1.advice[index]:null;
     let data=[];
-    if(history2.prescription&&history2.prescription!=false){
+    if(history2.prescription&&history2.prescription!==false){
       history2.prescription.map((ele)=>{
         data.push(ele);
       })
@@ -925,11 +925,37 @@ export default class NewConsultation extends Component{
         getData.consultation.applicant=applicant;
         getData.consultation.startTime=startTime;
         getData.consultation.consultationName=consultationName;
-        that.setState({
-          getData,
-          userId:getData.consultation.id,
-          saveConsultationL:true
-        })
+        let data=[];
+        let caseId=false;
+        let fileList=[];
+        if(response.data.case!==false&&response.data.case){
+            getData.case=response.data.case;
+            if(getData.case&&getData.case!=false){
+                if(getData.case[0].advice!=false&&getData.case[0].advice[0].prescription){
+                    getData.case[0].advice[0].prescription.map((ele)=>{
+                        data.push(ele);
+                    });
+                }
+                fileList=getData.case[0].file?getData.case[0].file:[]
+            }else{
+                caseId=true;
+                getData.case=allData.case;
+                getData.case[0].advice[0].prescription?getData.case[0].advice[0].prescription.map((ele)=>{
+                    data.push(ele);
+                }):"";
+            }
+            getData.consultationId=that.props.params.id;
+            that.setState({
+                getData,
+                userId:getData.consultation.id?getData.consultation.id.toString():null,
+                saveConsultationL:true,
+                history1:getData.case[0],
+                history2:getData.case[0].advice?getData.case[0].advice[0]:null,
+                data:data,
+                fileList,
+                caseId
+            });
+        }
       }
     })
   }
@@ -1021,7 +1047,6 @@ export default class NewConsultation extends Component{
         getData.consultation=postConsulation;
         that.setState({
           saveConsultationL:true,
-          caseId:true,
           consultationId:response.data.id.toString(),
           userId:response.data.userId.toString(),
           dis:true
@@ -1428,7 +1453,7 @@ export default class NewConsultation extends Component{
               <ul>
                 <li>
                   <span>开方时间</span>
-                  <DatePicker   showTime format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="必填"  />
+                  <DatePicker showTime format={dateFormat} onChange={this.changePrescriptionTime.bind(this)} size="large" placeholder="必填"  />
                 </li>
                 <li>
                   <span>开方医生姓名</span>
@@ -1568,7 +1593,7 @@ export default class NewConsultation extends Component{
 
         {/*保存会诊对象*/}
 
-        <div className="cnsultation_bottom">
+        {/*<div className="cnsultation_bottom">
           <div className="history">
             {
               this.state.getData.case?this.state.getData.case.map((ele,index)=>{
@@ -1585,9 +1610,9 @@ export default class NewConsultation extends Component{
             <Button onClick={this.addHistory1.bind(this)} className="history_btn1" type="primary">
               <Icon type="plus" />
             </Button>
-            {/*医嘱的方式与病历一样*/}
+            医嘱的方式与病历一样
           </div>
-          <div className="history_detail">{/*这里循环一个state，点击病历就切换this.setState   点击新增就让新增的这个id去setState */}
+          <div className="history_detail">这里循环一个state，点击病历就切换this.setState   点击新增就让新增的这个id去setState
             <ul className="search_ul">
               <li>
                 <span className="most_flex">病例编号</span>
@@ -1655,7 +1680,7 @@ export default class NewConsultation extends Component{
               }):""
             }
 
-            {/*这里就是控制医嘱的增加*/}
+            这里就是控制医嘱的增加
             {
               this.state.caseId?<Button onClick={this.addHistory2.bind(this)} className="history_btn1" type="primary" >
                 <Icon type="plus" />
@@ -1678,7 +1703,7 @@ export default class NewConsultation extends Component{
                   <Input value={this.state.history2.doctor?this.state.history2.doctor:""} onChange={this.changeAdviceDoctor.bind(this)}  className="search_input"  placeholder="必填"  size="large"  />
                 </li>
                 <li>
-                  <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
+                  <span className="most_flex">医嘱时间</span>这里要加上一个判断， 判断不为空
                   <DatePicker   format={dateFormat}  size="large" className="search_input"  placeholder="必填"  onChange={this.changeAdviceTime.bind(this)} />
                 </li>
                 <li>
@@ -1740,6 +1765,192 @@ export default class NewConsultation extends Component{
                 this.state.targetdoc.map((ele)=>{
                   return ele.doctorName
                 })
+              } className="search_input" onFocus={()=>this.huizhenyisheng()} type="textarea" rows={4} />
+            </li>
+          </ul>
+          <div className="btn_save">
+            <div className="btn_save_index">
+              <Button className="btn_save_index_2" type="primary" onClick={()=>this.send()}>提交</Button>
+              <Link to="apply">
+                <Button type="primary">取消</Button>
+              </Link>
+
+            </div>
+          </div>
+        </div>*/}
+
+
+
+        <div className="cnsultation_bottom">
+          <div className="history">
+              {
+                  this.state.getData.case?this.state.getData.case.map((ele,index)=>{
+                      return (
+                          <div className="history_case" key={index}>
+                            <span onClick={this.changeHistory1.bind(this,index)} className="history_sp1">病例 {index+1} </span>
+                            <Button type="primary" onClick={this.deleteHistory1.bind(this,index)} className="prescribe_btn1 edit_delete" size="small">
+                              <Icon type="minus" />
+                            </Button>
+                          </div>
+                      )
+                  }):""
+              }
+            <Button onClick={this.addHistory1.bind(this)} className="history_btn1" type="primary">
+              <Icon type="plus" />
+            </Button>
+              {/*医嘱的方式与病历一样*/}
+          </div>
+          <div className="history_detail">{/*这里循环一个state，点击病历就切换this.setState   点击新增就让新增的这个id去setState */}
+            <ul className="search_ul">
+              <li>
+                <span className="most_flex">病例编号</span>
+                <Input value={this.state.history1.sn} className="search_input" size="large" placeholder="必填" onChange={this.changeSn.bind(this)} />
+              </li>
+              <li>
+              </li>
+
+              <li>
+              </li>
+
+              <li>
+              </li>
+            </ul>
+
+            <ul className="search_ul">
+              <li>
+                <span className="most_flex">病例医院</span>
+                <Input value={this.state.history1.hospital} className="search_input" size="large" placeholder="必填" onChange={this.changeHospital.bind(this)}  />
+              </li>
+              <li>
+                <span className="most_flex">主治医生</span>
+                <Input value={this.state.history1.doctor} className="search_input" size="large" placeholder="主治医生" onChange={this.changeDoctor.bind(this)}   />
+              </li>
+              <li>
+                <span className="most_flex">病例名称</span>
+                <Input value={this.state.history1.name} className="search_input" size="large" placeholder="病例名称" onChange={this.changeName.bind(this)}  />
+              </li>
+              <li>
+                <span className="most_flex">诊治日期</span>
+                <DatePicker  allowClear={false} value={moment(this.state.history1.diagnosisTime, dateFormat)} format={dateFormat} size="large"  placeholder="必填"  className="search_input" onChange={this.changeDagnosisTime.bind(this)} />
+              </li>
+            </ul>
+
+            <ul className="search_ul2">
+              <li>
+                <span className="most_flex1">临床诊断</span>
+                <Input onChange={this.changeDiagnosis.bind(this)} value={this.state.history1.diagnosis}  className="search_input" type="textarea" rows={4} />
+              </li>
+            </ul>
+          </div>
+
+
+            {
+                this.state.history1.statusId?<div className="btn_save">
+                  <div className="btn_save_index">
+                    <Button onClick={this.saveCase.bind(this)} className="btn_save_index_2" type="primary">保存病历</Button>
+                  </div>
+                </div>:""
+            }
+
+
+
+          <div className="prescribe">
+              {
+                  this.state.history1.advice?this.state.history1.advice.map((ele,index)=>{
+                      return (
+                          <div key={index}>
+                            <span onClick={this.changeHistory2.bind(this,index)} className="prescribe_sp1"> 医嘱{index+1} </span>
+                            <Button type="primary" onClick={this.deleteHistory2.bind(this,index)} className="prescribe_btn1 edit_delete" size="small">
+                              <Icon type="minus" />
+                            </Button>
+                          </div>
+                      )
+                  }):""
+              }
+              {
+                  this.state.caseId?<Button onClick={this.addHistory2.bind(this)} className="history_btn1" type="primary" >
+                    <Icon type="plus" />
+                  </Button>:""
+              }
+          </div>
+
+
+
+
+            {
+                this.state.history2?<div className="prescribeDetail">
+                  <ul className="search_ul">
+                    <li>
+                      <span className="most_flex">医嘱医院</span>
+                      <Input value={this.state.history2.hospital?this.state.history2.hospital:""} onChange={this.changeAdviceHospital.bind(this)} className="search_input" size="large"  placeholder="必填"  />
+                    </li>
+                    <li>
+                      <span className="most_flex">医嘱医生</span>
+                      <Input value={this.state.history2.doctor?this.state.history2.doctor:""} onChange={this.changeAdviceDoctor.bind(this)}  className="search_input" size="large"  placeholder="必填"  />
+                    </li>
+                    <li>
+                      <span className="most_flex">医嘱时间</span>{/*这里要加上一个判断， 判断不为空*/}
+                      <DatePicker  allowClear={false} value={moment(this.state.history2.adviceTime?this.state.history2.adviceTime:"", dateFormat)} format={dateFormat}  placeholder="必填"  size="large" className="search_input" onChange={this.changeAdviceTime.bind(this)} />
+                    </li>
+                    <li>
+                    </li>
+                  </ul>
+                  <ul className="search_ul2">
+                    <li>
+                      <span className="most_flex1">医嘱</span>
+                      <Input value={this.state.history2.advice?this.state.history2.advice:""}  onChange={this.changeAdvice.bind(this)}  className="search_input" type="textarea" rows={4} />
+                    </li>
+                  </ul>
+
+
+                    {
+                        this.state.history2.statusId?<div className="btn_save">
+                          <div className="btn_save_index">
+                            <Button onClick={this.saveAdvice.bind(this)} className="btn_save_index_2" type="primary">保存医嘱</Button>
+                          </div>
+                        </div>:""
+                    }
+
+
+
+                    {
+                        this.state.data&&this.state.data.length>0?<ul className="search_ul2">
+                          <li>
+                            <span className="search_ul2_sp1 most_flex1">处方</span>
+                            <Table  rowKey="id" className="search_input" columns={this.state.columns} dataSource={this.state.data} />
+                          </li>
+                        </ul>:""
+                    }
+                </div>:""
+            }
+
+
+
+            {
+                this.state.fileList?<div className="record">
+
+                  <span onClick={this.alertMsg.bind(this)} className="history_sp1 record_sp1"> 病历资料 </span>
+                    {
+                        this.state.caseId?<Upload   {...props}>
+                          <Button className="history_btn1">
+                            <Icon type="upload" />
+                          </Button>
+                        </Upload>:""
+                    }
+
+
+                  <Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />
+                </div>:""
+            }
+
+
+          <ul className="search_ul2">
+            <li className="search_li_last">
+              <span className="one_title">会诊医生</span>
+              <Input value={
+                  this.state.targetdoc.map((ele)=>{
+                      return ele.doctorName
+                  })
               } className="search_input" onFocus={()=>this.huizhenyisheng()} type="textarea" rows={4} />
             </li>
           </ul>

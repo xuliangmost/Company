@@ -304,8 +304,6 @@ export default class EditCnsulation extends Component{
         const mockData = [];
         const targetdoc=[];
         const docArr=response.data.result;
-
-
         for (let i = 0; i < docArr.length; i++) {
           const data = {
             key: docArr[i].doctorId,
