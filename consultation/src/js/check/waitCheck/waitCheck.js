@@ -31,7 +31,7 @@ export default class WaitCheck extends Component{
         applyPage:{
           pageSize:10,
           pageNum:1,
-          status:"2",
+          status:"0",
           title:null,
           hospital:null,
           phone:null,

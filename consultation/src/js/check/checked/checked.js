@@ -30,7 +30,7 @@ export default class Checked extends Component{
       this.state={
         applyPage:{
           pageSize:10,
-          status:"3",
+          status:"1",
           title:null,
           hospital:null,
           phone:null,

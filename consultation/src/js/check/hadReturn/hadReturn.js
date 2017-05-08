@@ -30,7 +30,7 @@ export default class HadReturn extends Component{
     this.state={
       applyPage:{
         pageSize:"10",
-        status:"4",
+        status:"2",
         title:null,
         hospital:null,
         phone:null,

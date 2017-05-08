@@ -169,18 +169,33 @@ export default class EditCnsulation extends Component{
                     title: '操作人',
                     dataIndex: 'assistantName',
                     key: 'assistantName',
-                    width:"126px"
+                    width: "126px",
+                    render: (text) => (
+                        <span>{text?text:"会诊系统"}</span>
+                    ),
+                },
+                {
+                    title: '所属医院',
+                    dataIndex: 'hospitalName',
+                    key: 'hospitalName',
+                    width: "126px",
+                    render: (text) => (
+                        <span>{text?text:"无"}</span>
+                    ),
                 },
                 {
                     title: '审核结果',
                     dataIndex: 'checkResult',
                     key: 'checkResult',
-                    width:"126px"
+                    width: "126px"
                 },
                 {
                     title: '退回原因',
                     dataIndex: 'returnReason',
                     key: 'returnReason',
+                    render: (text,record) => (
+                        <span>{record.assistantName?text:"系统判断"}</span>
+                    ),
                 }
             ],
             oldData:{//固定的，处方增加按钮的一项
@@ -441,11 +456,12 @@ export default class EditCnsulation extends Component{
     }
 
     render(){
+        let colorStyle={"background":"#666"};
         return(
             <div className="newHidden">
               <div className="cnsultation_top">
                 <h1>
-                  编辑会诊
+                  查看作废会诊
                 </h1>
                 <ul className="search_ul">
                   <li>
@@ -520,7 +536,7 @@ export default class EditCnsulation extends Component{
                         this.state.getData.case?this.state.getData.case.map((ele,index)=>{
                             return (
                                 <div className="history_case" key={index}>
-                                  <span onClick={this.changeHistory1.bind(this,index)} className="history_sp1">病例 {index+1} </span>
+                                  <span style={this.state.history1Index===index?colorStyle:{}}  onClick={this.changeHistory1.bind(this,index)} className="history_sp1">{ele.sn?ele.sn:"空白病历"}</span>
                                 </div>
                             )
                         }):""
@@ -659,7 +675,7 @@ export default class EditCnsulation extends Component{
 
                 <div className="btn_save">
                   <div className="btn_save_index">
-                    <Link to="check/hadReturn/hadReturn">
+                    <Link to="invalid/invalid">
                       <Button type="primary">返回</Button>
                     </Link>
                   </div>
