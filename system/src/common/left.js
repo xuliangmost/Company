@@ -106,12 +106,11 @@ export default class Left extends Component {
               }
               {
                 this.state.permissions.indexOf("5")!==-1?<Menu.Item key="5" id="5">
-                  <a href="#">
+                  <a href="#/log/log">
                     系统日志
                   </a>
                 </Menu.Item>:""
               }
-
               {/*<Menu.Item key="6" id="1">
                <a href="#">
                系统参数

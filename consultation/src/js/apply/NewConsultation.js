@@ -234,7 +234,6 @@ export default class NewConsultation extends Component {
 
 /////////////////////////
 
-
     getPeople() {
         let that = this;
         let getData = this.state.getData;
@@ -708,7 +707,7 @@ export default class NewConsultation extends Component {
     }
 
     changeDiagnosis(e) {//修改临床诊断
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].diagnosis = e.target.value;
@@ -721,7 +720,7 @@ export default class NewConsultation extends Component {
     }
 
     changeName(e) {//修改病历名称
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].name = e.target.value;
@@ -734,7 +733,7 @@ export default class NewConsultation extends Component {
     }
 
     changeSn(e) {//修改病历编号
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].sn = e.target.value;
@@ -747,7 +746,7 @@ export default class NewConsultation extends Component {
     }
 
     changeHospital(e) {//修改病历医院
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].hospital = e.target.value;
@@ -760,7 +759,7 @@ export default class NewConsultation extends Component {
     }
 
     changeDoctor(e) {//修改主治医生
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].doctor = e.target.value;
@@ -773,7 +772,7 @@ export default class NewConsultation extends Component {
     }
 
     changeDagnosisTime(date, dateString) {//修改诊治日期
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].diagnosisTime = dateString;
@@ -947,7 +946,7 @@ export default class NewConsultation extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded UTF-8'
             },
         }).then(function (response) {
-            if (response.data.result !== false) {
+            if (response.data.result != false) {
 
                 let getData = that.state.getData;
                 let hospital = getData.consultation.hospital;
@@ -960,25 +959,6 @@ export default class NewConsultation extends Component {
                 getData.consultation.applicant = applicant;
                 getData.consultation.startTime = startTime;
                 getData.consultation.consultationName = consultationName;
-
-                /*confirm({
-                    title: 'Do you want to fall in love with me?',
-                    content: 'When you fall in love with me, I will not fall in love with you',
-                    cancelText: "Yes",
-                    okText: "I Do",
-                    onCancel() {
-                        that.setState({
-                            getData,
-                            userId: getData.consultation.id ? getData.consultation.id.toString() : null,
-                            history1: getData.case[0],
-                            history2: getData.case[0].advice ? getData.case[0].advice[0] : null
-                        });
-                    },
-                    onOk() {
-
-                    },
-
-                });*/
                 let data = [];
                 let caseId = false;
                 let saveAdvice = true;
@@ -1557,8 +1537,8 @@ export default class NewConsultation extends Component {
     }
 
     deleteHistory2(index) {           //删除医嘱
-        let that=that;
-        if(!that.saveAdvice){
+        let that=this;
+        if(!that.state.saveAdvice){
             alert("请保存当前医嘱!");
             return false
         }
@@ -1786,7 +1766,7 @@ export default class NewConsultation extends Component {
                         </li>
                         <li>
                             <span className="most_flex">出生日期</span>
-                            <DatePicker value={moment(this.state.getData.consultation.birthday, dateFormat)} placeholder="必填" size="large" className="search_input"
+                            <DatePicker allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} placeholder="必填" size="large" className="search_input"
                                         onChange={this.changeBirthday.bind(this)}/>
                         </li>
                     </ul>

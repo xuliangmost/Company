@@ -41,6 +41,11 @@ export default class UsrMgmt extends Component{
           key: 'phone',
           },
           {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email',
+          },
+          {
             title: '隶属单位',
             dataIndex: 'unitName',
             key: 'unitName',
@@ -207,7 +212,7 @@ export default class UsrMgmt extends Component{
             {
               this.state.super?<li>
                 <span className="most_flex">隶属单位</span>
-                <Select onChange={this.selectFrom.bind(this)} defaultValue="请选择" className="search_input">
+               <Select size="large"  onChange={this.selectFrom.bind(this)} defaultValue="请选择" className="search_input">
                   <Option value="">-请选择-</Option>
                   {
                     this.state.fromCop.map((ele,index)=>{
@@ -224,7 +229,7 @@ export default class UsrMgmt extends Component{
             <ul className="search_ul">
               {/*<li>
                 <span className="most_flex">登录状态</span>
-                <Select defaultValue="请选择" className="search_input">
+               <Select size="large"  defaultValue="请选择" className="search_input">
                   <Option value="0">-请选择-</Option>
                   <Option value="1">在线</Option>
                   <Option value="2">离线</Option>

@@ -16,7 +16,7 @@ import Memuauthority from "../js/memuauthority/memuauthority"
 import MenuAuthorization from "../js/memuauthority/menuAuthorization"
 import EditMemuauthority from "../js/memuauthority/editMmemuauthority"
 import checked from "../tools/checked"
-
+import Log from "../js/log/log"
 let serverD=api().serverAdress;
 const jwtDecode = require('jwt-decode');
 let auth=[
@@ -47,6 +47,10 @@ let auth=[
   {
     id:3,
     route:"#/memuauthority/memuauthority"
+  },
+  {
+    id:5,
+    route:"#/log/log"
   }
 ];
 let reg = /^[0-9]+.?[0-9]*$/;
@@ -127,6 +131,7 @@ class Page extends Component{
                 <Route path="/content" component={PageBottom} >
                   <Route path="/usrmgmt/blank" component={Content}/>
                   <Route path="/usrmgmt/usrmgmt" component={UsrMgmt}/>
+                  <Route path="/log/log" component={Log}/>
                   <Route path="/usrmgmt/addUsrmgmt" component={AddUsrMgmt}/>
                   <Route path="/usrmgmt/editUsrmgmt/:id" component={EditUsrMgmt}/>
 

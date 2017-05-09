@@ -237,7 +237,7 @@ export default class AddDoctor extends Component{
               <span className="name">
                 科室
               </span>
-              <Select onChange={this.selectDp.bind(this)} optionFilterProp="children" className="flex2" defaultValue="-请选择-">
+             <Select size="large"  onChange={this.selectDp.bind(this)} optionFilterProp="children" className="flex2" defaultValue="-请选择-">
                 {
                   this.state.depList.map((ele,index)=>{
                     return <Option key={index} value={ele.departmentId.toString()}>{ele.departmentName}</Option>
@@ -252,7 +252,7 @@ export default class AddDoctor extends Component{
               <span className="name">
                 职称
               </span>
-              <Select onChange={this.selectDoctorTitle.bind(this)} optionFilterProp="children" className="flex2" defaultValue="-请选择-">
+             <Select size="large"  onChange={this.selectDoctorTitle.bind(this)} optionFilterProp="children" className="flex2" defaultValue="-请选择-">
                 <Option value="">-请选择-</Option>
                 <Option value="主任医师">主任医师</Option>
                 <Option value="副主任医师">副主任医师</Option>
@@ -268,7 +268,7 @@ export default class AddDoctor extends Component{
               <span className="name">
                职务
               </span>
-              <Select  onChange={this.selectDuties.bind(this)}  optionFilterProp="children" className="flex2"  defaultValue="-请选择-">
+             <Select size="large"   onChange={this.selectDuties.bind(this)}  optionFilterProp="children" className="flex2"  defaultValue="-请选择-">
                 <Option value="">-请选择-</Option>
                 <Option value="科主任">科主任</Option>
                 <Option value="副主任">副主任</Option>

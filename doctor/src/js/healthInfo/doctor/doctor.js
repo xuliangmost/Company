@@ -150,19 +150,18 @@ export default class Doctor extends Component{
               <Input  onChange={this.changeDepartmentName.bind(this)} className="search_input" size="large" placeholder="科室" />
             </li>
             <li>
+              <span className="flex_padding">职称</span>
+              <Select size="large"   onChange={this.changeDoctorTitle.bind(this)} optionFilterProp="children" className="search_input"  defaultValue="请选择">
+                <Option value="0">-请选择-</Option>
+                <Option value="1">主任医师</Option>
+                <Option value="2">副主任医师</Option>
+                <Option value="3">主治医师</Option>
+              </Select>
             </li>
           </ul>
 
-            <ul className="search_ul">
-              <li>
-                <span className="flex_padding">职称</span>
-                <Select  onChange={this.changeDoctorTitle.bind(this)} optionFilterProp="children" className="search_input"  defaultValue="请选择">
-                  <Option value="0">-请选择-</Option>
-                  <Option value="1">主任医师</Option>
-                  <Option value="2">副主任医师</Option>
-                  <Option value="3">主治医师</Option>
-                </Select>
-              </li>
+         {/*   <ul className="search_ul">
+
               <li>
               </li>
               <li>
@@ -171,7 +170,7 @@ export default class Doctor extends Component{
               </li>
             </ul>
 
-
+*/}
           </div>
           <div className="apple_bottom">
             <h1 className="most_h1">

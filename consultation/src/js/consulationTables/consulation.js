@@ -338,7 +338,7 @@ export default class Consulation extends Component{
               </li>
               {/*<li>
                 <span className="most_flex">会诊阶段</span>
-                <Select optionFilterProp="children" className="search_input" onChange={this.selectStage.bind(this)}  defaultValue="全部">
+               <Select size="large"  optionFilterProp="children" className="search_input" onChange={this.selectStage.bind(this)}  defaultValue="全部">
                   <Option value="0">全部</Option>
                   <Option value="1">会诊申请</Option>
                   <Option value="2">会诊审核</Option>
@@ -348,7 +348,7 @@ export default class Consulation extends Component{
 
               <li>
                 <span className="most_flex">会诊状态</span>
-                 <Select optionFilterProp="children" className="search_input" onChange={this.selectState.bind(this)}  defaultValue="全部">
+                <Select size="large"  optionFilterProp="children" className="search_input" onChange={this.selectState.bind(this)}  defaultValue="全部">
                     <Option value="0">全部</Option>
                     <Option value="1">待提交</Option>
                     <Option value="2">待审核</Option>

@@ -728,7 +728,7 @@ export default class EditCnsulation extends Component {
     }
 
     changeDiagnosis(e) {//修改临床诊断
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].diagnosis = e.target.value;
@@ -741,7 +741,7 @@ export default class EditCnsulation extends Component {
     }
 
     changeName(e) {//修改病历名称
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].name = e.target.value;
@@ -754,7 +754,7 @@ export default class EditCnsulation extends Component {
     }
 
     changeSn(e) {//修改病历编号
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].sn = e.target.value;
@@ -767,7 +767,7 @@ export default class EditCnsulation extends Component {
     }
 
     changeHospital(e) {//修改病历医院
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].hospital = e.target.value;
@@ -780,7 +780,7 @@ export default class EditCnsulation extends Component {
     }
 
     changeDoctor(e) {//修改主治医生
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].doctor = e.target.value;
@@ -793,7 +793,7 @@ export default class EditCnsulation extends Component {
     }
 
     changeDagnosisTime(date, dateString) {//修改诊治日期
-        if (this.state.caseId) {
+        if (this.state.history1.statusId) {
             let getData = this.state.getData;
             let history1 = this.state.history1;
             getData.case[this.state.history1Index].diagnosisTime = dateString;
@@ -1112,116 +1112,6 @@ export default class EditCnsulation extends Component {
         })
     }
 
-    /*deleteHistory1(index) {           //删除病历
-
-
-        if (!this.state.saveCase) {
-            if (index != this.state.history1Index) {
-                alert("请先保存病历!");
-                return false
-            }
-        }
-        let getData = JSON.parse(JSON.stringify(this.state.getData));
-        if (getData.case.length == 1) {
-            getData.case[0] = {
-                "sn": "", //case编号
-                "hospital": "",  //case医院
-                "doctor": "", //主治医生
-                "name": "", //病例名称
-                "diagnosisTime": startTime, //诊治时间
-                "diagnosis": "", //临床诊断
-                "doc": "", //病例资料
-                "file": [],
-                "statusId": 1,
-                "advice": [
-                    {
-                        "hospital": "",
-                        "doctor": "",
-                        "adviceTime": startTime,
-                        "advice": "",
-                        "statusId": 1,
-                        "prescription": [
-                            {
-                                "id": '0',
-                                "prescriptionTime": "-", //开方时间
-                                "doctorName": "-", //开方医生姓名
-                                "medicineTime": "-",//药品名称
-                                "total": "-", //总量
-                                "singleDose": "-",//单次用量
-                                "frequency": "-"//次/日
-                            }
-                        ]
-                    }
-                ]
-            };
-            let history2 = getData.case[0].advice ? getData.case[0].advice[0] : null;
-            let fileList = getData.case[0].file;
-            let data = history2.prescription;
-            this.setState({
-                getData: getData,
-                history1: getData.case[0],
-                history2,
-                history1Index: 0,
-                history2Index: 0,
-                data: data,
-                saveCase: false,
-                caseId: true,
-                saveAdvice: false,
-                fileList
-            })
-        } else {
-            let saveCase;
-            if (getData.case[index].statusId) {
-                saveCase = true
-            }
-            getData.case.splice(index, 1);
-            if (index == getData.case.length - 1) {
-
-            } else {
-                index = index < 1 ? 0 : index - 1;
-            }
-            console.log(index)
-            let history2 = getData.case[index].advice ? getData.case[index].advice[0] : null;
-
-            let data = history2 ? history2.prescription : [];
-            if (data == false) {
-                data.push(this.state.oldData)
-            }
-            this.setState({
-                getData: getData,
-                history1: getData.case[index],
-                history2: history2,
-                history1Index: index,
-                history2Index: 0,
-                data,
-                saveCase: true,
-                fileList: this.state.getData.case[index].file && this.state.getData.case[index].file != false ? this.state.getData.case[index].file : null,
-            })
-        }
-
-
-    }
-
-    deleteHistory2(index) {           //删除医嘱
-        let getData = JSON.parse(JSON.stringify(this.state.getData));
-        getData.case[this.state.history1Index].advice.splice(index, 1);
-        index = index < 1 ? 0 : index - 1;
-        let history1 = getData.case[this.state.history1Index];
-        let history2 = history1.advice ? history1.advice[index] : null;
-        let data = history2 ? history2.prescription : [];
-        let saveAdvice = !history2;
-        if (data == false) {
-            data.push(this.state.oldData)
-        }
-        this.setState({
-            getData: getData,
-            history1: history1,
-            history2: history2,
-            history2Index: this.state.history2Index - 1,
-            data,
-            saveAdvice
-        })
-    }*/
 
     deleteHistory1(index) {           //删除病历
 
@@ -1669,7 +1559,7 @@ export default class EditCnsulation extends Component {
                                         <span style={this.state.history1Index===index?colorStyle:{}}  onClick={this.changeHistory1.bind(this, index)}
                                               className="history_sp1">{ele.sn?ele.sn:"空白病历"}</span>
                                         {
-                                            this.state.history1.statusId?<Button type="primary" onClick={this.deleteHistory1.bind(this, index)}
+                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory1.bind(this, index)}
                                                                                  className="prescribe_btn1 edit_delete" size="small">
                                                 <Icon type="minus"/>
                                             </Button>:""
@@ -1751,7 +1641,7 @@ export default class EditCnsulation extends Component {
                                     <div key={index}>
                                         <span style={this.state.history2Index===index?colorStyle:{}}  onClick={this.changeHistory2.bind(this, index)} className="prescribe_sp1"> 医嘱{index + 1} </span>
                                         {
-                                            this.state.history1.statusId?<Button type="primary" onClick={this.deleteHistory2.bind(this, index)}
+                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory2.bind(this, index)}
                                                 className="prescribe_btn1 edit_delete" size="small">
                                             <Icon type="minus"/>
                                         </Button>:""

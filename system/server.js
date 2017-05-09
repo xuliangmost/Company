@@ -1,30 +1,35 @@
+
+
+
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config.js');
-const serverD="http://192.168.100.133:8787";
-new WebpackDevServer(webpack(config), {
-  contentBase: __dirname + '/static/',
+const serverD = 'http://192.168.100.133:8787';
+
+const server = new WebpackDevServer(webpack(config), {
+  contentBase: `${__dirname}/static/`,
   hot: true,
   inline: true,
-  disableHostCheck:true,
+  disableHostCheck: true,
   proxy: {
-    "/api": {
+    '/api': {
       target: serverD,
       changeOrigin: true,
     },
-    "/upload": {
+    '/upload': {
       target: serverD,
       changeOrigin: true,
     },
-    "/newToken": {
+    '/newToken': {
       target: serverD,
       changeOrigin: true,
     },
   }
-})
-  .listen(8811, 'localhost', function (err) {
-    if (err) {
-      console.log(err);
-    }
-    console.log('Listening at localhost:8811');
-  });
+});
+
+server.listen(8811, function (err) {
+  if (err) {
+    console.log(err);
+  }
+  console.log('Listening at localhost:8811');
+});

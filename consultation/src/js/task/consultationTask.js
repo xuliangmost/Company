@@ -315,7 +315,7 @@ export default class ConsultationTask extends Component{
             </li>
             <li>
                <span className="most_flex">会诊状态</span>
-                <Select defaultValue="请选择" className="search_input" onChange={this.handleChange.bind(this)}>
+               <Select size="large"  defaultValue="请选择" className="search_input" onChange={this.handleChange.bind(this)}>
                   <Option value="1">全部</Option>
                   <Option value="未开始">未开始</Option>
 
