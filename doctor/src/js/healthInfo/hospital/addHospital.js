@@ -410,7 +410,7 @@ export default class AddHospital extends Component {
 
         <h3>
         </h3>
-
+        
         <div className="btn_save">
           <div className="btn_save_index">
             {

@@ -153,7 +153,7 @@ export default class ConsultationTask extends Component{
               <Link to={"task/lookConsultationTask/"+record.id}>查看</Link>&nbsp;
 
               {
-                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)||record.stat==="已结束"} href={serverD+"/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} >参加</a>:""
+                record.conId?<a disabled={!tools.Calculation(record.startTime.split("T").join(" "),startTime)||record.stat==="已结束"} href={serverD+"conference/#/mainFrame/personMeeting/addMeeting/"+record.conId+"/1"} >参加</a>:""
               }
               </span>
           )
@@ -161,11 +161,7 @@ export default class ConsultationTask extends Component{
       ],
       dataSource : []
     }
-
-
-
   }
-
   componentDidMount(){
     this.query(1);
   }

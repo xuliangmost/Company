@@ -97,13 +97,13 @@ export default class Left extends Component {
                   </a>
                 </Menu.Item>:""
               }
-              {
+              {/*{
                 this.state.permissions.indexOf("4")!==-1?<Menu.Item key="4" id="4">
                   <a href="#">
                     组织架构
                   </a>
                 </Menu.Item>:""
-              }
+              }*/}
               {
                 this.state.permissions.indexOf("5")!==-1?<Menu.Item key="5" id="5">
                   <a href="#/log/log">

@@ -80,10 +80,6 @@ class PageBottom extends Component{
               }
             }
           });
-          if(flag){
-
-            location.href=""
-          }
         }
       }
     }
@@ -122,10 +118,7 @@ class Page extends Component{
                   <Route path="/healthInfo/doctor/doctor" component={Doctor}/>
                   <Route path="/healthInfo/doctor/editDoctor/:id" component={EditDoctor}/>
                   <Route path="/healthInfo/doctor/addDoctor" component={AddDoctor}/>
-
                 </Route>
-
-
               </Router>
 
             </div>

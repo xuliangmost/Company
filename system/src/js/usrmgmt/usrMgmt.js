@@ -51,6 +51,18 @@ export default class UsrMgmt extends Component{
             key: 'unitName',
           },
           {
+            title: '所属板块',
+            dataIndex: 'sect',
+            key: 'sect',
+            render: (text, record,index) => (
+              <span  key={record.id}>
+                {
+                  text===1?"全科版块":""
+                }
+            </span>
+            )
+          },
+          {
             title: '所属角色',
             dataIndex: 'roleNames',
             key: 'roleNames',

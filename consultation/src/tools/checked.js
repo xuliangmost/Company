@@ -9,7 +9,7 @@ function mobileValidate(mobile) {
 }
 //邮箱验证
 function emailValidate(email) {
-  return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(email);
+    return /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/ .test(email);
 }
 
 function flashChecker() {

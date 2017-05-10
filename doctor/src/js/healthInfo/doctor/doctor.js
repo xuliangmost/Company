@@ -5,13 +5,21 @@ import "../../../less/hospital.less"
 import axios from "axios";
 const Option = Select.Option;
 
+
+
+let Action={
+  on:function (name,fn) {
+    this[name]=fn;
+  },
+  emit:function (name,data) {
+    this[name](data)
+  }
+};
 const doctorTitle=["","主任医师","副主任医师","主治医师"];
 let token=localStorage.getItem("robertUserName");
 export default class Doctor extends Component{
     constructor(props){
         super(props);
-
-
       this.state={
         applyPage:{
           pageSize:10,
@@ -41,15 +49,40 @@ export default class Doctor extends Component{
           dataIndex: 'doctorPhone',
           key: 'doctorPhone',
           },
+
+
+          {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email',
+          },
+          {
+            title: '隶属单位',
+            dataIndex: 'unitName',
+            key: 'unitName',
+          },
           {
             title: '科室',
             dataIndex: 'departmentName',
             key: 'departmentName',
           },
+
           {
             title: '职称',
             dataIndex: 'doctorTitle',
             key: 'doctorTitle',
+          },
+          {
+            title: '所属板块',
+            dataIndex: 'sect',
+            key: 'sect',
+            render: (text, record,index) => (
+              <span  key={record.id}>
+                {
+                  text===1?"全科版块":""
+                }
+            </span>
+            )
           },
           {
             title: '操作',
@@ -78,6 +111,11 @@ export default class Doctor extends Component{
 
 
     query(num){
+
+
+
+
+
       let that=this;
       let applyPage=this.state.applyPage;
       applyPage.pageNum=num;
@@ -133,7 +171,7 @@ export default class Doctor extends Component{
           <div className="apple_top">
           <h1>
             医生信息查询区
-            <Button type="primary" onClick={this.query.bind(this,1)} className="search_btn1">查询</Button>
+            <Button  type="primary" onClick={this.query.bind(this,1)} className="search_btn1">查询</Button>
           </h1>
           <ul className="search_ul">
             <li>
@@ -189,3 +227,5 @@ export default class Doctor extends Component{
     }
 
 }
+
+

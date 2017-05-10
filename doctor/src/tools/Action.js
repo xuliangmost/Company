@@ -1,3 +1,4 @@
+
 let Action={
   on:function (name,fn) {
     this[name]=fn
