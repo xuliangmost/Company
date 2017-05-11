@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Button, DatePicker, Input, Table, Modal, Transfer, Icon, Upload, message} from 'antd';
+import {Button, DatePicker, Input, Table, Modal, Transfer, Icon, Upload, message, Popconfirm} from 'antd';
 import {Link} from 'react-router';
 import "../../less/newCnsulation.less";
 import "../../less/lookWaitCheck.less";
@@ -86,7 +86,7 @@ export default class NewConsultation extends Component {
         super(props);
         this.state = {
             consultationId: null,
-            saveCase: true,//是否保存了病历
+            saveCase: false,//是否保存了病历
             userId: null,
             hospitalId: null,
             savePrescription: false,//是否保存了处方
@@ -228,7 +228,7 @@ export default class NewConsultation extends Component {
             selectTime: false,//是否选中过出生时间
             aId: null,
             hIds: null,
-            caseIds:null//输入手机号时带出来的病历id的串串
+            caseIds: null//输入手机号时带出来的病历id的串串
         }
     }
 
@@ -372,7 +372,8 @@ export default class NewConsultation extends Component {
         this.setState({
             getData: JSON.parse(JSON.stringify(data)),
             history1: data.case[0],
-            history2: data.case[0].advice[0]
+            history2: data.case[0].advice[0],
+            saveCase: false,
         });
         this.getPeople()
     }
@@ -580,12 +581,15 @@ export default class NewConsultation extends Component {
     changeHistory1(index) {        //切换病历
 
         if (!this.state.saveCase) {
-            if (index != this.state.history1Index) {
+            if (index !== this.state.history1Index) {
                 alert("当前病历未保存!");
                 return false
             }
         }
-
+        if (!this.state.saveAdvice) {
+            alert("当前医嘱未保存!");
+            return false
+        }
 
         let data = [];
         if (this.state.getData.case[index].advice && this.state.getData.case[index].advice != false) {
@@ -608,6 +612,7 @@ export default class NewConsultation extends Component {
         this.setState({
             history1: this.state.getData.case[index],
             history1Index: index,
+            history2Index: 0,
             history2: this.state.getData.case[index].advice ? this.state.getData.case[index].advice[0] : null,
             data: data,
             caseId: caseShow,
@@ -691,7 +696,7 @@ export default class NewConsultation extends Component {
                 history2Index: 0,
                 saveCase: false,
                 caseId: true,
-                saveAdvice:false,
+                saveAdvice: false,
                 fileList
             })
         } else {
@@ -829,6 +834,7 @@ export default class NewConsultation extends Component {
             let getData = this.state.getData;
             let history2 = this.state.history2;
             getData.case[this.state.history1Index].advice[this.state.history2Index].hospital = e.target.value;
+
             history2.hospital = e.target.value;
 
             this.setState({
@@ -946,43 +952,42 @@ export default class NewConsultation extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded UTF-8'
             },
         }).then(function (response) {
+            let getData = that.state.getData;
+            let hospital = getData.consultation.hospital;
+            let applicant = getData.consultation.applicant;
+            let consultationName = getData.consultation.consultationName;
+            let startTime = getData.consultation.startTime;
             if (response.data.result != false) {
 
-                let getData = that.state.getData;
-                let hospital = getData.consultation.hospital;
-                let applicant = getData.consultation.applicant;
-                let consultationName = getData.consultation.consultationName;
-                let startTime = getData.consultation.startTime;
                 getData.consultation = response.data.result[0] ? response.data.result[0] : getData.consultation;
-
                 getData.consultation.hospital = hospital;
                 getData.consultation.applicant = applicant;
                 getData.consultation.startTime = startTime;
                 getData.consultation.consultationName = consultationName;
                 let data = [];
                 let caseId = false;
-                let saveAdvice = true;
+                let saveAdvice = false;
                 let fileList = [];
                 if (response.data.case !== false && response.data.case) {
                     getData.case = response.data.case;
 
                     let caseIds;
                     if (getData.case && getData.case != false) {
-                        caseIds=getData.case.map((ele)=>{
+                        caseIds = getData.case.map((ele) => {
                             return ele.id
                         });
-                        getData.consultation.birthday =  response.data.result[0].birthday;
+                        getData.consultation.birthday = response.data.result[0].birthday;
                         if (getData.case[0].advice != false && getData.case[0].advice[0].prescription) {
                             getData.case[0].advice[0].prescription.map((ele) => {
                                 data.push(ele);
                             });
                         }
                         fileList = getData.case[0].file ? getData.case[0].file : []
-                        saveAdvice = false;
+                        saveAdvice = true;
                     } else {
                         caseId = true;
                         getData.case = allData.case;
-                        caseIds=getData.case.map((ele)=>{
+                        caseIds = getData.case.map((ele) => {
                             return ele.id
                         });
                         getData.case[0].advice[0].prescription ? getData.case[0].advice[0].prescription.map((ele) => {
@@ -992,6 +997,7 @@ export default class NewConsultation extends Component {
                     getData.consultationId = that.props.params.id;
                     that.setState({
                         getData,
+                        saveCase: true,
                         userId: getData.consultation.id ? getData.consultation.id.toString() : null,
                         saveConsultationL: false,
                         history1: getData.case[0],
@@ -1000,9 +1006,11 @@ export default class NewConsultation extends Component {
                         fileList,
                         caseId,
                         saveAdvice,
-                        caseIds:caseIds.join(",")
+                        caseIds: caseIds.join(",")
                     });
                 }
+
+            } else {
 
             }
         })
@@ -1111,7 +1119,7 @@ export default class NewConsultation extends Component {
                     method: 'POST',
                     params: {
                         consultationId: response.data.id,
-                        caseList:that.state.caseIds
+                        caseList: that.state.caseIds
                     },
                     headers: {
                         'Authorization': 'Bearer ' + token,
@@ -1366,7 +1374,7 @@ export default class NewConsultation extends Component {
     }
 
     deleteHistory1(index) {           //删除病历
-        let that=this;
+        let that = this;
         if (!that.state.saveCase) {
             if (index != that.state.history1Index) {
                 alert("请先保存病历!");
@@ -1376,20 +1384,20 @@ export default class NewConsultation extends Component {
 
 
         let getData = JSON.parse(JSON.stringify(that.state.getData));
-        if(that.state.history1.id){
+        if (that.state.history1.id) {
             axios.request({
                 url: '/api/conference/delete/case',
                 method: 'get',
-                params:{
-                    consultationId:that.state.consultationId.toString(),
-                    id:that.state.history1.id.toString()
+                params: {
+                    consultationId: that.state.consultationId.toString(),
+                    id: that.state.history1.id.toString()
                 },
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded UTF-8'
                 },
             }).then(function (response) {
-                if(response.data.code===200){
+                if (response.data.code === 200) {
                     if (getData.case.length == 1) {
                         getData.case[0] = {
                             "sn": "", //case编号
@@ -1462,109 +1470,110 @@ export default class NewConsultation extends Component {
                     }
                 }
             });
-        }else{
-                if (getData.case.length == 1) {
-                    getData.case[0] = {
-                        "sn": "", //case编号
-                        "hospital": "",  //case医院
-                        "doctor": "", //主治医生
-                        "name": "", //病例名称
-                        "diagnosisTime": startTime, //诊治时间
-                        "diagnosis": "", //临床诊断
-                        "doc": "", //病例资料
-                        "file": [],
-                        "statusId": 1,
-                        "advice": [
-                            {
-                                "hospital": "",
-                                "doctor": "",
-                                "adviceTime": startTime,
-                                "advice": "",
-                                "statusId": 1,
-                                "prescription": [
-                                    {
-                                        "id": '0',
-                                        "prescriptionTime": "-", //开方时间
-                                        "doctorName": "-", //开方医生姓名
-                                        "medicineTime": "-",//药品名称
-                                        "total": "-", //总量
-                                        "singleDose": "-",//单次用量
-                                        "frequency": "-"//次/日
-                                    }
-                                ]
-                            }
-                        ]
-                    };
-                    let history2 = getData.case[0].advice ? getData.case[0].advice[0] : null;
-                    let fileList = getData.case[0].file;
-                    let data = history2.prescription;
-                    that.setState({
-                        getData: getData,
-                        history1: getData.case[0],
-                        history2,
-                        history1Index: 0,
-                        history2Index: 0,
-                        data: data,
-                        saveCase: false,
-                        caseId: true,
-                        saveAdvice: false,
-                        fileList
-                    })
+        } else {
+            if (getData.case.length == 1) {
+                getData.case[0] = {
+                    "sn": "", //case编号
+                    "hospital": "",  //case医院
+                    "doctor": "", //主治医生
+                    "name": "", //病例名称
+                    "diagnosisTime": startTime, //诊治时间
+                    "diagnosis": "", //临床诊断
+                    "doc": "", //病例资料
+                    "file": [],
+                    "statusId": 1,
+                    "advice": [
+                        {
+                            "hospital": "",
+                            "doctor": "",
+                            "adviceTime": startTime,
+                            "advice": "",
+                            "statusId": 1,
+                            "prescription": [
+                                {
+                                    "id": '0',
+                                    "prescriptionTime": "-", //开方时间
+                                    "doctorName": "-", //开方医生姓名
+                                    "medicineTime": "-",//药品名称
+                                    "total": "-", //总量
+                                    "singleDose": "-",//单次用量
+                                    "frequency": "-"//次/日
+                                }
+                            ]
+                        }
+                    ]
+                };
+                let history2 = getData.case[0].advice ? getData.case[0].advice[0] : null;
+                let fileList = getData.case[0].file;
+                let data = history2.prescription;
+                that.setState({
+                    getData: getData,
+                    history1: getData.case[0],
+                    history2,
+                    history1Index: 0,
+                    history2Index: 0,
+                    data: data,
+                    saveCase: false,
+                    caseId: true,
+                    saveAdvice: false,
+                    fileList
+                })
+            } else {
+                getData.case.splice(index, 1);
+                if (index == getData.case.length - 1) {
+
                 } else {
-                    getData.case.splice(index, 1);
-                    if (index == getData.case.length - 1) {
-
-                    } else {
-                        index = index < 1 ? 0 : index - 1;
-                    }
-                    let history2 = getData.case[index].advice ? getData.case[index].advice[0] : null;
-
-                    let data = history2 ? history2.prescription : [];
-                    if (data == false) {
-                        data.push(that.state.oldData)
-                    }
-                    that.setState({
-                        getData: getData,
-                        history1: getData.case[index],
-                        history2: history2,
-                        history1Index: index,
-                        history2Index: 0,
-                        data,
-                        saveCase: true
-                    })
+                    index = index < 1 ? 0 : index - 1;
                 }
+                let history2 = getData.case[index].advice ? getData.case[index].advice[0] : null;
+
+                let data = history2 ? history2.prescription : [];
+                if (data == false) {
+                    data.push(that.state.oldData)
+                }
+                that.setState({
+                    getData: getData,
+                    history1: getData.case[index],
+                    history2: history2,
+                    history1Index: index,
+                    history2Index: 0,
+                    data,
+                    saveCase: true
+                })
+            }
         }
     }
 
     deleteHistory2(index) {           //删除医嘱
-        let that=this;
-        if(!that.state.saveAdvice){
-            alert("请保存当前医嘱!");
-            return false
+        let that = this;
+        if (index !== this.state.history2Index) {
+            if (!that.state.saveAdvice) {
+                alert("请保存当前医嘱!");
+                return false
+            }
         }
+
         let getData = JSON.parse(JSON.stringify(that.state.getData));
-
-
-        if(that.state.history2.id){
+        if (that.state.history2.id) {
             axios.request({
                 url: '/api/conference/delete/advice',
                 method: 'get',
-                params:{
-                    consultationId:that.state.consultationId.toString(),
-                    id:that.state.history1.id.toString()
+                params: {
+                    consultationId: that.state.consultationId.toString(),
+                    id: that.state.history1.id.toString()
                 },
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded UTF-8'
                 },
             }).then(function (response) {
-                if(response.data.code===200){
+                if (response.data.code === 200) {
                     getData.case[that.state.history1Index].advice.splice(index, 1);
                     index = index < 1 ? 0 : index - 1;
                     let history1 = getData.case[that.state.history1Index];
                     let history2 = history1.advice ? history1.advice[index] : null;
                     let data = history2 ? history2.prescription : [];
-                    let saveAdvice = !history2 ;
+                    let saveAdvice = !history2;
                     if (data == false) {
                         data.push(that.state.oldData)
                     }
@@ -1578,13 +1587,13 @@ export default class NewConsultation extends Component {
                     })
                 }
             })
-        }else{
+        } else {
             getData.case[that.state.history1Index].advice.splice(index, 1);
             index = index < 1 ? 0 : index - 1;
             let history1 = getData.case[that.state.history1Index];
             let history2 = history1.advice ? history1.advice[index] : null;
             let data = history2 ? history2.prescription : [];
-            let saveAdvice = !history2 ;
+            let saveAdvice = !history2;
             if (data == false) {
                 data.push(that.state.oldData)
             }
@@ -1601,7 +1610,7 @@ export default class NewConsultation extends Component {
 
     render() {
         let style = {"height": document.body.clientHeight};
-        let colorStyle={"background":"#666"};
+        let colorStyle = {"background": "#666"};
         let that = this;
         let caseId = null;
         let Hidden = {"overflowY": "hidden"};
@@ -1695,19 +1704,19 @@ export default class NewConsultation extends Component {
                     this.state.isShow ?
                         <div style={Width} className="transfer_box">
                             <div className="transfer">
-                                <Transfer
-                                    dataSource={this.state.mockData}
-                                    listStyle={
-                                        {
-                                            width: 300,
-                                            height: 500
-                                        }
-                                    }
-                                    rowKey={record => record.key}
-                                    targetKeys={this.state.targetKeys}
-                                    targetKeys1={this.state.targetKeys1}
-                                    onChange={this.handleChange.bind(this)}
-                                    render={this.renderItem.bind(this)}
+                                <Transfer showSearch
+                                          dataSource={this.state.mockData}
+                                          listStyle={
+                                              {
+                                                  width: 300,
+                                                  height: 500
+                                              }
+                                          }
+                                          rowKey={record => record.key}
+                                          targetKeys={this.state.targetKeys}
+                                          targetKeys1={this.state.targetKeys1}
+                                          onChange={this.handleChange.bind(this)}
+                                          render={this.renderItem.bind(this)}
                                 />
                                 <Button onClick={() => this.queDing()} className="transfer_btn1"
                                         type="primary">保存</Button>
@@ -1766,7 +1775,9 @@ export default class NewConsultation extends Component {
                         </li>
                         <li>
                             <span className="most_flex">出生日期</span>
-                            <DatePicker allowClear={false} value={moment(this.state.getData.consultation.birthday, dateFormat)} placeholder="必填" size="large" className="search_input"
+                            <DatePicker allowClear={false}
+                                        value={moment(this.state.getData.consultation.birthday, dateFormat)}
+                                        placeholder="必填" size="large" className="search_input"
                                         onChange={this.changeBirthday.bind(this)}/>
                         </li>
                     </ul>
@@ -1815,13 +1826,20 @@ export default class NewConsultation extends Component {
                             this.state.getData.case ? this.state.getData.case.map((ele, index) => {
                                 return (
                                     <div className="history_case" key={index}>
-                                        <span  style={this.state.history1Index===index?colorStyle:{}}  onClick={this.changeHistory1.bind(this, index)}
-                                              className="history_sp1">{ele.sn?ele.sn:"空白病历"} </span>
+                                        <span style={this.state.history1Index === index ? colorStyle : {}}
+                                              onClick={this.changeHistory1.bind(this, index)}
+                                              className="history_sp1">{ele.sn ? ele.sn : "空白病历"} </span>
                                         {
-                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory1.bind(this, index)}
-                                                                 className="prescribe_btn1 edit_delete" size="small">
-                                                <Icon type="minus"/>
-                                            </Button>:""
+                                            this.state.history1.statusId ?
+                                                <Popconfirm title="是否确定删除?"
+                                                            onConfirm={this.deleteHistory1.bind(this, index)} okText="是"
+                                                            cancelText="否">
+                                                    <Button
+                                                        type="primary"
+                                                        className="prescribe_btn1 edit_delete" size="small">
+                                                        <Icon type="minus"/>
+                                                    </Button>
+                                                </Popconfirm> : ""
                                         }
                                     </div>
                                 )
@@ -1898,20 +1916,27 @@ export default class NewConsultation extends Component {
                             this.state.history1.advice ? this.state.history1.advice.map((ele, index) => {
                                 return (
                                     <div key={index}>
-                                        <span style={this.state.history2Index===index?colorStyle:{}}  onClick={this.changeHistory2.bind(this, index)} className="prescribe_sp1"> 医嘱{index + 1} </span>
+                                        <span style={this.state.history2Index === index ? colorStyle : {}}
+                                              onClick={this.changeHistory2.bind(this, index)} className="prescribe_sp1"> 医嘱{index + 1} </span>
                                         {
-                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory2.bind(this, index)}
-                                                                 className="prescribe_btn1 edit_delete" size="small">
-                                                <Icon type="minus"/>
-                                            </Button>:""
+                                            this.state.history1.statusId ?
+                                                <Popconfirm title="是否确定删除?"
+                                                            onConfirm={this.deleteHistory2.bind(this, index)} okText="是"
+                                                            cancelText="否">
+                                                    <Button
+                                                        type="primary"
+                                                        className="prescribe_btn1 edit_delete" size="small">
+                                                        <Icon type="minus"/>
+                                                    </Button>
+                                                </Popconfirm> : ""
                                         }
-
                                     </div>
                                 )
                             }) : ""
                         }
                         {
-                            this.state.history1.statusId ?<Button onClick={this.addHistory2.bind(this)} className="history_btn1" type="primary">
+                            this.state.history1.statusId ?
+                                <Button onClick={this.addHistory2.bind(this)} className="history_btn1" type="primary">
                                     <Icon type="plus"/>
                                 </Button> : ""
                         }
@@ -1980,7 +2005,7 @@ export default class NewConsultation extends Component {
 
                         <span onClick={this.alertMsg.bind(this)} className="history_sp1 record_sp1"> 病历资料 </span>
                         {
-                            this.state.caseId ? <Upload   {...props}>
+                            this.state.history1.statusId ? <Upload   {...props}>
                                 <Button className="history_btn1">
                                     <Icon type="upload"/>
                                 </Button>

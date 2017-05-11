@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Button, DatePicker, Input, Table, Transfer, Icon, Upload, message} from 'antd';
+import {Button, DatePicker, Input, Table, Transfer, Icon, Upload, message, Popconfirm} from 'antd';
 import tool from "../../tools/checked"
 import {Link} from 'react-router';
 import "../../less/editCnsulation.less"
@@ -266,7 +266,7 @@ export default class EditCnsulation extends Component {
             let data = [];
             let caseId = false;
             let fileList = [];
-            let saveAdvice=true
+            let saveAdvice = true
             if (getData.case && getData.case != false) {
                 if (getData.case[0].advice != false && getData.case[0].advice[0].prescription) {
                     getData.case[0].advice[0].prescription.map((ele) => {
@@ -567,12 +567,15 @@ export default class EditCnsulation extends Component {
 
         if (!this.state.saveCase) {
             if (index != this.state.history1Index) {
-                alert("当前病历未保存!");
+                message.error("当前病历未保存!");
                 return false
             }
         }
 
-
+        if (!this.state.saveAdvice) {
+            message.error("当前病历未保存!");
+            return false
+        }
         let data = [];
         if (this.state.getData.case[index].advice && this.state.getData.case[index].advice != false) {
             if (this.state.getData.case[index].advice[0].prescription && this.state.getData.case[index].advice[0].prescription != false) {
@@ -582,8 +585,6 @@ export default class EditCnsulation extends Component {
             } else {
 
             }
-        } else {
-
         }
         let caseShow = false;
         if (this.state.getData.case[index].statusId) {
@@ -594,6 +595,7 @@ export default class EditCnsulation extends Component {
         this.setState({
             history1: this.state.getData.case[index],
             history1Index: index,
+            history2Index: 0,
             history2: this.state.getData.case[index].advice ? this.state.getData.case[index].advice[0] : null,
             data: data,
             caseId: caseShow,
@@ -604,7 +606,7 @@ export default class EditCnsulation extends Component {
     changeHistory2(index) {        //切换医嘱
         if (!this.state.saveAdvice) {
             if (index != this.state.history2Index) {
-                alert("当前医嘱未保存!");
+                message.error("当前医嘱未保存!");
                 return false
             }
         }
@@ -680,14 +682,14 @@ export default class EditCnsulation extends Component {
                 fileList
             })
         } else {
-            alert("上一病历未保存!")
+            message.error("上一病历未保存!")
         }
 
     }
 
     alertMsg() {
         if (!this.state.saveCase) {
-            alert("请先保存病历!")
+            message.error("请先保存病历!")
         }
     }
 
@@ -858,7 +860,7 @@ export default class EditCnsulation extends Component {
                 'Content-Type': 'application/json'
             },
         }).then(function (response) {
-            postCase.id = response.data.id?response.data.id:postCase.id;
+            postCase.id = response.data.id ? response.data.id : postCase.id;
             postCase.advice = advice;
             let getData = JSON.parse(JSON.stringify(that.state.getData));
             getData.case[that.state.history1Index] = postCase;
@@ -1111,7 +1113,7 @@ export default class EditCnsulation extends Component {
 
     deleteHistory1(index) {           //删除病历
 
-        let that=this;
+        let that = this;
         if (!that.state.saveCase) {
             if (index != that.state.history1Index) {
                 alert("请先保存病历!");
@@ -1121,20 +1123,20 @@ export default class EditCnsulation extends Component {
 
 
         let getData = JSON.parse(JSON.stringify(that.state.getData));
-        if(that.state.history1.id){
+        if (that.state.history1.id) {
             axios.request({
                 url: '/api/conference/delete/case',
                 method: 'get',
-                params:{
-                    consultationId:that.state.consultationId.toString(),
-                    id:that.state.history1.id.toString()
+                params: {
+                    consultationId: that.state.consultationId.toString(),
+                    id: that.state.history1.id.toString()
                 },
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded UTF-8'
                 },
             }).then(function (response) {
-                if(response.data.code===200){
+                if (response.data.code === 200) {
                     if (getData.case.length == 1) {
                         getData.case[0] = {
                             "sn": "", //case编号
@@ -1207,7 +1209,7 @@ export default class EditCnsulation extends Component {
                     }
                 }
             });
-        }else{
+        } else {
             if (getData.case.length == 1) {
                 getData.case[0] = {
                     "sn": "", //case编号
@@ -1282,34 +1284,34 @@ export default class EditCnsulation extends Component {
     }
 
     deleteHistory2(index) {           //删除医嘱
-        let that=this;
-        if(!that.state.saveAdvice){
-            alert("请保存当前医嘱!");
-            return false
+        let that = this;
+        if (index !== this.state.history2Index) {
+            if (!that.state.saveAdvice) {
+                alert("请保存当前医嘱!");
+                return false
+            }
         }
         let getData = JSON.parse(JSON.stringify(that.state.getData));
-
-
-        if(that.state.history2.id){
+        if (that.state.history2.id) {
             axios.request({
                 url: '/api/conference/delete/advice',
                 method: 'get',
-                params:{
-                    consultationId:that.state.consultationId.toString(),
-                    id:that.state.history1.id.toString()
+                params: {
+                    consultationId: that.state.consultationId.toString(),
+                    id: that.state.history1.id.toString()
                 },
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded UTF-8'
                 },
             }).then(function (response) {
-                if(response.data.code===200){
+                if (response.data.code === 200) {
                     getData.case[that.state.history1Index].advice.splice(index, 1);
                     index = index < 1 ? 0 : index - 1;
                     let history1 = getData.case[that.state.history1Index];
                     let history2 = history1.advice ? history1.advice[index] : null;
                     let data = history2 ? history2.prescription : [];
-                    let saveAdvice = !history2 ;
+                    let saveAdvice = !history2;
                     if (data == false) {
                         data.push(that.state.oldData)
                     }
@@ -1323,13 +1325,13 @@ export default class EditCnsulation extends Component {
                     })
                 }
             })
-        }else{
+        } else {
             getData.case[that.state.history1Index].advice.splice(index, 1);
             index = index < 1 ? 0 : index - 1;
             let history1 = getData.case[that.state.history1Index];
             let history2 = history1.advice ? history1.advice[index] : null;
             let data = history2 ? history2.prescription : [];
-            let saveAdvice = !history2 ;
+            let saveAdvice = !history2;
             if (data == false) {
                 data.push(that.state.oldData)
             }
@@ -1346,7 +1348,7 @@ export default class EditCnsulation extends Component {
 
     render() {
         let style = {"height": document.body.clientHeight};
-        let colorStyle={"background":"#666"};
+        let colorStyle = {"background": "#666"};
         let that = this;
         let caseId = null;
         let Hidden = {"overflowY": "hidden"};
@@ -1442,18 +1444,18 @@ export default class EditCnsulation extends Component {
                     this.state.isShow ?
                         <div style={Width} className="transfer_box">
                             <div className="transfer">
-                                <Transfer
-                                    dataSource={this.state.mockData}
-                                    listStyle={
-                                        {
-                                            width: 300,
-                                            height: 500
-                                        }
-                                    }
-                                    rowKey={record => record.key}
-                                    targetKeys={this.state.targetKeys}
-                                    onChange={this.handleChange.bind(this)}
-                                    render={this.renderItem.bind(this)}
+                                <Transfer showSearch
+                                          dataSource={this.state.mockData}
+                                          listStyle={
+                                              {
+                                                  width: 300,
+                                                  height: 500
+                                              }
+                                          }
+                                          rowKey={record => record.key}
+                                          targetKeys={this.state.targetKeys}
+                                          onChange={this.handleChange.bind(this)}
+                                          render={this.renderItem.bind(this)}
                                 />
                                 <Button onClick={() => this.queDing()} className="transfer_btn1"
                                         type="primary">保存</Button>
@@ -1554,13 +1556,20 @@ export default class EditCnsulation extends Component {
                             this.state.getData.case ? this.state.getData.case.map((ele, index) => {
                                 return (
                                     <div className="history_case" key={index}>
-                                        <span style={this.state.history1Index===index?colorStyle:{}} onClick={this.changeHistory1.bind(this, index)}
-                                              className="history_sp1">{ele.sn?ele.sn:"空白病历"}</span>
+                                        <span style={this.state.history1Index === index ? colorStyle : {}}
+                                              onClick={this.changeHistory1.bind(this, index)}
+                                              className="history_sp1">{ele.sn ? ele.sn : "空白病历"}</span>
                                         {
-                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory1.bind(this, index)}
-                                                className="prescribe_btn1 edit_delete" size="small">
-                                            <Icon type="minus"/>
-                                        </Button>:""
+                                            ele.statusId ?
+                                                <Popconfirm title="是否确定删除?"
+                                                            onConfirm={this.deleteHistory1.bind(this, index)} okText="是"
+                                                            cancelText="否">
+                                                    <Button
+                                                        type="primary"
+                                                        className="prescribe_btn1 edit_delete" size="small">
+                                                        <Icon type="minus"/>
+                                                    </Button>
+                                                </Popconfirm> : ""
                                         }
                                     </div>
                                 )
@@ -1634,19 +1643,28 @@ export default class EditCnsulation extends Component {
 
                     <div className="prescribe">
                         {
-                            this.state.history1.advice ? this.state.history1.advice.map((ele, index) => {
+                            this.state.history1.advice && this.state.history1.advice != false ? this.state.history1.advice.map((ele, index) => {
                                 return (
                                     <div key={index}>
-                                        <span style={this.state.history2Index===index?colorStyle:{}} onClick={this.changeHistory2.bind(this, index)} className="prescribe_sp1"> 医嘱{index + 1} </span>
+                                        <span style={this.state.history2Index === index ? colorStyle : {}}
+                                              onClick={this.changeHistory2.bind(this, index)} className="prescribe_sp1"> 医嘱{index + 1} </span>
                                         {
-                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory2.bind(this, index)}
-                                                className="prescribe_btn1 edit_delete" size="small">
-                                            <Icon type="minus"/>
-                                        </Button>:""
+                                            this.state.history1.statusId ?
+                                                <Popconfirm title="是否确定删除?"
+                                                            onConfirm={this.deleteHistory2.bind(this, index)} okText="是"
+                                                            cancelText="否">
+                                                    <Button
+                                                        type="primary"
+                                                        className="prescribe_btn1 edit_delete" size="small">
+                                                        <Icon type="minus"/>
+                                                    </Button>
+                                                </Popconfirm> : ""
                                         }
                                     </div>
                                 )
-                            }) : ""
+                            }) : <div>
+                                <span style={colorStyle} className="prescribe_sp1">增加医嘱</span>
+                            </div>
                         }
                         {
                             this.state.history1.statusId ?
@@ -1655,7 +1673,6 @@ export default class EditCnsulation extends Component {
                                 </Button> : ""
                         }
                     </div>
-
 
                     {
                         this.state.history2 ? <div className="prescribeDetail">
@@ -1719,7 +1736,7 @@ export default class EditCnsulation extends Component {
 
                         <span onClick={this.alertMsg.bind(this)} className="history_sp1 record_sp1"> 病历资料 </span>
                         {
-                            this.state.caseId ? <Upload   {...props}>
+                            this.state.history1.statusId ? <Upload   {...props}>
                                 <Button className="history_btn1">
                                     <Icon type="upload"/>
                                 </Button>

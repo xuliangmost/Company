@@ -593,7 +593,7 @@ export default class EditCnsulation extends Component{
                         this.state.history1.advice?this.state.history1.advice.map((ele,index)=>{
                             return (
                                 <div key={index}>
-                                  <span onClick={this.changeHistory2.bind(this,index)} className="prescribe_sp1"> 医嘱{index+1} </span>
+                                  <span style={this.state.history2Index===index?colorStyle:{}} onClick={this.changeHistory2.bind(this,index)} className="prescribe_sp1"> 医嘱{index+1} </span>
 
                                 </div>
                             )

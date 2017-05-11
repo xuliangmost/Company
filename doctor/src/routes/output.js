@@ -11,6 +11,7 @@ import AddHospital from "../js/healthInfo/hospital/addHospital"
 import Doctor from "../js/healthInfo/doctor/doctor"
 import EditDoctor from "../js/healthInfo/doctor/editDoctorl"
 import AddDoctor from "../js/healthInfo/doctor/addDoctorl"
+import Department from "../js/healthInfo/department/department"
 
 
 import checked from "../tools/checked"
@@ -20,7 +21,10 @@ let auth=[
     id:20,
     route:"#/healthInfo/hospital/hospital"
   },
-
+  {
+    id:22,
+    route:"#/healthInfo/department/department"
+  },
   {
     id:20,
     route:"#/healthInfo/hospital/editHospital"
@@ -113,6 +117,7 @@ class Page extends Component{
                 <Route path="/content" component={PageBottom} >
                   <Route path="/healthInfo/blank" component={Content}/>
                   <Route path="/healthInfo/hospital/hospital" component={Hospital}/>
+                  <Route path="/healthInfo/department/department" component={Department}/>
                   <Route path="/healthInfo/hospital/editHospital/:id" component={EditHospital}/>
                   <Route path="/healthInfo/hospital/addHospital" component={AddHospital}/>
                   <Route path="/healthInfo/doctor/doctor" component={Doctor}/>

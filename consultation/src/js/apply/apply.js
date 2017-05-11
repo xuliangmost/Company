@@ -186,7 +186,7 @@ export default class Apply extends Component {
         })
     }
 
-    query(num) {
+    query(num,flag) {
         let that = this;
         let applyPage = this.state.applyPage;
         applyPage.pageNum = num;
@@ -200,10 +200,18 @@ export default class Apply extends Component {
             },
         }).then(function (response) {
             let dataSource = response.data.result ? response.data.result.data : [];
-            that.setState({
-                dataSource: dataSource,
-                total: response.data.result.count
-            })
+            if(flag){
+                that.setState({
+                    dataSource: dataSource,
+                    total: response.data.result.count,
+                    current:1
+                })
+            }else{
+                that.setState({
+                    dataSource: dataSource,
+                    total: response.data.result.count,
+                })
+            }
         });
     }
 
@@ -213,7 +221,7 @@ export default class Apply extends Component {
                 <div className="apple_top">
                     <h1>
                         查询区
-                        <Button type="primary" onClick={() => this.query()} className="search_btn1">查询</Button>
+                        <Button type="primary" onClick={() => this.query(1,1)} className="search_btn1">查询</Button>
                     </h1>
                     <ul className="search_ul">
                         <li>

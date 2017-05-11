@@ -1,8 +1,9 @@
 import React,{Component} from "react"
-import { Button,Select,Input,Table } from 'antd';
+import { Button,Select,Input,message } from 'antd';
 import { Link } from 'react-router';
 import axios from "axios";
 import "../../../less/editHospital.less"
+import SelectDepartment from "./selectDepartment"
 import tools from "../../../tools/checked"
 const Option = Select.Option;
 let token=localStorage.getItem("robertUserName");
@@ -30,6 +31,8 @@ export default class AddHospital extends Component{
       init:true,
       province:[],
       levels:[],
+      noSave: true,
+      hospitalId:null,
       city:[],
       county:[],
       selectLevel:"",
@@ -256,6 +259,7 @@ export default class AddHospital extends Component{
 
 
   saveMsg(){
+    let that=this;
     let data=this.state.applyPage;
     if(!tools.isEmpty(data.linkmanPhone)){
       if(!tools.mobileValidate(data.linkmanPhone)){
@@ -292,9 +296,15 @@ export default class AddHospital extends Component{
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function(response) {
-      if(response.data.code===200){
-        alert("保存成功，即将跳转!");
-        location.hash="/healthInfo/hospital/hospital"
+      if (response.data.code === 200) {
+        message.success("保存成功，即将跳转!");
+        //location.hash = "/healthInfo/hospital/hospital";
+        setTimeout(()=>{
+          that.setState({
+            noSave: false,
+            hospitalId:response.data.result.id
+          })
+        },1000)
       }
     });
   }
@@ -302,10 +312,15 @@ export default class AddHospital extends Component{
   render(){
     return (
       <div>
-        <h2>编辑医院</h2>
+        <h2>
+          {
+            this.state.noSave ? '编辑医院' : '添加科室'
+          }
+        </h2>
         <h3>
         </h3>
-        <ul className="add_hospital">
+        {
+          this.state.noSave ?  <ul className="add_hospital">
           <li>
               <span className="name">
                 医院名称
@@ -426,7 +441,8 @@ export default class AddHospital extends Component{
               </span>
             <Input value={this.state.applyPage.remarks} onChange={this.changeRemarks.bind(this)} className="" type="textarea" rows={3} />
           </li>
-        </ul>
+        </ul>:<SelectDepartment hospitalId={this.props.params.id}/>
+        }
 
         <h3>
         </h3>

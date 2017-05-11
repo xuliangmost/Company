@@ -73,6 +73,7 @@ export default class LookWaitCheck extends Component {
             //以上是  呵呵呵呵呵
             history1: allData.case[0],//当前显示的病历
             history1Index: 0,//当前显示的病历的下标
+            history2Index: 0,//当前显示的病历的下标
             history2: allData.case[0].advice[0] ? allData.case[0].advice[0] : [],//当前显示的医嘱
             columns: [
                 {
@@ -503,29 +504,7 @@ export default class LookWaitCheck extends Component {
 
     ///////////////////////////
 
-    ding() {
-        /*let that=this;
-         axios.request({
-         url: '/api/conference/edit/page',
-         method: 'get',
-         params: {
-         id:1
-         },
-         headers: {
-         'Authorization': 'Bearer '+token,
-         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-         },
-         }).then(function(response) {
-         that.setState({
-         getData:response.data,
-         history1:response.data.case[0],
-         history2:response.data.case[0].advice[0]
-         })
-         }).catch(function () {
-         alert("error");
-         console.log(that.state.getData)
-         });*/
-    };
+
 
     startTime(data, dateString) {
         console.log(dateString.split('"'))
@@ -573,7 +552,8 @@ export default class LookWaitCheck extends Component {
         }
         this.setState({
             history2: this.state.history1.advice ? this.state.history1.advice[index] : null,
-            data: data
+            data: data,
+            history2Index:index
         })
     }
 

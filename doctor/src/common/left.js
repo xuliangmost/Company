@@ -73,9 +73,9 @@ export default class Left extends Component {
           onClick={this.handleClick.bind(this)}
         >
           {
-            this.state.permissions.indexOf("22") !== -1 || this.state.permissions.indexOf("23") !== -1 || this.state.permissions.indexOf("24") !== -1 || this.state.permissions.indexOf("25") !== -1 || this.state.permissions.indexOf("26") !== -1 || this.state.permissions.indexOf("27") !== -1 ?<SubMenu key="sub1" title={<span>健康档案</span>}>
+            this.state.permissions.indexOf("223") !== -1 || this.state.permissions.indexOf("23") !== -1 || this.state.permissions.indexOf("24") !== -1 || this.state.permissions.indexOf("25") !== -1 || this.state.permissions.indexOf("26") !== -1 || this.state.permissions.indexOf("27") !== -1 ?<SubMenu key="sub1" title={<span>健康档案</span>}>
               {
-                this.state.permissions.indexOf("22")!==-1?<Menu.Item key="1"  id="22">
+                this.state.permissions.indexOf("223")!==-1?<Menu.Item key="1"  id="223">
                   <a href="#">
                     体检档案
                   </a>
@@ -123,7 +123,7 @@ export default class Left extends Component {
 
 
           {
-            this.state.permissions.indexOf("20") !== -1 || this.state.permissions.indexOf("21") !== -1 || this.state.permissions.indexOf("28") !== -1 || this.state.permissions.indexOf("29") !== -1 || this.state.permissions.indexOf("30") !== -1? <SubMenu key="sub2" title={<span>医疗资源</span>}>
+            this.state.permissions.indexOf("22") !== -1 || this.state.permissions.indexOf("20") !== -1 || this.state.permissions.indexOf("21") !== -1 || this.state.permissions.indexOf("28") !== -1 || this.state.permissions.indexOf("29") !== -1 || this.state.permissions.indexOf("30") !== -1? <SubMenu key="sub2" title={<span>医疗资源</span>}>
                 {
                   this.state.permissions.indexOf("20")!==-1?<Menu.Item key="7"  id="20">
                     <a href="#/healthInfo/hospital/hospital">
@@ -131,6 +131,13 @@ export default class Left extends Component {
                     </a>
                   </Menu.Item>:""
                 }
+              {
+                this.state.permissions.indexOf("22")!==-1?<Menu.Item key="222"  id="22">
+                  <a href="#/healthInfo/department/department">
+                    科室信息
+                  </a>
+                </Menu.Item>:""
+              }
                 {
                   this.state.permissions.indexOf("21")!==-1?<Menu.Item key="8" id="21">
                     <a href="#/healthInfo/doctor/doctor">

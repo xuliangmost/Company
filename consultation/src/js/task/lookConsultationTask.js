@@ -132,6 +132,7 @@ export default class LookConsultationTask extends Component {
             //以上是  呵呵呵呵呵
             history1: allData.case[0],//当前显示的病历
             history1Index: 0,//当前显示的病历的下标
+            history2Index: 0,//当前显示的医嘱的下标
             history2: allData.case[0].advice[0] ? allData.case[0].advice[0] : [],//当前显示的医嘱
             columns: [
                 {
@@ -219,7 +220,7 @@ export default class LookConsultationTask extends Component {
                     key: 'assistantName',
                     width: "126px",
                     render: (text) => (
-                        <span>{text?text:"会诊系统"}</span>
+                        <span>{text ? text : "会诊系统"}</span>
                     ),
                 },
                 {
@@ -228,7 +229,7 @@ export default class LookConsultationTask extends Component {
                     key: 'hospitalName',
                     width: "126px",
                     render: (text) => (
-                        <span>{text?text:"无"}</span>
+                        <span>{text ? text : "无"}</span>
                     ),
                 },
                 {
@@ -241,8 +242,8 @@ export default class LookConsultationTask extends Component {
                     title: '退回原因',
                     dataIndex: 'returnReason',
                     key: 'returnReason',
-                    render: (text,record) => (
-                        <span>{record.assistantName?text:"系统判断"}</span>
+                    render: (text, record) => (
+                        <span>{record.assistantName ? text : "系统判断"}</span>
                     ),
                 }
             ],
@@ -622,7 +623,8 @@ export default class LookConsultationTask extends Component {
             history1: this.state.getData.case[index],
             history1Index: index,
             history2: this.state.getData.case[index].advice ? this.state.getData.case[index].advice[0] : null,
-            data: data
+            data: data,
+            fileList: this.state.getData.case[index].file && this.state.getData.case[index].file != false ? this.state.getData.case[index].file : null,
         })
     }
 
@@ -638,14 +640,15 @@ export default class LookConsultationTask extends Component {
         }
         this.setState({
             history2: this.state.history1.advice ? this.state.history1.advice[index] : null,
-            data: data
+            data: data,
+            history2Index: index
         })
     }
 
     render() {
         let that = this;
         let consultationConclusionId = this.props.params.id;
-        let colorStyle={"background":"#666"};
+        let colorStyle = {"background": "#666"};
         const props = {
             action: '/upload/consultationConclusion/' + consultationConclusionId,
             headers: {
@@ -759,7 +762,8 @@ export default class LookConsultationTask extends Component {
                             this.state.getData.case ? this.state.getData.case.map((ele, index) => {
                                 return (
                                     <div key={index}>
-                                        <span  style={this.state.history1Index===index?colorStyle:{}} onClick={this.changeHistory1.bind(this, index)}
+                                        <span style={this.state.history1Index === index ? colorStyle : {}}
+                                              onClick={this.changeHistory1.bind(this, index)}
                                               className="history_sp1">病历 {index + 1} </span>
                                     </div>
                                 )
@@ -823,7 +827,8 @@ export default class LookConsultationTask extends Component {
                                 this.state.history1.advice ? this.state.history1.advice.map((ele, index) => {
                                     return (
                                         <div key={index}>
-                                            <span style={this.state.history2Index===index?colorStyle:{}}  onClick={this.changeHistory2.bind(this, index)}
+                                            <span style={this.state.history2Index === index ? colorStyle : {}}
+                                                  onClick={this.changeHistory2.bind(this, index)}
                                                   className="prescribe_sp1"> 医嘱{index + 1} </span>
                                         </div>
                                     )
@@ -886,9 +891,7 @@ export default class LookConsultationTask extends Component {
                     <div className="record">
                         <span className="history_sp1 record_sp1"> 病历资料 </span>
                         {
-                            this.state.fileList.length > 0 ? <Table rowKey="id" dataSource={this.state.fileList}
-                                                                    columns={this.state.fileListColumns}/> :
-                                <span className="history_btn1"> 无病历资料 </span>
+                            this.state.fileList.length > 0 ? <Table rowKey="id" dataSource={this.state.fileList} columns={this.state.fileListColumns}/> :<span className="history_btn1"> 无病历资料 </span>
                         }
 
                     </div>

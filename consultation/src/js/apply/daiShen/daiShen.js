@@ -32,7 +32,7 @@ export default class DaiShen extends Component {
                 phone: null,
                 status: 2,
                 startTime: null,
-                endTime:null
+                endTime: null
             },
             total: 10,
             current: 1,
@@ -96,7 +96,7 @@ export default class DaiShen extends Component {
         this.query(1)
     }
 
-    query(num) {
+    query(num,flag) {
         let that = this;
         let applyPage = this.state.applyPage;
         applyPage.pageNum = num;
@@ -109,14 +109,20 @@ export default class DaiShen extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded UTF-8'
             },
         }).then(function (response) {
-            console.log("response: ", response)
             let dataSource = response.data.result ? response.data.result.data : [];
-            that.setState({
-                dataSource: dataSource,
-                total: response.data.result.count
-            })
+            if(flag){
+                that.setState({
+                    dataSource: dataSource,
+                    total: response.data.result.count,
+                    current:1
+                })
+            }else{
+                that.setState({
+                    dataSource: dataSource,
+                    total: response.data.result.count,
+                })
+            }
         });
-
     }
 
     changePage(page) {
@@ -127,11 +133,11 @@ export default class DaiShen extends Component {
     }
 
     onChange(date, dateString) {
-        let applyPage=this.state.applyPage;
-        applyPage.startTime=dateString[0];
-        applyPage.endTime=dateString[1];
+        let applyPage = this.state.applyPage;
+        applyPage.startTime = dateString[0];
+        applyPage.endTime = dateString[1];
         this.setState({
-            applyPage:applyPage
+            applyPage: applyPage
         });
 
     }
@@ -142,7 +148,7 @@ export default class DaiShen extends Component {
                 <div className="apple_top">
                     <h1>
                         查询区
-                        <Button onClick={() => this.query()} type="primary" className="search_btn1">查询</Button>
+                        <Button onClick={() => this.query(1,1)} type="primary" className="search_btn1">查询</Button>
                     </h1>
                     <ul className="search_ul">
                         <li>

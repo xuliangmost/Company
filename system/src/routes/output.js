@@ -50,7 +50,7 @@ let auth=[
   },
   {
     id:5,
-    route:"#/log/log"
+    route:"#/mine/mine"
   }
 ];
 let reg = /^[0-9]+.?[0-9]*$/;

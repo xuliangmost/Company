@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Button, DatePicker, Input, Table, Transfer, Icon, Upload, message} from 'antd';
+import {Button, DatePicker, Input, Table, Transfer, Icon, Upload, message, Popconfirm} from 'antd';
 import {Link} from 'react-router';
 import "../../less/newCnsulation.less";
 import "../../less/lookWaitCheck.less";
@@ -142,7 +142,7 @@ export default class AddConsultation extends Component {
                 {
                     this.state.history1.statusId ? <span>
                     {
-                        record.id == 0 ? <span>
+                        record.id === 0 ? <span>
                 <Button onClick={this.addPrescription.bind(this)} className="addMedicine" type="primary">新增</Button>
               </span> : <span>
                 <Button onClick={this.deletePrescription.bind(this, index)} className="addMedicine"
@@ -458,8 +458,8 @@ export default class AddConsultation extends Component {
         let obj = {};
         obj.consultationId = this.state.consultationId;
         obj.doctorId = arr;
-        obj.userId=this.state.docUserId;
-        const hIds=targetTitle.map((ele)=>{
+        obj.userId = this.state.docUserId;
+        const hIds = targetTitle.map((ele) => {
             return ele.hospitalId
         });
         let that = this;
@@ -537,7 +537,7 @@ export default class AddConsultation extends Component {
                         id: that.state.consultationId.toString(),
                         aId: that.state.aId.toString(),
                         hId: that.state.hospitalId.toString(),
-                        hIds:this.state.hIds.join(",")
+                        hIds: this.state.hIds.join(",")
                     },
                     headers: {
                         'Authorization': 'Bearer ' + token,
@@ -564,12 +564,15 @@ export default class AddConsultation extends Component {
     changeHistory1(index) {        //切换病历
 
         if (!this.state.saveCase) {
-            if (index != this.state.history1Index) {
+            if (index !== this.state.history1Index) {
                 alert("当前病历未保存!");
                 return false
             }
         }
-
+        if (!this.state.saveAdvice) {
+            alert("当前病历未保存!");
+            return false
+        }
 
         let data = [];
         if (this.state.getData.case[index].advice && this.state.getData.case[index].advice != false) {
@@ -592,6 +595,7 @@ export default class AddConsultation extends Component {
         this.setState({
             history1: this.state.getData.case[index],
             history1Index: index,
+            history2Index: 0,
             history2: this.state.getData.case[index].advice ? this.state.getData.case[index].advice[0] : null,
             data: data,
             caseId: caseShow,
@@ -1310,7 +1314,7 @@ export default class AddConsultation extends Component {
 
     deleteHistory1(index) {           //删除病历
 
-        let that=this;
+        let that = this;
         if (!that.state.saveCase) {
             if (index != that.state.history1Index) {
                 alert("请先保存病历!");
@@ -1320,20 +1324,20 @@ export default class AddConsultation extends Component {
 
 
         let getData = JSON.parse(JSON.stringify(that.state.getData));
-        if(that.state.history1.id){
+        if (that.state.history1.id) {
             axios.request({
                 url: '/api/conference/delete/case',
                 method: 'get',
-                params:{
-                    consultationId:that.state.consultationId.toString(),
-                    id:that.state.history1.id.toString()
+                params: {
+                    consultationId: that.state.consultationId.toString(),
+                    id: that.state.history1.id.toString()
                 },
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded UTF-8'
                 },
             }).then(function (response) {
-                if(response.data.code===200){
+                if (response.data.code === 200) {
                     if (getData.case.length == 1) {
                         getData.case[0] = {
                             "sn": "", //case编号
@@ -1406,7 +1410,7 @@ export default class AddConsultation extends Component {
                     }
                 }
             });
-        }else{
+        } else {
             if (getData.case.length == 1) {
                 getData.case[0] = {
                     "sn": "", //case编号
@@ -1481,34 +1485,36 @@ export default class AddConsultation extends Component {
     }
 
     deleteHistory2(index) {           //删除医嘱
-        let that=this;
-        if(!that.state.saveAdvice){
-            alert("请保存当前医嘱!");
-            return false
+        let that = this;
+        if(index!==this.state.history2Index){
+            if(!that.state.saveAdvice){
+                alert("请保存当前医嘱!");
+                return false
+            }
         }
         let getData = JSON.parse(JSON.stringify(that.state.getData));
 
 
-        if(that.state.history2.id){
+        if (that.state.history2.id) {
             axios.request({
                 url: '/api/conference/delete/advice',
                 method: 'get',
-                params:{
-                    consultationId:that.state.consultationId.toString(),
-                    id:that.state.history1.id.toString()
+                params: {
+                    consultationId: that.state.consultationId.toString(),
+                    id: that.state.history1.id.toString()
                 },
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded UTF-8'
                 },
             }).then(function (response) {
-                if(response.data.code===200){
+                if (response.data.code === 200) {
                     getData.case[that.state.history1Index].advice.splice(index, 1);
                     index = index < 1 ? 0 : index - 1;
                     let history1 = getData.case[that.state.history1Index];
                     let history2 = history1.advice ? history1.advice[index] : null;
                     let data = history2 ? history2.prescription : [];
-                    let saveAdvice = !history2 ;
+                    let saveAdvice = !history2;
                     if (data == false) {
                         data.push(that.state.oldData)
                     }
@@ -1522,13 +1528,13 @@ export default class AddConsultation extends Component {
                     })
                 }
             })
-        }else{
+        } else {
             getData.case[that.state.history1Index].advice.splice(index, 1);
             index = index < 1 ? 0 : index - 1;
             let history1 = getData.case[that.state.history1Index];
             let history2 = history1.advice ? history1.advice[index] : null;
             let data = history2 ? history2.prescription : [];
-            let saveAdvice = !history2 ;
+            let saveAdvice = !history2;
             if (data == false) {
                 data.push(that.state.oldData)
             }
@@ -1545,7 +1551,7 @@ export default class AddConsultation extends Component {
 
     render() {
         let style = {"height": document.body.clientHeight};
-        let colorStyle={"background":"#666"};
+        let colorStyle = {"background": "#666"};
         let Width = {"height": document.body.offsetHeight};
         let Hidden = {"overflowY": "hidden"};
         let that = this;
@@ -1639,18 +1645,18 @@ export default class AddConsultation extends Component {
                     this.state.isShow ?
                         <div style={Width} className="transfer_box">
                             <div className="transfer">
-                                <Transfer
-                                    dataSource={this.state.mockData}
-                                    listStyle={
-                                        {
-                                            width: 300,
-                                            height: 500
-                                        }
-                                    }
-                                    rowKey={record => record.key}
-                                    targetKeys={this.state.targetKeys}
-                                    onChange={this.handleChange.bind(this)}
-                                    render={this.renderItem.bind(this)}
+                                <Transfer showSearch
+                                          dataSource={this.state.mockData}
+                                          listStyle={
+                                              {
+                                                  width: 300,
+                                                  height: 500
+                                              }
+                                          }
+                                          rowKey={record => record.key}
+                                          targetKeys={this.state.targetKeys}
+                                          onChange={this.handleChange.bind(this)}
+                                          render={this.renderItem.bind(this)}
                                 />
                                 <Button onClick={() => this.queDing()} className="transfer_btn1"
                                         type="primary">保存</Button>
@@ -1763,13 +1769,18 @@ export default class AddConsultation extends Component {
                             this.state.getData.case ? this.state.getData.case.map((ele, index) => {
                                 return (
                                     <div className="history_case" key={index}>
-                                        <span style={this.state.history1Index===index?colorStyle:{}}  onClick={this.changeHistory1.bind(this, index)}
-                                              className="history_sp1">{ele.sn?ele.sn:"空白病历"}</span>
+                                        <span style={this.state.history1Index === index ? colorStyle : {}}
+                                              onClick={this.changeHistory1.bind(this, index)}
+                                              className="history_sp1">{ele.sn ? ele.sn : "空白病历"}</span>
                                         {
-                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory1.bind(this, index)}
-                                                                 className="prescribe_btn1 edit_delete" size="small">
-                                                <Icon type="minus"/>
-                                            </Button>:""
+                                            ele.statusId ?
+                                                <Popconfirm title="是否确定删除?" onConfirm={this.deleteHistory1.bind(this, index)} okText="是" cancelText="否">
+                                                    <Button
+                                                        type="primary"
+                                                        className="prescribe_btn1 edit_delete" size="small">
+                                                        <Icon type="minus"/>
+                                                    </Button>
+                                                </Popconfirm> : ""
                                         }
                                     </div>
                                 )
@@ -1832,32 +1843,40 @@ export default class AddConsultation extends Component {
                     </div>
 
                     {
-                        this.state.history1.statusId?<div className="btn_save">
+                        this.state.history1.statusId ? <div className="btn_save">
                             <div className="btn_save_index">
                                 <Button onClick={this.saveCase.bind(this)} className="btn_save_index_2"
                                         type="primary">保存病历</Button>
                             </div>
-                        </div>:""
+                        </div> : ""
                     }
-
 
 
                     <div className="prescribe">
                         {
-                            this.state.history1.advice ? this.state.history1.advice.map((ele, index) => {
+                            this.state.history1.advice && this.state.history1.advice != false ? this.state.history1.advice.map((ele, index) => {
                                 return (
                                     <div key={index}>
 
-                                        <span style={this.state.history2Index===index?colorStyle:{}}  onClick={this.changeHistory2.bind(this, index)} className="prescribe_sp1"> 医嘱{index + 1} </span>
+                                        <span style={this.state.history2Index === index ? colorStyle : {}}
+                                              onClick={this.changeHistory2.bind(this, index)} className="prescribe_sp1"> 医嘱{index + 1} </span>
                                         {
-                                            ele.statusId?<Button type="primary" onClick={this.deleteHistory2.bind(this, index)}
-                                                className="prescribe_btn1 edit_delete" size="small">
-                                            <Icon type="minus"/>
-                                        </Button>:""
+                                            this.state.history1.statusId ?
+                                                <Popconfirm title="是否确定删除?"
+                                                            onConfirm={this.deleteHistory2.bind(this, index)} okText="是"
+                                                            cancelText="否">
+                                                    <Button
+                                                        type="primary"
+                                                        className="prescribe_btn1 edit_delete" size="small">
+                                                        <Icon type="minus"/>
+                                                    </Button>
+                                                </Popconfirm> : ""
                                         }
                                     </div>
                                 )
-                            }) : ""
+                            }) : <div>
+                                <span style={colorStyle} className="prescribe_sp1">增加医嘱</span>
+                            </div>
                         }
                         {
                             this.state.history1.statusId ?
@@ -1903,14 +1922,13 @@ export default class AddConsultation extends Component {
                             </ul>
 
                             {
-                                this.state.history1.statusId?<div className="btn_save">
+                                this.state.history1.statusId ? <div className="btn_save">
                                     <div className="btn_save_index">
                                         <Button onClick={this.saveAdvice.bind(this)} className="btn_save_index_2"
                                                 type="primary">保存医嘱</Button>
                                     </div>
-                                </div>:""
+                                </div> : ""
                             }
-
 
 
                             {

@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Button, Select, Input, Table} from 'antd';
+import {Button, Select, Input, message} from 'antd';
 import {Link} from 'react-router';
 import axios from "axios";
 import "../../../less/editHospital.less"
@@ -32,7 +32,8 @@ export default class AddHospital extends Component {
       county: [],
       selectCity: "",
       selectCountry: "",
-      noSave: true
+      noSave: true,
+      hospitalId:null
     }
   }
 
@@ -257,11 +258,14 @@ export default class AddHospital extends Component {
       },
     }).then(function (response) {
       if (response.data.code === 200) {
-        alert("保存成功，即将跳转!");
-        location.hash = "/healthInfo/hospital/hospital";
-        /*that.setState({
-         noSave:false
-         })*/
+        message.success("保存成功，即将跳转!");
+        //location.hash = "/healthInfo/hospital/hospital";
+        setTimeout(()=>{
+          that.setState({
+            noSave: false,
+            hospitalId:response.data.result.id
+          })
+        },1000)
       }
     });
   }
@@ -405,12 +409,12 @@ export default class AddHospital extends Component {
               </span>
               <Input onChange={this.changeRemarks.bind(this)} className="" type="textarea" rows={3}/>
             </li>
-          </ul> : <SelectDepartment />
+          </ul> : <SelectDepartment hospitalId={this.state.hospitalId}/>
         }
 
         <h3>
         </h3>
-        
+
         <div className="btn_save">
           <div className="btn_save_index">
             {
