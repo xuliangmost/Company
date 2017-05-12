@@ -962,7 +962,7 @@ export default class LookConsultationTask extends Component {
                         <div className="btn_save_index">
                             {
                                 this.state.meetingId ?
-                                    <a href={serverD + "/conference/#/mainFrame/personMeeting/addMeeting/" + this.state.meetingId + "/1"}>
+                                    <a target="blank" href={serverD + "/meeting/#/meeting/" + this.state.meetingId + "/1"}>
                                         <Button
                                             disabled={!tools.Calculation(this.state.getData.consultation.startTime.split("T").join(" "), startTime) || this.state.getData.consultation.stat === 3}
                                             type="primary">参加会诊</Button>&nbsp;

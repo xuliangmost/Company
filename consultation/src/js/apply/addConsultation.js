@@ -317,7 +317,7 @@ export default class AddConsultation extends Component {
                         description: docArr[i].hospitalName,
                         hospitalId: docArr[i].hospitalId,
                         chosen: (function (a) {
-                            return responseDoc.indexOf(a) > -1 ? true : false
+                            return responseDoc.indexOf(a) > -1
                         })(docArr[i].doctorId),
                     };
                     if (data.chosen) {

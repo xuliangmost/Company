@@ -109,7 +109,10 @@ export default class NewConsultation extends Component {
                 {
                     title: '开方时间',
                     dataIndex: 'prescriptionTime',
-                    key: 'prescriptionTime'
+                    key: 'prescriptionTime',
+                    render: (text) => (
+                        <span>{ text.split("T").join(" ").split(".").splice(0, 1)}</span>
+                    )
                 },
                 {
                     title: '开方医生姓名',
@@ -1381,8 +1384,6 @@ export default class NewConsultation extends Component {
                 return false
             }
         }
-
-
         let getData = JSON.parse(JSON.stringify(that.state.getData));
         if (that.state.history1.id) {
             axios.request({
@@ -1465,7 +1466,8 @@ export default class NewConsultation extends Component {
                             history1Index: index,
                             history2Index: 0,
                             data,
-                            saveCase: true
+                            saveCase: true,
+                            saveAdvice:true
                         })
                     }
                 }
@@ -1526,7 +1528,6 @@ export default class NewConsultation extends Component {
                     index = index < 1 ? 0 : index - 1;
                 }
                 let history2 = getData.case[index].advice ? getData.case[index].advice[0] : null;
-
                 let data = history2 ? history2.prescription : [];
                 if (data == false) {
                     data.push(that.state.oldData)
@@ -1538,7 +1539,8 @@ export default class NewConsultation extends Component {
                     history1Index: index,
                     history2Index: 0,
                     data,
-                    saveCase: true
+                    saveCase: true,
+                    saveAdvice:true
                 })
             }
         }
@@ -1830,7 +1832,7 @@ export default class NewConsultation extends Component {
                                               onClick={this.changeHistory1.bind(this, index)}
                                               className="history_sp1">{ele.sn ? ele.sn : "空白病历"} </span>
                                         {
-                                            this.state.history1.statusId ?
+                                            ele.statusId ?
                                                 <Popconfirm title="是否确定删除?"
                                                             onConfirm={this.deleteHistory1.bind(this, index)} okText="是"
                                                             cancelText="否">

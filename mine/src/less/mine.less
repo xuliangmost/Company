@@ -1,0 +1,70 @@
+@float:none;
+.apple_top{
+  width:500px;
+  h1{
+    margin-top:10px;
+    text-indent:90px ;
+    font-size: 20px!important;
+  }
+  .search_ul{
+    width:100%;
+    float: @float;
+    overflow: hidden;
+    li{
+      position: relative;
+      display: flex;
+      margin:24px 0;
+      .most_flex{
+        display: inline-block;
+        width:100px;
+        line-height:32px;
+        text-align: right;
+        padding-right: 10px;
+        margin-right: 10px;
+      }
+      .search_input{
+        flex: 3;
+      }
+      .pic_height{
+        height:120px;
+        overflow: hidden;
+
+      }
+      .showPassword{
+        font-size: 20px;
+        position: absolute;
+        right:6px;
+        top:6px;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+      .minePic{
+        width:120px;
+        //border-radius: 120px;
+        //border:1px solid #888;
+      }
+    }
+  }
+  .btn_save{
+    height:50px;
+    width:100%;
+    float: @float;
+    position: relative;
+    margin-bottom: 60px;
+    .btn_save_index{
+      overflow: hidden;
+      position: absolute;
+      left:50%;
+      top:50%;
+      transform: translate(-50%,-50%);
+    }
+    .btn_save_index_2{
+      margin:0 10px!important;
+    }
+  }
+  .header_pic{
+
+  }
+
+}

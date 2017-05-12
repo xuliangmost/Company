@@ -199,7 +199,7 @@ export default class ReturnRecord extends Component {
                         </li>
                         <li>
                             <span className="most_flex">会诊时间</span>
-                            <RangePicker allowClear={false} size="large" className="search_input"
+                            <RangePicker placeholder='' allowClear={false} size="large" className="search_input"
                                          onChange={this.onChange.bind(this)}/>
                         </li>
                         <li>

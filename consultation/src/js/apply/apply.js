@@ -232,7 +232,7 @@ export default class Apply extends Component {
                         </li>
                         <li>
                             <span className="most_flex">会诊时间</span>
-                            <RangePicker allowClear={true} size="large" className="search_input"
+                            <RangePicker placeholder='' placeholder='' allowClear={true} size="large" className="search_input"
                                          onChange={this.onChange.bind(this)}/>
                         </li>
                         <li>

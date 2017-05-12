@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Input, Modal, Select, Table, Tree, message} from "antd";
+import {Button, Input, Modal, Select, Table, Tree, message, Popconfirm} from "antd";
 import axios from "axios";
 import "../../../less/editHospital.less";
 import api from "../../../common/API";
@@ -10,7 +10,11 @@ const Option = Select.Option;
 const TreeNode = Tree.TreeNode;
 let token = localStorage.getItem("robertUserName");
 
-
+message.config({
+  top: 130,
+  left: 400,
+  duration: 2,
+});
 export default class SelectDepartment extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +50,7 @@ export default class SelectDepartment extends Component {
           render: (text, record, index) => (
             <span key={record.id}>
                 {
-                  text === 1 ? "乌镇互联网医院" : text === 2 ? "远程眼科" : ''
+                  text === 1 ? "乌镇互联网医院" : text === 2 ? "远程眼科" : text === 3 ? "Most_one" : text === 4 ? "Most_two" : ''
                 }
             </span>
           )
@@ -85,13 +89,57 @@ export default class SelectDepartment extends Component {
           render: (record, index) => (
             <span key={record.id}>
               <a onClick={this.showModal.bind(this, record.id, record.name, index)}>编辑&nbsp;&nbsp;</a>
-              {/*<a>删除</a>*/}
+
+              <Popconfirm
+                title="是否确定删除?"
+                onConfirm={this.deleteDep.bind(this, record.id, index)} okText="是"
+                cancelText="否">
+                        <a>删除</a>
+               </Popconfirm>
+
+
             </span>
           ),
           width: '10%'
         }
       ],
     }
+  }
+
+
+  deleteDep(id, index) {//delete
+    let that = this;
+    axios.request({
+      url: '/api/user/dep/delete/judge',
+      method: 'get',
+      params: {
+        id: id
+      },
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+      },
+    }).then(function (response) {
+      if (response.data.code === 200) {
+        axios.request({
+          url: '/api/user/dep/delete',
+          method: 'get',
+          params: {
+            id: id
+          },
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+          },
+        }).then((response) => {
+          if (response.data.code === 200) {
+            that.getValue()
+          }
+        })
+      } else {
+        message.error('此科室下已存在医生 , 请先清空医生后再删除')
+      }
+    })
   }
 
   showModal(id = null, name = null) {
@@ -109,6 +157,10 @@ export default class SelectDepartment extends Component {
   }
 
   componentDidMount() {//pageList
+    this.getValue()
+  }
+
+  getValue() {
     let that = this;
     axios.request({
       url: '/api/user/dep/pageList',
@@ -137,7 +189,7 @@ export default class SelectDepartment extends Component {
           message.error('科室名称已存在');
           return false;
         }
-        if (!this.state.allDataSource[i].name) {
+        if (!this.state.depName) {
           message.error('科室名称不能为空');
           return false;
         }

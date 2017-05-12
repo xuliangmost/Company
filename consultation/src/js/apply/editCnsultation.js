@@ -318,7 +318,7 @@ export default class EditCnsulation extends Component {
                         description: docArr[i].hospitalName,
                         hospitalId: docArr[i].hospitalId,
                         chosen: (function (a) {
-                            return responseDoc.indexOf(a) > -1 ? true : false
+                            return responseDoc.indexOf(a) > -1
                         })(docArr[i].doctorId),
                     };
                     if (data.chosen) {
@@ -414,8 +414,8 @@ export default class EditCnsulation extends Component {
         this.state.docList.map((ele, index) => {
             if (targetKey.indexOf(ele.doctorId) !== -1) {
                 let obj = {};
-                obj.user = ele.userId.toString()
-                obj.hospitalId = ele.hospitalId.toString()
+                obj.user = ele.userId.toString();
+                obj.hospitalId = ele.hospitalId.toString();
                 docUserId.push(obj)
             }
         });

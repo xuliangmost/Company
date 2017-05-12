@@ -319,7 +319,7 @@ export default class EditCnsulation extends Component {
                 getData.case = allData.case;
                 getData.case[0].advice[0].prescription ? getData.case[0].advice[0].prescription.map((ele) => {
                     data.push(ele);
-                }) :null;
+                }) : null;
             }
 
             data.push(that.state.oldData);
@@ -357,7 +357,7 @@ export default class EditCnsulation extends Component {
                         description: docArr[i].hospitalName,
                         hospitalId: docArr[i].hospitalId,
                         chosen: (function (a) {
-                            return responseDoc.indexOf(a) > -1 ? true : false
+                            return responseDoc.indexOf(a) > -1
                         })(docArr[i].doctorId),
                     };
                     if (data.chosen) {
@@ -873,7 +873,7 @@ export default class EditCnsulation extends Component {
             return false
         }
 
-        let advice = JSON.parse(JSON.stringify(postCase.advice))
+        let advice = JSON.parse(JSON.stringify(postCase.advice));
         delete postCase.advice;
         postCase.consultationId = this.state.consultationId;
         postCase.userId = this.state.getData.consultation.userId.toString();
@@ -1141,7 +1141,7 @@ export default class EditCnsulation extends Component {
                 },
             }).then(function (response) {
                 if (response.data.code === 200) {
-                    if (getData.case.length == 1) {
+                    if (getData.case.length === 1) {
                         getData.case[0] = {
                             "sn": "", //case编号
                             "hospital": "",  //case医院
@@ -1672,9 +1672,10 @@ export default class EditCnsulation extends Component {
                         }
 
                         {
-                            this.state.history1.statusId?<Button onClick={this.addHistory2.bind(this)} className="history_btn1" type="primary">
-                                <Icon type="plus"/>
-                            </Button>:null
+                            this.state.history1.statusId ?
+                                <Button onClick={this.addHistory2.bind(this)} className="history_btn1" type="primary">
+                                    <Icon type="plus"/>
+                                </Button> : null
                         }
                     </div>
 

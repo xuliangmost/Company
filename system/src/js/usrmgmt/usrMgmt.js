@@ -57,7 +57,7 @@ export default class UsrMgmt extends Component{
             render: (text, record,index) => (
               <span  key={record.id}>
                 {
-                  text===1?"全科版块":""
+                  text===1?"乌镇互联网医院":text===2?"远程眼科":''
                 }
             </span>
             )

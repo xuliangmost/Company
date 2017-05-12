@@ -154,8 +154,8 @@ export default class ConsultationTask extends Component {
 
                             {
                                 record.conId ?
-                                    <a disabled={!tools.Calculation(record.startTime.split("T").join(" "), startTime) || record.stat === "已结束"}
-                                       href={serverD + "conference/#/mainFrame/personMeeting/addMeeting/" + record.conId + "/1"}>参加</a> : ""
+                                    <a target="blank"  disabled={!tools.Calculation(record.startTime.split("T").join(" "), startTime) || record.stat === "已结束"}
+                                       href={serverD + "/meeting/#/meeting/" + record.conId + "/1"}>参加</a> : ""
                             }
               </span>
                     )
@@ -176,10 +176,6 @@ export default class ConsultationTask extends Component {
         this.setState({
             applyPage: applyPage
         });
-
-        /*this.setState({
-         startTime:dateString
-         })*/
     }
 
     changeConsultationName(e) {
@@ -230,17 +226,6 @@ export default class ConsultationTask extends Component {
         })
     }
 
-    changeStat() {
-        // let obj_select=document.getElementById("select_id");
-        // let  index=obj_select.selectedIndex;
-        // let  text=obj_select.options[index].text;
-        // let apply=this.state.applyPage;
-        //  apply.stat=text;
-        //  this.setState({
-        //    applyPage:apply
-        //  })
-        //  console.mine(text);
-    }
 
     changePage(page) {
         this.query(page);
@@ -307,7 +292,7 @@ export default class ConsultationTask extends Component {
                         </li>
                         <li>
                             <span className="most_flex">会诊时间</span>
-                            <RangePicker size="large" className="search_input" onChange={this.onChange.bind(this)}/>
+                            <RangePicker placeholder='' size="large" className="search_input" onChange={this.onChange.bind(this)}/>
                         </li>
                         <li>
                             <span className="most_flex">会诊对象</span>

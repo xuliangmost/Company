@@ -164,8 +164,8 @@ export default class WaitCheck extends Component {
         let applyPage = this.state.applyPage;
         applyPage.pageNum = num;
         axios.request({
-            url: '/api/conference/applyPageList',
-            method: 'get',
+            url: '/api/conference/check/pageList',
+            method: 'POST',
             params: applyPage,
             headers: {
                 'Authorization': 'Bearer ' + token,
@@ -204,7 +204,7 @@ export default class WaitCheck extends Component {
                         </li>
                         <li>
                             <span className="most_flex">会诊时间</span>
-                            <RangePicker size="large" className="search_input" onChange={this.onChange.bind(this)}/>
+                            <RangePicker placeholder='' size="large" className="search_input" onChange={this.onChange.bind(this)}/>
                         </li>
                         <li>
                             <span className="most_flex">申请人</span>

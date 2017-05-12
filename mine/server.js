@@ -27,7 +27,7 @@ const server = new WebpackDevServer(webpack(config), {
   }
 });
 
-server.listen(8833, function (err) {
+server.listen(8811, function (err) {
   if (err) {
     console.log(err);
   }

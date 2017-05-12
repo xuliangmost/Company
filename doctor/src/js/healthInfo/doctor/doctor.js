@@ -79,7 +79,7 @@ export default class Doctor extends Component{
             render: (text, record,index) => (
               <span  key={record.id}>
                 {
-                  text===1?"乌镇互联网医院":text===2?"远程眼科":''
+                  text === 1 ? "乌镇互联网医院" : text === 2 ? "远程眼科" : text === 3 ? "Most_one" : text === 4 ? "Most_two" : ''
                 }
             </span>
             )

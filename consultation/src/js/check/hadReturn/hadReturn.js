@@ -213,7 +213,7 @@ export default class HadReturn extends Component {
                         </li>
                         <li>
                             <span className="most_flex">会诊时间</span>
-                            <RangePicker size="large" className="search_input" onChange={this.onChange.bind(this)}/>
+                            <RangePicker placeholder='' size="large" className="search_input" onChange={this.onChange.bind(this)}/>
                         </li>
                         <li>
                             <span className="most_flex">申请人</span>

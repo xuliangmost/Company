@@ -110,7 +110,7 @@ export default class AddUsrMgmt extends Component {
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function (response) {
-      let permissionIds = response.data.result.roleIds.split('','');
+      let permissionIds = response.data.result.roleIds.split(',');
       if (permissionIds[0] === '0') {
         permissionIds = []
       }
