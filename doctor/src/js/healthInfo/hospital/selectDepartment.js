@@ -1,13 +1,16 @@
 import React, {Component} from "react";
-import {Button, Input, Modal, Select, Table, Tree} from "antd";
+import {Button, Input, Modal, Select, Table, Tree, message} from "antd";
 import axios from "axios";
 import "../../../less/editHospital.less";
 import api from "../../../common/API";
+import nowTime from '../../../tools/checked'
 // import FormatDate from '../../../tools/checked';
 let serverD = api().serverAdress;
 const Option = Select.Option;
 const TreeNode = Tree.TreeNode;
 let token = localStorage.getItem("robertUserName");
+
+
 export default class SelectDepartment extends Component {
   constructor(props) {
     super(props);
@@ -17,8 +20,9 @@ export default class SelectDepartment extends Component {
       depName: '',
       dataSource: [],
       visible: false,
-      modifyId:null,
-      addTitle:false,
+      modifyId: null,
+      addTitle: false,
+      allDataSource: [],
       columns: [
         {
           title: '序号',
@@ -33,52 +37,55 @@ export default class SelectDepartment extends Component {
           title: '科室名称',
           dataIndex: 'name',
           key: 'name',
-          width: '10%'
+          width: '20%'
         },
         {
           title: '所属板块',
           dataIndex: 'sect',
           key: 'sect',
-          render: (text, record,index) => (
-            <span  key={record.id}>
+          render: (text, record, index) => (
+            <span key={record.id}>
                 {
-                  text===1?"全科版块":""
+                  text === 1 ? "乌镇互联网医院" : text === 2 ? "远程眼科" : ''
                 }
             </span>
-          ),
-          width: '10%'
+          )
         },
         {
           title: '创建人',
           dataIndex: 'creator',
           key: 'creator',
-          width: '16%'
+          width: '20%'
         },
+        /* {
+         title: '创建时间',
+         dataIndex: 'create_time',
+         key: 'create_time',
+         width: '22%',
+         render:(text)=>{
+         return (
+         <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
+         )
+         }
+         },*/
         {
-          title: '创建时间',
-          dataIndex: 'create_time',
-          key: 'create_time',
-          width: '22%',
-          render:time=>{
-            let t=new Date(time);
-            return t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate()
-          }
-        },
-        {
-          title: '修改时间',
+          title: '操作时间',
           dataIndex: 'modify_time',
           key: 'modify_time',
           width: '22%',
-          render:time=>{
-            let t=new Date(time);
-            return t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate()
+          render: (text) => {
+            return (
+              <span>{ text.split("T").join(" ").split(".").splice(0, 1)}</span>
+            )
           }
         },
         {
           title: '操作',
           key: 'action',
           render: (record, index) => (
-            <span key={record.id}> <a onClick={this.showModal.bind(this, record.id, record.name, index)}>编辑</a>
+            <span key={record.id}>
+              <a onClick={this.showModal.bind(this, record.id, record.name, index)}>编辑&nbsp;&nbsp;</a>
+              {/*<a>删除</a>*/}
             </span>
           ),
           width: '10%'
@@ -87,17 +94,14 @@ export default class SelectDepartment extends Component {
     }
   }
 
-  showModal(id=null,name=null) {
-    console.log(id,name);
-    if(id&&name){
-      console.log('if');
+  showModal(id = null, name = null) {
+    if (id && name) {
       this.setState({
-        modifyId:id,
-        depName:name,
+        modifyId: id,
+        depName: name,
         visible: true
       })
-    }else{
-      console.log('else');
+    } else {
       this.setState({
         visible: true
       })
@@ -109,8 +113,7 @@ export default class SelectDepartment extends Component {
     axios.request({
       url: '/api/user/dep/pageList',
       method: 'get',
-      params: {
-      },
+      params: {},
       headers: {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
@@ -118,34 +121,45 @@ export default class SelectDepartment extends Component {
     }).then(function (response) {
       that.setState({
         dataSource: response.data.result,
+        allDataSource: response.data.result,
       })
     })
   }
 
   handleOk() {//确认添加
-    if(this.state.modifyId&&this.state.depName){
-      console.log(this.state.modifyId,this.state.depName)
-      this.editSome(this.state.modifyId,this.state.depName);
-    } else if(this.state.depName.trim()){
-      console.log(this.state.modifyId,this.state.depName)
-      console.log('add');
-      let that = this;
+    let that = this;
+    if (this.state.modifyId && this.state.depName) {
+      this.editSome(this.state.modifyId, this.state.depName);//编辑
+    } else if (this.state.depName.trim()) {
+      let depName = that.state.depName;
+      for (let i = 0; i < this.state.allDataSource.length; i++) {
+        if (this.state.allDataSource[i].name === depName) {
+          message.error('科室名称已存在');
+          return false;
+        }
+        if (!this.state.allDataSource[i].name) {
+          message.error('科室名称不能为空');
+          return false;
+        }
+      }
       axios.request({
         url: '/api/user/dep/add',
         method: 'POST',
         params: {
-          depName:that.state.depName
+          depName: that.state.depName
         },
         headers: {
           'Authorization': 'Bearer ' + token,
           'Content-Type': 'application/json UTF-8'
         },
-      }).then(response=>{
+      }).then(response => {
         if (response.data.code === 200) {
           let dataSource = this.state.dataSource;
           let obj = {};
           obj.id = response.data.result.id;
           obj.depName = that.state.depName;
+          obj.create_time = nowTime.getTime();
+          obj.modify_time = nowTime.getTime();
           dataSource.push(obj);
           this.setState({
             visible: false,
@@ -155,8 +169,7 @@ export default class SelectDepartment extends Component {
           axios.request({
             url: '/api/user/dep/pageList',
             method: 'get',
-            params: {
-            },
+            params: {},
             headers: {
               'Authorization': 'Bearer ' + token,
               'Content-Type': 'application/x-www-form-urlencoded UTF-8'
@@ -174,12 +187,11 @@ export default class SelectDepartment extends Component {
   handleCancel() {
     this.setState({
       visible: false,
-      depName:''
+      depName: ''
     });
   }
 
   editSome(id, depName, index) {
-    console.log(`${id} ++ ${depName}`);
     let that = this;
     axios.request({
       url: '/api/user/dep/edit',
@@ -195,15 +207,14 @@ export default class SelectDepartment extends Component {
     }).then(function (response) {
       if (response.data.code === 200) {
         that.setState({
-          visible:false,
+          visible: false,
           dataSource: that.state.dataSource.splice(index, 1),
-          modifyId:null
+          modifyId: null
         });
         axios.request({
           url: '/api/user/dep/pageList',
           method: 'get',
-          params: {
-          },
+          params: {},
           headers: {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/x-www-form-urlencoded UTF-8'
@@ -219,7 +230,7 @@ export default class SelectDepartment extends Component {
 
   changeDepName(e) {
     this.setState({
-      depName:e.target.value
+      depName: e.target.value
     })
   }
 
@@ -236,7 +247,8 @@ export default class SelectDepartment extends Component {
               <span className="name">
                 科室名称
               </span>
-              <Input value={this.state.depName} onChange={this.changeDepName.bind(this)} className="" size="large" placeholder="科室名称"/>
+              <Input value={this.state.depName} onChange={this.changeDepName.bind(this)} className="" size="large"
+                     placeholder="科室名称"/>
             </li>
           </ul>
         </Modal>

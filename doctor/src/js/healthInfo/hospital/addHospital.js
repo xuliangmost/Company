@@ -258,13 +258,13 @@ export default class AddHospital extends Component {
       },
     }).then(function (response) {
       if (response.data.code === 200) {
-        message.success("保存成功，即将跳转!");
-        //location.hash = "/healthInfo/hospital/hospital";
+        alert("保存成功，即将跳转!");
+        location.hash = "/healthInfo/hospital/hospital";
         setTimeout(()=>{
-          that.setState({
+          /*that.setState({
             noSave: false,
             hospitalId:response.data.result.id
-          })
+          })*/
         },1000)
       }
     });

@@ -20,10 +20,6 @@ export default class AddHospital extends Component{
         <h3>
         </h3>
         <SelectDepartment hospitalId={this.props.params.id}/>
-
-        <h3>
-        </h3>
-
         <div className="btn_save">
           <div className="btn_save_index">
             {/*<Button onClick={this.saveMsg.bind(this)} className="save_add_hospital" type="primary">保存</Button>*/}

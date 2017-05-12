@@ -297,13 +297,14 @@ export default class AddHospital extends Component{
       },
     }).then(function(response) {
       if (response.data.code === 200) {
-        message.success("保存成功，即将跳转!");
-        //location.hash = "/healthInfo/hospital/hospital";
+        alert("保存成功，即将跳转!");
+        location.hash = "/healthInfo/hospital/hospital";
         setTimeout(()=>{
-          that.setState({
+
+          /*that.setState({
             noSave: false,
             hospitalId:response.data.result.id
-          })
+          })*/
         },1000)
       }
     });
@@ -449,7 +450,9 @@ export default class AddHospital extends Component{
 
         <div className="btn_save">
           <div className="btn_save_index">
-            <Button onClick={this.saveMsg.bind(this)} className="save_add_hospital" type="primary">保存</Button>
+            {
+              this.state.noSave?<Button onClick={this.saveMsg.bind(this)} className="save_add_hospital" type="primary">保存</Button>:null
+            }
             <Link to="healthInfo/hospital/hospital">
               <Button type="primary">返回</Button>
             </Link>

@@ -53,9 +53,20 @@ function Calculation(a, b) {//a 是开会时间，b是当前时间
     return true
   }
 }
-
 //验证身份证
-
+function getTime() {
+    let date = new Date();
+    let seperator1 = "-";
+    let month = date.getMonth() + 1;
+    let strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+    return (date.getFullYear() + seperator1 + month + seperator1 + strDate)
+}
 function cardValidate(card) {
   let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
   return reg.test(card)
@@ -96,5 +107,6 @@ export default {
   emailValidate,
   FormatDate,
   checked,
-  Calculation
+  Calculation,
+  getTime
 }
