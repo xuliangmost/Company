@@ -82,7 +82,7 @@ export default class DaiShen extends Component {
                     key: 'action',
                     render: (text, record, index) => (
                         <span key={record.id}>
-              <Link to={"apply/daiShen/looked/" + record.id}>查看</Link>
+
             </span>
                     )
                 }

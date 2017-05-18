@@ -27,9 +27,9 @@ const server = new WebpackDevServer(webpack(config), {
   }
 });
 
-server.listen(8811, function (err) {
+server.listen(8844, function (err) {
   if (err) {
     console.log(err);
   }
-  console.log('Listening at localhost:8811');
+  console.log('Listening at localhost:8844');
 });

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Checkbox, Input, Table, Select,message} from 'antd';
+import {Button, Checkbox, Input, Table, Select, message} from 'antd';
 import {Link} from 'react-router';
 import '../../less/usrmgmt.less'
 import axios from 'axios';
@@ -16,7 +16,8 @@ export default class AddUsrMgmt extends Component {
         name: '',
         phone: '',
         unitId: null,
-        roleIds: ''
+        roleIds: '',
+        email: ''
       },
       phone: '',
       super: true,
@@ -57,19 +58,20 @@ export default class AddUsrMgmt extends Component {
         }
       ],
       dataSource: [],
-      unitName: '',
+      unitName: null,
       fromCop: [],
       isSuper: true,
       permissionIds: [],
       defaultVal: '*******',
-      phoneHad: false
+      phoneHad: false,
+      mailHad: false,
     }
   }
 
   getList() {
     let that = this;
     axios.request({
-      url: '/api/user/hospitals',
+      url: this.state.super ? '/api/user/hospitals' : '/api/user/doctor/hList',
       method: 'get',
       headers: {
         'Authorization': 'Bearer ' + token,
@@ -120,7 +122,8 @@ export default class AddUsrMgmt extends Component {
         applyPage,
         unitName: response.data.result.unitName,
         phone: response.data.result.phone,
-        permissionIds
+        oldMail: response.data.result.email,
+        permissionIds,
       });
       that.getList();
       that.query(1)
@@ -128,7 +131,6 @@ export default class AddUsrMgmt extends Component {
   }
 
   selectPermission(id, e) {
-
     let permissionIds = this.state.permissionIds;
     if (e.target.checked) {
       if (permissionIds.indexOf(id.toString()) === -1) {
@@ -139,24 +141,17 @@ export default class AddUsrMgmt extends Component {
         permissionIds.splice(permissionIds.indexOf(id.toString()), 1)
       }
     }
-    console.log(permissionIds)
   }
 
   selectFrom(value) {
-    let apply = this.state.applyPage;
-    if (!value) {
-      value = null;
-      apply.unitId = value;
-
-    } else {
-      apply.unitId = Number(value);
-    }
+    let applyPage = JSON.parse(JSON.stringify(this.state.applyPage));
+    applyPage.unitId = Number(value);
     let unitName = this.state.fromCop.filter(function (ele) {
-      return ele.unitId === Number(value)
+      return ele.hospitalId?ele.hospitalId:ele.unitId === Number(value)
     });
     this.setState({
-      applyPage: apply,
-      unitName: unitName[0].unitName
+      applyPage,
+      unitName: unitName[0].hospitalName?unitName[0].hospitalName:unitName[0].unitName
     })
   }
 
@@ -189,7 +184,7 @@ export default class AddUsrMgmt extends Component {
 
   query(num) {
     let that = this;
-    let applyPage = this.state.applyPage;
+    let applyPage = JSON.parse(JSON.stringify(this.state.applyPage));
     applyPage.pageNum = num;
     axios.request({
       url: '/api/user/role/pageList',
@@ -210,9 +205,12 @@ export default class AddUsrMgmt extends Component {
   }
 
   save() {
-    this.checkPhone();
     if (this.state.phoneHad) {
       message.error('手机号已注册!');
+      return false
+    }
+    if (this.state.mailHad) {
+      message.error(' 邮箱已注册!');
       return false
     }
     let permissionIds = this.state.permissionIds;
@@ -226,25 +224,14 @@ export default class AddUsrMgmt extends Component {
       message.error('邮箱填写错误!');
       return false
     }
-    if (tools.isEmpty(applyData.phone)) {
-      message.error('手机号不能为空或手机号填写错误!');
+    if (!tools.mobileValidate(applyData.phone)) {
+      message.error('手机号填写错误!');
       return false
-    }
-    if (!this.state.super) {
-      applyData.unitId = this.state.hoId
     }
     if (tools.isEmpty(applyData.unitId)) {
       message.error('隶属单位未选择!');
       return false
     }
-  /*  let data = {
-      'phone': applyData.phone,
-      'userId': applyData.userId,
-      'name': applyData.name,
-      'password': applyData.password,
-      'unitId': applyData.unitId,
-      'roleIds': applyData.roleIds
-    };*/
     if (applyData.phone === this.state.phone) {
       delete applyData.phone
     }
@@ -272,6 +259,7 @@ export default class AddUsrMgmt extends Component {
       }
     });
   }
+
   changeEmail(e) {
     let applyPage = this.state.applyPage;
     applyPage.email = e.target.value;
@@ -279,6 +267,34 @@ export default class AddUsrMgmt extends Component {
       applyPage
     })
   }
+
+  checkEmail() {
+    if (this.state.oldMail !== this.state.applyPage.email) {
+      axios.request({
+        url: '/api/user/evalidate',
+        method: 'get',
+        params: {
+          email: this.state.applyPage.email
+        },
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+        },
+      }).then(response => {
+        if (response.data.code !== 200) {
+          message.error('该邮箱已注册');
+          this.setState({
+            mailHad: true
+          })
+        } else {
+          this.setState({
+            mailHad: false
+          })
+        }
+      })
+    }
+  }
+
   changePassword(e) {
     let applyPage = this.state.applyPage;
     applyPage.password = e.target.value;
@@ -342,47 +358,32 @@ export default class AddUsrMgmt extends Component {
             <Input onBlur={this.checkPhone.bind(this)} onChange={this.changePhone.bind(this)}
                    value={this.state.applyPage.phone} className='usrmgmt_input' size='large' placeholder='手机号'/>
             <span className='usrmgmt_span'>邮箱</span>
-            <Input value={this.state.applyPage.email}  onChange={this.changeEmail.bind(this)}   className='usrmgmt_input' size='large' placeholder='邮箱'/>
+            <Input onBlur={this.checkEmail.bind(this)} value={this.state.applyPage.email}
+                   onChange={this.changeEmail.bind(this)} className='usrmgmt_input'
+                   size='large' placeholder='邮箱'/>
           </li>
 
-          {
-            this.state.super ? <li>
-              <span className='usrmgmt_span'>隶属单位</span>
-              <Select value={this.state.unitName} onChange={this.selectFrom.bind(this)} defaultValue='请选择'
-                      className='usrmgmt_input'>
-                {
-                  this.state.fromCop.map((ele, index) => {
-                    return <Option key={index} value={ele.unitId.toString()}>{ele.unitName}</Option>
-                  })
-                }
-              </Select>
-              <span className='usrmgmt_span'>密码</span>
-              <Input onChange={this.changePassword.bind(this)} disabled={!this.state.isReset}
-                     value={this.state.defaultVal} className='usrmgmt_input1' size='large'/>
-              <Button onClick={this.resetPassword.bind(this)} disabled={this.state.isReset}
-                      className='reset_password_usr' type='primary'>重置</Button>
-            </li> : ''
-          }
-
-          {/*<li>
-           <span className='usrmgmt_span'>隶属单位</span>
-           <Input readOnly className='usrmgmt_input' size='large' placeholder='隶属单位' />
-           <span className='usrmgmt_span'>
-           </span>
-           <span className='usrmgmt_input'>
-           </span>
-           </li>*/}
-
-          {/* <li>
-           <span className='usrmgmt_span'>密码</span>
-           <Input  className='usrmgmt_input1' size='large' placeholder='姓名' />
-           <Button onClick={this.resetPassword.bind(this)} className='reset_password_usr' type='primary'>重置</Button>
-           <Button className='reset_password_none' type='primary'>
-           </Button>
-           <span className='usrmgmt_span'>创建人</span>
-           <Input readOnly className='usrmgmt_input' size='large' placeholder='创建人' />
-           </li>*/}
-
+          <li>
+            <span className='usrmgmt_span'>隶属单位</span>
+            <Select value={this.state.unitName} onChange={this.selectFrom.bind(this)}
+                    className='usrmgmt_input'>
+              {
+                this.state.fromCop.map((ele, index) => {
+                  return <Option key={index}
+                                 value={ele.hospitalId ? ele.hospitalId.toString() : ele.unitId.toString()}>{ele.hospitalName ? ele.hospitalName : ele.unitName}</Option>
+                })
+              }
+            </Select>
+            <span className='usrmgmt_span'>密码</span>
+            <Input onChange={this.changePassword.bind(this)} disabled={!this.state.isReset}
+                   value={this.state.defaultVal} className='usrmgmt_input1' size='large'/>
+            <Button onClick={this.resetPassword.bind(this)} disabled={this.state.isReset}
+                    className='reset_password_usr' type='primary'>重置</Button>
+            <span className='usrmgmt_span'>
+              </span>
+            <span className='usrmgmt_input'>
+              </span>
+          </li>
         </ul>
 
         <Table pagination={{

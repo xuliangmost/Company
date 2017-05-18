@@ -140,7 +140,6 @@ export default class Consulation extends Component{
           'Content-Type': 'application/x-www-form-urlencoded UTF-8'
         },
       }).then(function(response) {
-        console.log(response.data.result.count)
         that.setState({
           dataSource:response.data.result.data,
           dataSourceFather:response.data.result.data,
@@ -308,7 +307,7 @@ export default class Consulation extends Component{
             </li>
             <li>
               <span className="most_flex">会诊时间</span>
-              <RangePicker  size="large" className="search_input" onChange={this.onChange.bind(this)} />
+              <RangePicker placeholder=''   size="large" className="search_input" onChange={this.onChange.bind(this)} />
             </li>
             <li>
               <span className="most_flex">会诊对象</span>

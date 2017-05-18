@@ -1,11 +1,11 @@
 import React, {Component} from "react"
-import {Button, DatePicker, Input, Table} from 'antd';
+import {Button, DatePicker, Input, Table, Select} from 'antd';
 import {Link} from 'react-router';
 import "../../../less/apply.less"
 import moment from 'moment';
 import axios from "axios";
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-
+const Option = Select.Option;
 const {RangePicker} = DatePicker;
 let token = localStorage.getItem("robertUserName");
 export default class Checked extends Component {
@@ -30,7 +30,7 @@ export default class Checked extends Component {
         this.state = {
             applyPage: {
                 pageSize: 10,
-                status: "1",
+                status: null,
                 title: null,
                 hospital: null,
                 phone: null,
@@ -80,7 +80,7 @@ export default class Checked extends Component {
                     key: 'phone',
                 },
                 {
-                    title: '审核时间',
+                    title: '操作时间',
                     dataIndex: 'modifyTime',
                     key: 'modifyTime',
                     render: (text) => (
@@ -88,12 +88,32 @@ export default class Checked extends Component {
                     )
                 },
                 {
+                    title: '审核阶段',
+                    dataIndex: 'status',
+                    key: 'status',
+                    render: (text,record,) => {
+                        return (
+                            <span key={record.id}>
+                            {
+                                record.status === 0 ? <span>待审核</span> : record.status === 1 ?
+                                    <span>已审核</span> : record.status === 2 ? <span>已退回</span> : null
+                            }
+              </span>
+                        )
+                    }
+                },
+                {
                     title: '操作',
                     key: 'action',
                     render: (text, record, index) => (
                         <span key={record.id}>
-                {/*<Link to="check/checked/lookChecked">查看</Link>*/}
-                            <Link to={"check/checked/lookChecked/" + record.id}>查看</Link>
+                            {
+                                record.status === 1 ? <Link
+                                    to={"check/checked/lookChecked/" + record.id}>查看</Link> : record.status === 2 ?
+                                    <Link
+                                        to={"check/hadReturn/lookHadReturn/" + record.id}>查看</Link> : record.status === 0 ?
+                                        <Link to={"check/waitCheck/lookWaitCheck/" + record.id}>审核</Link> : null
+                            }
               </span>
                     )
                 }
@@ -104,57 +124,8 @@ export default class Checked extends Component {
 
     }
 
-    // push(id,index){
-    //
-    //   let that=this;
-    //   axios.request({
-    //     url: '/api/conference/commit',
-    //     method: 'get',
-    //     params:{
-    //       id:id
-    //     },
-    //     headers: {
-    //       'Authorization': 'Bearer '+token,
-    //       'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-    //     },
-    //   }).then(function(response) {
-    //     if(response.data.code==200){
-    //       axios.request({
-    //         url: '/api/conference/applyPageList',
-    //         method: 'get',
-    //         params:this.state.applyPage,
-    //         headers: {
-    //           'Authorization': 'Bearer '+token,
-    //           'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-    //         },
-    //       }).then(function(response) {
-    //         let dataSource=response.data.result.data;
-    //         console.mine(dataSource)
-    //         that.setState({
-    //           dataSource:dataSource
-    //         })
-    //       });
-    //
-    //
-    //     }
-    //
-    //
-    //
-    //
-    //   }).catch(function () {
-    //     alert("数据提交失败，请检查网络!")
-    //   });
-    //
-    // }
-
-    deleteRecord(index) {
-
-        alert("删除了id是" + index + "的数据")
-
-    }
-
     componentDidMount() {
-        this.query(1)
+        this.query(1, 1)
     }
 
     onChange(date, dateString) {
@@ -175,6 +146,18 @@ export default class Checked extends Component {
         apply.title = e.target.value;
         this.setState({
             applyPage: apply
+        })
+    }
+
+    changeStatus(value) {
+        let applyPage = this.state.applyPage;
+        if (value === '-1') {
+            delete applyPage.status
+        } else {
+            applyPage.status = Number(value)
+        }
+        this.setState({
+            applyPage
         })
     }
 
@@ -209,7 +192,7 @@ export default class Checked extends Component {
         })
     }
 
-    query(num,flag) {
+    query(num, flag) {
         let that = this;
         let applyPage = this.state.applyPage;
         applyPage.pageNum = num;
@@ -223,13 +206,13 @@ export default class Checked extends Component {
             },
         }).then(function (response) {
             let dataSource = response.data.result ? response.data.result.data : [];
-            if(flag){
+            if (flag) {
                 that.setState({
                     dataSource: dataSource,
                     total: response.data.result.count,
-                    current:1
+                    current: 1
                 })
-            }else{
+            } else {
                 that.setState({
                     dataSource: dataSource,
                     total: response.data.result.count,
@@ -244,7 +227,7 @@ export default class Checked extends Component {
                 <div className="apple_top">
                     <h1>
                         查询区
-                        <Button type="primary" onClick={() => this.query(1,1)} className="search_btn1">查询</Button>
+                        <Button type="primary" onClick={() => this.query(1, 1)} className="search_btn1">查询</Button>
                     </h1>
                     <ul className="search_ul">
                         <li>
@@ -254,7 +237,8 @@ export default class Checked extends Component {
                         </li>
                         <li>
                             <span className="most_flex">会诊时间</span>
-                            <RangePicker placeholder='' size="large" className="search_input" onChange={this.onChange.bind(this)}/>
+                            <RangePicker placeholder='' size="large" className="search_input"
+                                         onChange={this.onChange.bind(this)}/>
                         </li>
                         <li>
                             <span className="most_flex">申请人</span>
@@ -266,6 +250,16 @@ export default class Checked extends Component {
                             <Input value={this.state.applyPage.hospital} onChange={this.changeHospital.bind(this)}
                                    className="search_input" size="large" placeholder="所属医院"/>
                         </li>
+                        <li>
+                            <span className="most_flex">审核阶段</span>
+                            <Select onChange={this.changeStatus.bind(this)} size="large" optionFilterProp="children"
+                                    className="search_input" defaultValue="-请选择-">
+                                <Option value="-1">-请选择-</Option>
+                                <Option value="0">待审</Option>
+                                <Option value="1">已审</Option>
+                                <Option value="2">已退</Option>
+                            </Select>
+                        </li>
                     </ul>
                     <ul className="search_ul">
                         <li>
@@ -273,6 +267,7 @@ export default class Checked extends Component {
                             <Input value={this.state.applyPage.phone} onChange={this.changePhone.bind(this)}
                                    className="search_input" size="large" placeholder="手机号"/>
                         </li>
+                        <li></li>
                         <li></li>
                         <li></li>
                         <li></li>

@@ -230,7 +230,7 @@ export default class Apply extends Component{
         return ele.cityId==Number(value)
       });
       let applyPage=this.state.applyPage;
-      console.log(city)
+
       applyPage.city=Number(value);
       this.getCountry(Number(value));
       this.setState({

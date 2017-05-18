@@ -261,8 +261,6 @@ export default class Looked extends Component {
             let getData = that.state.getData;
             getData.consultation.hospital = response.data.result[0].hospitalName;
             getData.consultation.applicant = response.data.result[0].applyName;
-            console.log(getData.consultation.hospital);
-            console.log(getData.consultation.applicant);
             that.setState({
                 getData
             })
@@ -403,15 +401,15 @@ export default class Looked extends Component {
 
 
     startTime(data, dataString) {
-        console.log(dataString.split('"'))
+
     }
 
     onChange(date, dateString) {
-        console.log(date, dateString);
+
     }
 
     onCheck(e) {
-        console.log(e.currentTarget)
+
     }
 
     changeHistory1(index) {        //切换病历
@@ -428,7 +426,6 @@ export default class Looked extends Component {
             data = null
         }
 
-        console.log(data);
         this.setState({
             history1: this.state.getData.case[index],
             history1Index: index,
@@ -463,7 +460,6 @@ export default class Looked extends Component {
             action: '//jsonplaceholder.typicode.com/posts/',
             onChange({file, fileList}) {
                 if (file.status !== 'uploading') {
-                    console.log(file, fileList);
                     that.setState({
                         fileList: fileList
                     })
@@ -743,7 +739,7 @@ export default class Looked extends Component {
 
                     <div className="btn_save">
                         <div className="btn_save_index">
-                            <Link to="apply/daiShen">
+                            <Link to="apply">
                                 <Button type="primary">返回</Button>
                             </Link>
                         </div>

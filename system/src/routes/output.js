@@ -93,7 +93,6 @@ class PageBottom extends Component{
             }
           });
           if(flag){
-
             location.href=serverD+"/#/entrance"
           }
         }

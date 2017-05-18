@@ -240,8 +240,6 @@ export default class EditCnsulation extends Component{
             let getData=that.state.getData;
             getData.consultation.hospital=response.data.result[0].hospitalName;
             getData.consultation.applicant=response.data.result[0].applyName;
-            console.log(getData.consultation.hospital);
-            console.log(getData.consultation.applicant);
             that.setState({
                 getData
             })
@@ -289,7 +287,6 @@ export default class EditCnsulation extends Component{
                 }):"";
             }
             getData.consultationId=that.props.params.id;
-            console.log(checkData)
             that.setState({
                 getData:getData,
                 history1:getData.case[0],
@@ -303,7 +300,7 @@ export default class EditCnsulation extends Component{
             //因为异步的原因，所以只能在回调函数里面放数据请求了
 
             //that.getPeople();
-            axios.request({
+            /*axios.request({
                 url: '/api/conference/doctor',
                 method: 'get',
                 headers: {
@@ -354,7 +351,7 @@ export default class EditCnsulation extends Component{
                     docId:obj,
                     docKeys:targetKeys
                 })
-            });
+            });*/
 
         }).catch(function () {
             alert(1)

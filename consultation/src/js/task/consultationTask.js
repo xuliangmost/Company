@@ -235,7 +235,6 @@ export default class ConsultationTask extends Component {
     }
 
     handleChange(value) {
-        console.log(value);
         let apply = this.state.applyPage;
         apply.stat = value;
         this.setState({

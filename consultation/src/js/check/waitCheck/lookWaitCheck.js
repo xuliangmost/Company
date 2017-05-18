@@ -443,7 +443,8 @@ export default class LookWaitCheck extends Component {
             },
         }).then(function (response) {
             alert("会诊确认成功");
-            location.hash = "/check/waitCheck/waitCheck";
+
+            location.hash = "/check/checked/checked";
         }).catch(function () {
             alert("会诊确认出错");
         })
@@ -482,7 +483,7 @@ export default class LookWaitCheck extends Component {
             that.setState({
                 isShowBiaoji: false
             });
-            location.hash = "/check/waitCheck/waitCheck"
+            location.hash = "/check/checked/checked";
 
         }).catch(function () {
             alert("退回出错")
@@ -507,17 +508,10 @@ export default class LookWaitCheck extends Component {
 
 
     startTime(data, dateString) {
-        console.log(dateString.split('"'))
     }
 
     onChange(date, dateString) {
-        console.log(date, dateString);
     }
-
-    onCheck(e) {
-        console.log(e.currentTarget)
-    }
-
     changeHistory1(index) {        //切换病历
         let data = [];
         if (this.state.getData.case[index].advice && this.state.getData.case[index].advice != false) {
@@ -564,7 +558,6 @@ export default class LookWaitCheck extends Component {
             action: '//jsonplaceholder.typicode.com/posts/',
             onChange({file, fileList}) {
                 if (file.status !== 'uploading') {
-                    console.log(file, fileList);
                     that.setState({
                         fileList: fileList
                     })

@@ -93,7 +93,6 @@ export default class HadReturn extends Component {
                     key: 'action',
                     render: (text, record, index) => (
                         <span key={record.id}>
-              {/*<Link to="check/checked/lookChecked">查看</Link>*/}
                             <Link to={"check/hadReturn/lookHadReturn/" + record.id}>查看</Link>
             </span>
                     )
@@ -112,11 +111,6 @@ export default class HadReturn extends Component {
         })
     }
 
-    deleteRecord(index) {
-
-        alert("删除了id是" + index + "的数据")
-
-    }
 
     componentDidMount() {
         this.query(1)

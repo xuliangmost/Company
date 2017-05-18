@@ -83,9 +83,7 @@ export default class ReturnRecord extends Component {
                     key: 'action',
                     render: (text, record, index) => (
                         <span key={record.id}>
-                <Link to={"apply/return/ReturnRecord/editReturn/" + record.id}>编辑</Link>
-                            {/*<Link to="" onClick={()=>this.push(record.id,index)} className="apply_link">提交</Link>*/}
-                            <Link to="" className="apply_link" onClick={() => this.invalid(record.id)}>作废</Link>
+
             </span>
                     )
                 }
@@ -133,9 +131,7 @@ export default class ReturnRecord extends Component {
         }).then(function (response) {
             that.query(1);
 
-        }).catch(function () {
-            alert("作废失败，请检查网络!")
-        });
+        })
     }
 
     changePage(page) {
@@ -173,7 +169,6 @@ export default class ReturnRecord extends Component {
             }
         });
     }
-
 
     onChange(date, dateString) {
         let applyPage = this.state.applyPage;

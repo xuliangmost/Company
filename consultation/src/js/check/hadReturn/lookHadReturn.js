@@ -238,8 +238,6 @@ export default class LookHadReturn extends Component {
             let getData = that.state.getData;
             getData.consultation.hospital = response.data.result[0].hospitalName;
             getData.consultation.applicant = response.data.result[0].applyName;
-            console.log(getData.consultation.hospital);
-            console.log(getData.consultation.applicant);
             that.setState({
                 getData
             })
@@ -287,7 +285,6 @@ export default class LookHadReturn extends Component {
                 }) : "";
             }
             getData.consultationId = that.props.params.id;
-            console.log(checkData)
             that.setState({
                 getData: getData,
                 history1: getData.case[0],
@@ -697,7 +694,7 @@ export default class LookHadReturn extends Component {
 
                     <div className="btn_save">
                         <div className="btn_save_index">
-                            <Link to="check/hadReturn/hadReturn">
+                            <Link to="check/checked/checked">
                                 <Button type="primary">返回</Button>
                             </Link>
                         </div>

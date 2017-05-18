@@ -1,9 +1,9 @@
 import React, {Component} from "react"
-import {Button, DatePicker, Input, Table} from 'antd';
+import {Button, DatePicker, Input, Table, Select} from 'antd';
 import {Link} from 'react-router';
 import "../../less/apply.less"
 import axios from "axios";
-
+const Option = Select.Option;
 const {RangePicker} = DatePicker;
 let token = localStorage.getItem("robertUserName");
 export default class Apply extends Component {
@@ -31,7 +31,7 @@ export default class Apply extends Component {
                 consultationName: null,
                 username: null,
                 phone: null,
-                status: "1",
+                status: null,
                 startTime: null,
                 endTime: null
             },
@@ -70,7 +70,7 @@ export default class Apply extends Component {
                     key: 'phone',
                 },
                 {
-                    title: '创建时间',
+                    title: '创建时间/操作时间',
                     dataIndex: 'creatAt',
                     key: 'creatAt',
                     render: (text) => (
@@ -78,27 +78,58 @@ export default class Apply extends Component {
                     )
                 },
                 {
+                    title: '会诊阶段',
+                    dataIndex: 'status',
+                    key: 'status',
+                    render: (text, record, index) => (
+                        <span key={record.id}>
+                            {
+                                record.status===1?<span>未提交</span>:record.status===2?<span>待审核</span>:record.status===4?<span>被退回</span>:null
+                            }
+
+                        </span>
+                    )
+                },
+                {
                     title: '操作',
                     key: 'action',
                     render: (text, record, index) => (
                         <span key={record.id}>
-            <Link to={"apply/editCnsulation/" + record.id}>编辑</Link>
-                            {/*<Link to={{
-                             pathname: 'apply/editCnsulation/'+record.id,
-                             query: record.id
-                             }}>编辑</Link>*/}
-                            {/*<Link to="" onClick={()=>this.push(record.id,index)} className="apply_link">提交</Link>
-                             提交按钮有问题，需要后端返回一个状态值，前端根据这个状态值渲染需要的显示的按钮*/}
+                            {
+                                record.status===1?<span>
+                               <Link to={"apply/editCnsulation/" + record.id}>编辑</Link>
                             <Link to="" className="apply_link" onClick={() => this.deleteRecord(record.id)}>删除</Link>
-            <Link className="apply_link" to={"apply/addConsultation/" + record.id}>创建副本</Link>
-          </span>
+                            <Link className="apply_link" to={"apply/addConsultation/" + record.id}>创建副本</Link>
+                            </span>:record.status===2?<Link to={"apply/daiShen/looked/" + record.id}>查看</Link>:record.status===4?<span>
+                                <Link to={"apply/return/ReturnRecord/editReturn/" + record.id}>编辑</Link>
+                                <Link to="" className="apply_link" onClick={() => this.invalid(record.id)}>作废</Link>
+                            </span>:null
+                            }
+
+                        </span>
                     )
                 }
             ],
             dataSource: []
         }
     }
+    invalid(id) {
+        let that = this;
+        axios.request({
+            url: '/api/conference/cancel',
+            method: 'get',
+            params: {
+                id: id
+            },
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+            },
+        }).then(function (response) {
+            that.query(1);
 
+        })
+    }
     componentDidMount() {
         this.query(1)
     }
@@ -178,6 +209,18 @@ export default class Apply extends Component {
         })
     }
 
+    changeStatus(value) {
+        let applyPage = this.state.applyPage;
+        if (value==='0') {
+            delete applyPage.status
+        } else {
+            applyPage.status = Number(value)
+        }
+        this.setState({
+            applyPage
+        })
+    }
+
     changePhone(e) {
         let apply = this.state.applyPage;
         apply.phone = e.target.value;
@@ -186,7 +229,7 @@ export default class Apply extends Component {
         })
     }
 
-    query(num,flag) {
+    query(num, flag) {
         let that = this;
         let applyPage = this.state.applyPage;
         applyPage.pageNum = num;
@@ -200,13 +243,13 @@ export default class Apply extends Component {
             },
         }).then(function (response) {
             let dataSource = response.data.result ? response.data.result.data : [];
-            if(flag){
+            if (flag) {
                 that.setState({
                     dataSource: dataSource,
                     total: response.data.result.count,
-                    current:1
+                    current: 1
                 })
-            }else{
+            } else {
                 that.setState({
                     dataSource: dataSource,
                     total: response.data.result.count,
@@ -221,7 +264,7 @@ export default class Apply extends Component {
                 <div className="apple_top">
                     <h1>
                         查询区
-                        <Button type="primary" onClick={() => this.query(1,1)} className="search_btn1">查询</Button>
+                        <Button type="primary" onClick={() => this.query(1, 1)} className="search_btn1">查询</Button>
                     </h1>
                     <ul className="search_ul">
                         <li>
@@ -230,9 +273,11 @@ export default class Apply extends Component {
                                    onChange={this.changeConsultationName.bind(this)} className="search_input"
                                    size="large" placeholder="会诊名称"/>
                         </li>
+
+
                         <li>
                             <span className="most_flex">会诊时间</span>
-                            <RangePicker placeholder='' placeholder='' allowClear={true} size="large" className="search_input"
+                            <RangePicker placeholder='' allowClear={true} size="large" className="search_input"
                                          onChange={this.onChange.bind(this)}/>
                         </li>
                         <li>
@@ -244,6 +289,18 @@ export default class Apply extends Component {
                             <span className="most_flex">手机号</span>
                             <Input value={this.state.applyPage.phone} onChange={this.changePhone.bind(this)}
                                    className="search_input" size="large" placeholder="手机号"/>
+                        </li>
+
+
+                        <li>
+                            <span className="most_flex">会诊阶段</span>
+                            <Select onChange={this.changeStatus.bind(this)} size="large" optionFilterProp="children"
+                                    className="search_input" defaultValue="-请选择-">
+                                <Option value="0">-请选择-</Option>
+                                <Option value="1">未提交</Option>
+                                <Option value="2">待审核</Option>
+                                <Option value="4">被退回</Option>
+                            </Select>
                         </li>
                     </ul>
 

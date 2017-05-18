@@ -25,7 +25,6 @@ export default class Left extends Component {
         permissions
       });
       let flag=true;
-      console.log(permissions);
       permissions.forEach(function (ele,index) {
         if(q.indexOf(ele)!==-1){
           flag=false
@@ -38,7 +37,6 @@ export default class Left extends Component {
     }
   }
   handleClick (e)  {
-    console.log('Clicked: ', e);
     this.setState({ current: e.key });
   };
   onOpenChange(openKeys){

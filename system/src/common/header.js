@@ -43,7 +43,7 @@ export default class Header extends Component{
                   <a  href={serverD+"/#/entrance"} className="header_sp1">切换系统</a>
                   <span className="header_sp2">
                   </span>
-                  <a className="header_sp1">{this.state.loginName}</a>
+                  <a  href={serverD+"/mine/#/mine"} className="header_sp1">{this.state.loginName}</a>
                   <span className="header_sp2">
                   </span>
                   <a onClick={this.cancelLation.bind(this)} className="header_sp1">退出</a>

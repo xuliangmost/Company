@@ -432,7 +432,6 @@ export default class LookConsultationTask extends Component {
                     data.push(ele);
                 }) : "";
             }
-            console.log(fileList)
             let conclusion = getData.conclusion ? getData.conclusion : [];//获取结论
             let checkData = getData.check ? getData.check : [];
             that.setState({

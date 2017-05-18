@@ -5,6 +5,7 @@ import "../../less/newCnsulation.less";
 import "../../less/lookWaitCheck.less";
 import axios from 'axios';
 import tool from "../../tools/checked"
+import SelectDoctor from '../../common/selectDoctor'
 import moment from 'moment';
 //dataIndex  key要一样
 let startTime = (function getNowFormatDate() {
@@ -213,11 +214,8 @@ export default class AddConsultation extends Component {
                 "singleDose": "-",//单次用量
                 "frequency": "-"//次/日
             }],
-            docList: [],//所有的医生列表
-            docKeys: [],//确定时的会诊医生弹出框右边的index
-            docId: [],//选中的医生的要上传的格式
-            docUserId: [],//选中的医生的要上传的格式
-            targetdoc: [],//选中的医生信息
+            getDoctor: [],//获取会诊数据时，已选择过的医生
+            selectDoctor: [],
             fileList: null,//显示的上传文件集合,
             dis: false,
             aId: null,
@@ -239,6 +237,7 @@ export default class AddConsultation extends Component {
         }).then(function (response) {
             that.setState({
                 hospitalId: response.data.result[0].hospitalId,
+                parentId: response.data.result[0].parentId,
                 aId: response.data.result[0].aId
             })
         })
@@ -279,10 +278,13 @@ export default class AddConsultation extends Component {
                     data.push(ele);
                 }) : "";
             }
-
-            // let getData=response.data.case&&response.data.case!=false?response.data:allData;
+            let hIds = [];
+            getData.doctor.map(ele => {
+                if (hIds.indexOf(ele.hospitalId) === -1) {
+                    hIds.push(ele.hospitalId)
+                }
+            });
             getData.consultationId = that.props.params.id;
-
             that.setState({
                 getData: getData,
                 history1: getData.case[0],
@@ -291,85 +293,19 @@ export default class AddConsultation extends Component {
                 data: data,
                 fileList,
                 oldPhone: getData.consultation.phone,
+                getDoctor: getData.doctor,
+                hIds,
+                consultationId:that.props.params.id,
                 userId: getData.consultation.userId
             });
             //因为异步的原因，所以只能在回调函数里面放数据请求了
             that.getPeople();
-
-            axios.request({
-                url: '/api/conference/doctor',
-                method: 'get',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/x-www-form-urlencoded UTF-8'
-                },
-            }).then(function (response) {
-                const targetKeys = [];
-                const mockData = [];
-                const targetdoc = [];
-                const hIds = [];
-
-                const docArr = response.data.result;
-                for (let i = 0; i < docArr.length; i++) {
-                    const data = {
-                        key: docArr[i].doctorId,
-                        title: docArr[i].doctorName,
-                        description: docArr[i].hospitalName,
-                        hospitalId: docArr[i].hospitalId,
-                        chosen: (function (a) {
-                            return responseDoc.indexOf(a) > -1
-                        })(docArr[i].doctorId),
-                    };
-                    if (data.chosen) {
-                        targetKeys.push(data.key);
-                        hIds.push(data.hospitalId);
-                    }
-                    mockData.push(data);
-                }
-                docArr.map((ele, index) => {
-                    targetdoc.push(ele)//targetdoc是显示在框子里面的医生的名字集合
-                });
-                let docId = [];
-                for (let i = 0; i < targetKeys.length; i++) {
-                    let obj = {};
-                    obj.doctor = targetKeys[i];
-                    docId.push(obj);
-                }
-
-                let obj = {};//这里是生成医生接口的格式
-                obj.consultationId = that.state.consultationId;
-                obj.doctorId = docId;
-
-
-                that.setState({
-                    mockData,
-                    targetKeys,
-                    docList: docArr,
-                    docId: obj,
-                    docKeys: targetKeys,
-                    hIds
-                })
-            });
-
-
-        }).catch(function () {
-
-        });
-
+        })
         //页面加载时获取医生列表
     }
 
     componentDidMount() {
         this.getValue();
-        window.addEventListener('keydown', this.handleKeyDown.bind(this))
-    }
-
-    handleKeyDown(e) {
-        if (e.keyCode == 27) {
-            this.setState({
-                showPrescription: false,
-            })
-        }
     }
 
     deleteFile(id, index) {
@@ -399,122 +335,6 @@ export default class AddConsultation extends Component {
 
     }
 
-    handleChange(targetKeys) {
-
-        let docUserId = [];
-        let targetKey = targetKeys;
-        let num = 0;
-        this.state.docList.map((ele, index) => {
-            if (targetKey.indexOf(ele.doctorId) !== -1) {
-                let obj = {};
-                obj.user = ele.userId.toString()
-                obj.hospitalId = ele.hospitalId.toString()
-                docUserId.push(obj)
-            }
-        });
-
-        docUserId.map((ele) => {
-            if (ele.hospitalId === this.state.hospitalId.toString()) {
-                num++
-            }
-        });
-        if (num > 1) {
-            message.warning("同一医院只能选择一名医生!")
-        }
-
-        this.setState({
-            targetKeys,
-            docUserId
-        });
-    };
-
-    queDing() {
-        let num = 0;
-        this.state.docUserId.map((ele) => {
-            if (ele.hospitalId === this.state.hospitalId.toString()) {
-                num++
-            }
-        });
-        if (num > 1) {
-            message.error('同一医院只能选择一名医生!');
-            return false
-        } else if (num === 0) {
-            message.error('本医院医生未选择!');
-            return false
-        }
-        let targetKeys = this.state.targetKeys;
-        let arr = [];
-        let targetTitle = [];
-        for (let i = 0; i < targetKeys.length; i++) {
-            let obj = {};
-            obj.doctor = targetKeys[i].toString();
-            arr.push(obj);
-            for (let k = 0; k < this.state.docList.length; k++) {
-                if (targetKeys[i] == this.state.docList[k].doctorId * 1) {
-                    targetTitle.push(this.state.docList[k])
-                }
-            }
-        }
-        let obj = {};
-        obj.consultationId = this.state.consultationId;
-        obj.doctorId = arr;
-        obj.userId = this.state.docUserId;
-        const hIds = targetTitle.map((ele) => {
-            return ele.hospitalId
-        });
-        let that = this;
-        axios.request({
-            url: '/api/conference/edit/doctorlist',
-            method: 'POST',
-            data: obj,
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-        }).then(function (response) {
-
-            let allData = that.state.getData;
-            allData.doctor = targetTitle;
-            that.setState({
-                isShow: false,
-                targetdoc: targetTitle,
-                allData: allData,
-                docId: obj,
-                hIds,
-                docKeys: targetKeys
-            });
-
-        }).catch(function () {
-
-        });
-    }
-
-    renderItem(item) {
-        const customLabel = (
-            <span className="custom-item">
-         {item.description} - {item.title}
-      </span>
-        );
-        return {
-            label: customLabel,  // for displayed item
-            value: item.title,   // for title and filter matching
-        };
-    };
-
-    huizhenyisheng() {
-        this.setState({
-            isShow: true
-        })
-    }
-
-    quxiaohuizhenyisheng() {
-
-        this.setState({
-            isShow: false,
-            targetKeys: this.state.docKeys
-        })
-    }
-
     ///////////////////////////
 
     send() {
@@ -524,7 +344,7 @@ export default class AddConsultation extends Component {
         }
         if (this.state.saveCase) {
             if (this.state.saveAdvice) {
-                if (this.state.targetdoc == false) {
+                if (this.state.getDoctor.length===0) {
                     alert("会诊医生未选择!");
                     return false
                 }
@@ -1048,7 +868,6 @@ export default class AddConsultation extends Component {
 
         postConsulation.userId = this.state.userId ? this.state.userId.toString().toString() : "";
         delete postConsulation.id;
-        console.log(postConsulation);
         let that = this;
         axios.request({
             url: "/api/conference/add/consultation",
@@ -1249,7 +1068,6 @@ export default class AddConsultation extends Component {
         let data1 = this.state.data;
         let getData = this.state.getData;
         let that = this;
-        console.log(getData.case[this.state.history1Index].advice[this.state.history2Index].prescription[index].id);
         axios.request({
             url: "/api/conference/delete/prescription",
             method: 'get',
@@ -1549,6 +1367,72 @@ export default class AddConsultation extends Component {
         }
     }
 
+
+    selectDoctor(arr) {//组件传递选择医生
+        this.setState({
+            selectDoctor: JSON.parse(JSON.stringify(arr)),
+        })
+    }
+
+    saveSelectDoctor() {
+        let selectDoctor = this.state.selectDoctor;
+        let num = 0;
+        let num2 = 0;
+        let hIds = [];
+        selectDoctor.map((ele) => {
+            if (ele.hospitalId === this.state.hospitalId) {
+                num++
+            }
+            if (ele.hospitalId === this.state.parentId) {
+                num2++
+            }
+            if (hIds.indexOf(ele.hospitalId)) {
+                hIds.push(ele.hospitalId)
+            }
+        });
+        if (num > 1) {
+            message.error('本医院只能选择一名医生!');
+            return false
+        } else if (num === 0) {
+            message.error('本医院医生未选择!');
+            return false
+        }
+        if (num2 > 1) {
+            message.error('上级医院只能选择一名医生!');
+            return false
+        }
+        let obj = {};
+        obj.consultationId = this.state.consultationId.toString();
+        obj.doctorId = selectDoctor.map((ele) => {
+            let obj = {};
+            obj.doctor = ele.doctorId.toString();
+            return obj
+        });
+        obj.userId = selectDoctor.map((ele) => {
+            let obj = {};
+            obj.user = ele.userId.toString();
+            obj.hospitalId = ele.hospitalId.toString();
+            return obj
+        });
+        axios.request({
+            url: '/api/conference/edit/doctorlist',
+            method: 'POST',
+            data: obj,
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then(response => {
+            if (response.data.code === 200) {
+                this.setState({
+                    getDoctor: JSON.parse(JSON.stringify(this.state.selectDoctor)),
+                    hIds
+                });
+                this.refs.selectDoctor.clear()
+            }
+        });
+    }
+
     render() {
         let style = {"height": document.body.clientHeight};
         let colorStyle = {"background": "#666"};
@@ -1638,32 +1522,6 @@ export default class AddConsultation extends Component {
                                     type="primary">取消保存</Button>
                         </div>
                     </div> : ""
-                }
-
-
-                {
-                    this.state.isShow ?
-                        <div style={Width} className="transfer_box">
-                            <div className="transfer">
-                                <Transfer showSearch
-                                          dataSource={this.state.mockData}
-                                          listStyle={
-                                              {
-                                                  width: 300,
-                                                  height: 500
-                                              }
-                                          }
-                                          rowKey={record => record.key}
-                                          targetKeys={this.state.targetKeys}
-                                          onChange={this.handleChange.bind(this)}
-                                          render={this.renderItem.bind(this)}
-                                />
-                                <Button onClick={() => this.queDing()} className="transfer_btn1"
-                                        type="primary">保存</Button>
-                                <Button onClick={() => this.quxiaohuizhenyisheng()} className="transfer_btn"
-                                        type="primary">取消</Button>
-                            </div>
-                        </div> : ""
                 }
 
                 <div className="cnsultation_top">
@@ -1961,14 +1819,34 @@ export default class AddConsultation extends Component {
                     </div>
 
 
-                    <ul className="search_ul2">
+                    <ul style={{'display': 'block'}} className="search_ul2">
                         <li className="search_li_last">
                             <span className="one_title">会诊医生</span>
-                            <Input value={
-                                this.state.targetdoc.map((ele) => {
-                                    return ele.doctorName
-                                })
-                            } className="search_input" onFocus={() => this.huizhenyisheng()} type="textarea" rows={4}/>
+                            <SelectDoctor ref='selectDoctor' selectDoctor={this.selectDoctor.bind(this)}/>
+                            <Button
+                                onClick={this.saveSelectDoctor.bind(this)}
+                                style={{'marginLeft': '4px'}}
+                                className="btn_save_index_2"
+                                type="primary">保存</Button>
+                        </li>
+                        <li className="search_li_last">
+                            <span className="one_title">
+                            </span>
+                            <Input
+                                style={{'fontSize': '20px', 'fontWeight': 'bold'}}
+                                disabled
+                                className='search_input'
+                                type="textarea"
+                                value={
+                                    this.state.getDoctor.map((ele) => {
+                                        return ele.doctorName
+                                    })
+                                }
+                            />
+                            <Button
+                                style={{'visibility': 'hidden'}}
+                                className="btn_save_index_2"
+                                type="primary">保存</Button>
                         </li>
                     </ul>
                     <div className="btn_save">

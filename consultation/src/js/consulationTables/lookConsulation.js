@@ -110,33 +110,41 @@ export default class EditCnsulation extends Component {
                 }
             ],
             //下面的这个是病历资料表头
-            fileListColumns: [
+            fileListColumns :[
+                {
+                    title: '序号',
+                    dataIndex: 'id',
+                    key: 'id',
+                    render: (text, record,index) => (
+                        <span>{index+1} </span>
+                    ),
+                },
                 {
                     title: '文件名',
-                    dataIndex: 'diagnosis',
-                    key: 'diagnosis'
+                    dataIndex: 'fileName',
+                    key: 'fileName',
                 },
                 {
                     title: '大小',
-                    dataIndex: 'doctorName',
-                    key: 'doctorName',
+                    dataIndex: 'fileSize',
+                    key: 'fileSize',
                 },
                 {
                     title: '上传时间',
-                    dataIndex: 'diagnosisTime',
-                    key: 'diagnosisTime',
+                    dataIndex: 'uploadAt',
+                    key: 'uploadAt',
                     render: (text) => (
-                        <span>{ text.split("T").join(" ").split(".").splice(0, 1)}</span>
+                        <span>{ text.split("T").join(" ").split(".").splice(0,1)}</span>
                     )
                 },
                 {
                     title: '操作',
                     key: 'action',
-                    render: (text, record) => (
+                    render: (text, record,index) => (
                         <span>
-               <a href={record.doc} download={record.diagnosis}>下载</a>
-               <a href={record.doc}>查看</a>
-            </span>
+                          <a href={record.url} download={record.fileName}>下载</a>&nbsp;
+                            <a href={record.url} target="blank" className="apply_link">查看</a>
+              </span>
                     ),
                 }
             ],
@@ -269,8 +277,6 @@ export default class EditCnsulation extends Component {
             let getData = that.state.getData;
             getData.consultation.hospital = response.data.result[0].hospitalName;
             getData.consultation.applicant = response.data.result[0].applyName;
-            console.log(getData.consultation.hospital);
-            console.log(getData.consultation.applicant);
             that.setState({
                 getData
             })
@@ -300,12 +306,12 @@ export default class EditCnsulation extends Component {
             let getData = response.data;
             getData.consultationId = 1;
             let data = [];
-
+            let fileList=[];
             if (getData.case && getData.case != false && getData.case[0].advice != false) {
                 getData.case[0].advice[0].prescription ? getData.case[0].advice[0].prescription.map((ele) => {
                     data.push(ele);
                 }) : "";
-
+                fileList=getData.case[0].file?getData.case[0].file:[]
             } else {
                 getData.case = allData.case;
                 getData.case[0].advice[0].prescription ? getData.case[0].advice[0].prescription.map((ele) => {
@@ -316,7 +322,6 @@ export default class EditCnsulation extends Component {
             let checkData = getData.check ? getData.check : [];
             let history1 = getData.case ? getData.case[0] : null;
             let history2 = history1 && history1.advice ? history1.advice[0] : null;
-            console.log(history1, history2, data)
             that.setState({
                 getData: getData,
                 history1,
@@ -324,7 +329,8 @@ export default class EditCnsulation extends Component {
                 targetdoc: getData.doctor ? getData.doctor : [],//加载页面时，会诊医生栏显示的内容
                 data: data,
                 conclusion,
-                checkData
+                checkData,
+                fileList
             });
 
             //因为异步的原因，所以只能在回调函数里面放数据请求了
@@ -411,15 +417,15 @@ export default class EditCnsulation extends Component {
 
 
     startTime(data, dataString) {
-        console.log(dataString.split('"'))
+
     }
 
     onChange(date, dateString) {
-        console.log(date, dateString);
+
     }
 
     onCheck(e) {
-        console.log(e.currentTarget)
+
     }
 
     changeHistory1(index) {        //切换病历
@@ -436,12 +442,13 @@ export default class EditCnsulation extends Component {
             data = null
         }
 
-        console.log(data);
+
         this.setState({
             history1: this.state.getData.case[index],
             history1Index: index,
             history2: this.state.getData.case[index].advice ? this.state.getData.case[index].advice[0] : null,
-            data: data
+            data: data,
+            fileList:this.state.getData.case[index].file&&this.state.getData.case[index].file!=false?this.state.getData.case[index].file:null,
         })
     }
 
@@ -470,7 +477,6 @@ export default class EditCnsulation extends Component {
             action: '//jsonplaceholder.typicode.com/posts/',
             onChange({file, fileList}) {
                 if (file.status !== 'uploading') {
-                    console.log(file, fileList);
                     that.setState({
                         fileList: fileList
                     })
@@ -703,11 +709,14 @@ export default class EditCnsulation extends Component {
                     }
 
 
-                    <div className="record">
-                        <span className="history_sp1 record_sp1"> 病历资料 </span>
+                    {
+                        this.state.fileList?<div className="record">
 
-                        <span className="history_btn1"> 无病历资料 </span>
-                    </div>
+                            <span className="history_sp1 record_sp1"> 病历资料 </span>
+
+                            <Table  rowKey="id" className="fileList" columns={this.state.fileListColumns} dataSource={this.state.fileList} />
+                        </div>:""
+                    }
 
 
                     {

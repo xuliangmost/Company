@@ -16,14 +16,15 @@ export default class AddUsrMgmt extends Component {
         phone: '',
         unitId: null,
         roleIds: '',
-        uId:null,
-        email:''
+        uId: null,
+        email: ''
       },
       total: 10,
       super: true,
       hoId: null,
       current: 1,
       phoneOk: true,
+      mailHad: false,
       columns: [
         {
           title: '序号',
@@ -76,7 +77,7 @@ export default class AddUsrMgmt extends Component {
   getList() {
     let that = this;
     axios.request({
-      url: '/api/user/hospitals',
+      url: this.state.super ? '/api/user/hospitals' : '/api/user/doctor/hList',
       method: 'get',
       headers: {
         'Authorization': 'Bearer ' + token,
@@ -88,7 +89,30 @@ export default class AddUsrMgmt extends Component {
       })
     });
   }
-
+  checkEmail() {
+      axios.request({
+        url: '/api/user/evalidate',
+        method: 'get',
+        params: {
+          email: this.state.applyPage.email
+        },
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+        },
+      }).then(response => {
+        if (response.data.code !== 200) {
+          message.error('该邮箱已注册');
+          this.setState({
+            mailHad: true
+          })
+        } else {
+          this.setState({
+            mailHad: false
+          })
+        }
+      })
+  }
   selectPermission(id, e) {
     let permissionIds = this.state.permissionIds;
     if (e.target.checked) {
@@ -100,7 +124,6 @@ export default class AddUsrMgmt extends Component {
         permissionIds.splice(permissionIds.indexOf(id.toString()), 1)
       }
     }
-    console.log(permissionIds)
   }
 
   selectFrom(value) {
@@ -137,6 +160,7 @@ export default class AddUsrMgmt extends Component {
       applyPage
     })
   }
+
   changeName(e) {
     let applyPage = this.state.applyPage;
     applyPage.name = e.target.value;
@@ -144,6 +168,7 @@ export default class AddUsrMgmt extends Component {
       applyPage
     })
   }
+
   changePhone(e) {
     let applyPage = this.state.applyPage;
     applyPage.phone = e.target.value;
@@ -181,14 +206,18 @@ export default class AddUsrMgmt extends Component {
     applyData.roleIds = permissionIds.join(',');
 
     if (!this.state.phoneOk) {
-      message.error('手机号已存在!');
+      message.error('手机号已注册!');
+      return false
+    }
+    if (this.state.mailHad) {
+      message.error('邮箱已注册!');
       return false
     }
     if (!applyData.roleIds) {
       applyData.roleIds = '0'
     }
     if (tools.isEmpty(applyData.phone)) {
-      message.error('手机号不能为空或手机号填写错误!');
+      message.error('手机号填写错误!');
       return false
     }
     if (tools.isEmpty(applyData.name)) {
@@ -199,10 +228,6 @@ export default class AddUsrMgmt extends Component {
       message.error("邮箱填写错误!");
       return false
     }
-    if (!this.state.super) {
-      applyData.unitId = this.state.hoId
-    }
-
     if (tools.isEmpty(applyData.unitId)) {
       message.error('隶属单位未选择!');
       return false
@@ -255,11 +280,11 @@ export default class AddUsrMgmt extends Component {
         }).then(function (response) {
           if (response.data.code === 200) {
             let applyPage = that.state.applyPage;
-            if(response.data.result==false){
+            if (response.data.result == false) {
               delete applyPage.uId;
               applyPage.name = '';
-              applyPage.email ='';
-            }else{
+              applyPage.email = '';
+            } else {
               applyPage.uId = response.data.result[0].uId;
               applyPage.name = response.data.result[0].name;
               applyPage.email = response.data.result[0].email;
@@ -278,15 +303,6 @@ export default class AddUsrMgmt extends Component {
     });
   }
 
-  resetPassword() {
-    if (confirm('是否确定重置？')) {
-      message.error('确认')
-    }
-    else {
-      message.error('取消')
-    }
-  }
-
   render() {
     return (
       <div >
@@ -299,32 +315,30 @@ export default class AddUsrMgmt extends Component {
             <Input onBlur={this.checkPhone.bind(this)} onChange={this.changePhone.bind(this)} className='usrmgmt_input'
                    size='large' placeholder='手机号'/>
             <span className='usrmgmt_span'>姓名</span>
-            <Input value={this.state.applyPage.name} onChange={this.changeName.bind(this)} className='usrmgmt_input' size='large' placeholder='姓名'/>
+            <Input value={this.state.applyPage.name} onChange={this.changeName.bind(this)} className='usrmgmt_input'
+                   size='large' placeholder='姓名'/>
             <span className='usrmgmt_span'>邮箱</span>
-            <Input value={this.state.applyPage.email}  onChange={this.changeEmail.bind(this)}   className='usrmgmt_input' size='large' placeholder='邮箱'/>
+            <Input onBlur={this.checkEmail.bind(this)}  value={this.state.applyPage.email} onChange={this.changeEmail.bind(this)} className='usrmgmt_input'
+                   size='large' placeholder='邮箱'/>
           </li>
-
-
-          {
-            this.state.super ? <li>
-              <span className='usrmgmt_span'>隶属单位</span>
-              <Select size='large' onChange={this.selectFrom.bind(this)} defaultValue='请选择' className='usrmgmt_input'>
-                {
-                  this.state.fromCop.map((ele, index) => {
-                    return <Option key={index} value={ele.unitId.toString()}>{ele.unitName}</Option>
-                  })
-                }
-              </Select>
-              <span className='usrmgmt_span'>
+          <li>
+            <span className='usrmgmt_span'>隶属单位</span>
+            <Select size='large' onChange={this.selectFrom.bind(this)} defaultValue='请选择' className='usrmgmt_input'>
+              {
+                this.state.fromCop.map((ele, index) => {
+                  return <Option key={index} value={ele.hospitalId?ele.hospitalId.toString():ele.unitId.toString()}>{ele.hospitalName?ele.hospitalName:ele.unitName}</Option>
+                })
+              }
+            </Select>
+            <span className='usrmgmt_span'>
               </span>
-              <span className='usrmgmt_input'>
+            <span className='usrmgmt_input'>
               </span>
-              <span className='usrmgmt_span'>
+            <span className='usrmgmt_span'>
               </span>
-              <span className='usrmgmt_input'>
+            <span className='usrmgmt_input'>
               </span>
-            </li> : ''
-          }
+          </li>
         </ul>
         <Table pagination={{
           defaultPageSize: 10, showQuickJumper: true, onChange: this.changePage.bind(this),

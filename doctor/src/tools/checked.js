@@ -82,7 +82,7 @@ function FormatDate(strTime) {
 function checked() {
   if (!localStorage.getItem("robertUserName")) {
     localStorage.setItem("history", location.href);
-    location.href = serverD + "/conference/#/"
+    location.href = serverD + "/#/"
   }
   let xhr = new XMLHttpRequest();
   xhr.open("get", "/api/conference/page?id=1", true);
@@ -91,7 +91,7 @@ function checked() {
       if (xhr.status === 401) {
         localStorage.removeItem("history");
         localStorage.setItem("history", location.href);
-        location.href = serverD + "/conference/#/"
+        location.href = serverD + "/#/"
       }
     }
   };

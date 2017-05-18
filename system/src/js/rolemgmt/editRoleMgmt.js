@@ -61,7 +61,7 @@ export default class EditRolemgmt extends Component{
     selectPermission(id,e){
       let permissionIds=this.state.permissionIds;
       if(e.target.checked){
-        if(permissionIds.indexOf(id.toString())==-1){
+        if(permissionIds.indexOf(id.toString())===-1){
           permissionIds.push(id.toString())
         }
       }else{
@@ -69,7 +69,6 @@ export default class EditRolemgmt extends Component{
           permissionIds.splice(permissionIds.indexOf(id.toString()),1)
         }
       }
-      console.log(permissionIds)
     }
 
   getValue(){

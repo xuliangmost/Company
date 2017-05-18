@@ -6,12 +6,13 @@ import Left from "../common/left"
 import {Router,Route,hashHistory} from "react-router"
 import checked from "../tools/checked"
 import Mine from "../js/mine/mine"
+import Check from "../js/mine/check"
 class PageBottom extends Component{
     constructor(props){
         super(props);
     }
     componentWillMount(){
-      //checked.checked();
+     checked.checked();
     }
 
     render(){
@@ -28,6 +29,7 @@ class PageBottom extends Component{
         )
     }
 }
+
 class Page extends Component{
     constructor(props){
         super(props)
@@ -40,9 +42,9 @@ class Page extends Component{
 
                 <Route path="/content" component={PageBottom} >
                   <Route path="/mine" component={Mine}/>
+                  <Route path="/check" component={Check}/>
                 </Route>
               </Router>
-
             </div>
         )
     }

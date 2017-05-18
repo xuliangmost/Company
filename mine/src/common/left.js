@@ -23,7 +23,6 @@ export default class Left extends Component {
 
   }
   handleClick (e)  {
-    console.log('Clicked: ', e);
     this.setState({ current: e.key });
   };
   onOpenChange(openKeys){
@@ -58,6 +57,11 @@ export default class Left extends Component {
               <Menu.Item>
                   <a href="#/mine" >
                     个人信息
+                  </a>
+                </Menu.Item>
+              <Menu.Item>
+                  <a href="#/check" >
+                    信息验证
                   </a>
                 </Menu.Item>
             </SubMenu>

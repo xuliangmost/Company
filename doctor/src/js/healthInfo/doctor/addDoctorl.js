@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Button, Select, Input, Upload, Icon} from 'antd';
+import {Button, Select, Input, Upload, Icon,message} from 'antd';
 import {Link} from 'react-router';
 import tools from "../../../tools/checked"
 import axios from "axios";
@@ -10,6 +10,9 @@ let token = localStorage.getItem("robertUserName");
 const doctorTitle = ["", "主任医师", "副主任医师", "主治医师"];
 const duties = ["", "科主任", "副主任"];
 import noPic from "./no.jpg"
+message.config({
+  top:240
+})
 export default class AddDoctor extends Component {
   constructor(props) {
     super(props);
@@ -28,8 +31,11 @@ export default class AddDoctor extends Component {
         "pic": "",
         'email': ''
       },
+
       depList: [],
-      hospitalName: ""
+      mailHad: false,
+      phoneHad: [],
+      hospital: []
     }
   }
 
@@ -39,7 +45,6 @@ export default class AddDoctor extends Component {
   }
 
   getHospital() {
-    let that = this;
     axios.request({
       url: '/api/user/doctor/hList',
       method: 'get',
@@ -47,12 +52,9 @@ export default class AddDoctor extends Component {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
-    }).then(function (response) {
-      let data = that.state.applyData;
-      data.hospitalId = response.data.result.hospitalId;
-      that.setState({
-        data,
-        hospitalName: response.data.result.hospitalName
+    }).then(response => {
+      this.setState({
+        hospital: response.data.result
       })
     });
   }
@@ -151,7 +153,6 @@ export default class AddDoctor extends Component {
         'Content-Type': 'application/x-www-form-urlencoded UTF-8'
       },
     }).then(function (response) {
-
       if (response.data.code === 200) {
         axios.request({
           url: '/api/user/patient',
@@ -163,10 +164,10 @@ export default class AddDoctor extends Component {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/x-www-form-urlencoded UTF-8'
           },
-        }).then(function (response) {
+        }).then((response) =>{
           if (response.data.code === 200) {
             let applyData = that.state.applyData;
-            if (response.data.result == false) {
+            if (response.data.result.length===0) {
               delete applyData.uId;
               applyData.doctorName = '';
               applyData.email = '';
@@ -176,35 +177,75 @@ export default class AddDoctor extends Component {
               applyData.email = response.data.result[0].email ? response.data.result[0].email : ''
             }
             that.setState({
-              applyData
+              applyData,
+              phoneHad:false
             });
           }
         })
       } else if (response.data.code === 202) {
-        alert("该号码已存在");
-        return false
+          message.error("该号码已存在");
+          that.setState({
+              phoneHad:true
+          });
+          return false
       }
     });
   }
 
+  checkEmail() {
+      axios.request({
+        url: '/api/user/evalidate',
+        method: 'get',
+        params: {
+          email: this.state.applyData.email
+        },
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/x-www-form-urlencoded UTF-8'
+        },
+      }).then(response => {
+        if (response.data.code !== 200) {
+          message.error('该邮箱已存在');
+          this.setState({
+            mailHad: true
+          })
+        } else {
+          this.setState({
+            mailHad: false
+          })
+        }
+      })
+  }
+
 
   send() {
-    let that = this;
     let data = this.state.applyData;
+      if(this.state.phoneHad){
+          message.error('该号码已存在');
+          return false
+      }
     if (!tools.mobileValidate(data.doctorPhone)) {
-      alert("手机号不能为空或格式错误!");
+      message.error("手机号不能为空或格式错误!");
+      return false
+    }
+    if(this.state.mailHad){
+      message.error('邮箱已存在');
       return false
     }
     if (tools.isEmpty(data.doctorName)) {
-      alert("姓名不能为空!");
+      message.error("姓名不能为空!");
       return false
     }
     if (tools.isEmpty(data.departmentId)) {
-      alert("科室不能为空!");
+      message.error("科室不能为空!");
+      return false
+    }
+    if (tools.isEmpty(data.hospitalId)) {
+      message.error("医院未选择!");
       return false
     }
     if (!tools.emailValidate(data.email)) {
-      alert("邮箱填写错误!");
+      message.error("邮箱填写错误!");
       return false
     }
     axios.request({
@@ -223,10 +264,19 @@ export default class AddDoctor extends Component {
     });
   }
 
+  selectHospital(value) {
+    let applyData = this.state.applyData;
+    applyData.hospitalId= Number(value);
+     this.setState({
+     hospitalName: value
+     })
+  }
+
   beforeUpload(file) {
     const isJPG = file.type === 'image/jpeg';
-    if (!isJPG) {
-      alert('只可上传JPG格式的图片文件!');
+    const isPNG = file.type === 'image/png';
+    if (!isPNG&&!isJPG) {
+      alert('只可上传JPG或PNG格式的图片文件!');
       return false
     }
   }
@@ -240,7 +290,6 @@ export default class AddDoctor extends Component {
       },
       onChange({file, fileList}) {
         if (file.status !== 'uploading') {
-          console.log(file.response.result[0].url);
           let applyData = that.state.applyData;
           applyData.pic = file.response.result[0].url;
           that.setState({
@@ -265,8 +314,6 @@ export default class AddDoctor extends Component {
         <h3>
         </h3>
         <ul className="add_hospital">
-
-
           <li>
               <span className="name">
                 手机号
@@ -286,7 +333,14 @@ export default class AddDoctor extends Component {
               <span className="name">
                 医院
               </span>
-            <Input value={this.state.hospitalName} readOnly className="flex2" size="large" placeholder="医院"/>
+            <Select size="large" onChange={this.selectHospital.bind(this)} optionFilterProp="children"
+                    className="flex2" defaultValue="-请选择-">
+              {
+                this.state.hospital.map((ele, index) => {
+                  return <Option key={index} value={ele.hospitalId.toString()}>{ele.hospitalName}</Option>
+                })
+              }
+            </Select>
             <Button type="primary">
             </Button>
           </li>
@@ -341,7 +395,7 @@ export default class AddDoctor extends Component {
               <span className="name">
                 邮箱
               </span>
-            <Input value={this.state.applyData.email} onChange={this.changeEmail.bind(this)} className="" size="large"
+            <Input onBlur={this.checkEmail.bind(this)}  value={this.state.applyData.email} onChange={this.changeEmail.bind(this)} className="" size="large"
                    placeholder="邮箱"/>
           </li>
 
