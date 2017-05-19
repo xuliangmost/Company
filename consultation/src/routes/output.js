@@ -3,13 +3,13 @@ import ReactDOM from "react-dom"
 import Header from "../common/header"
 import Left from "../common/left"
 import Content from "../common/content"
-
+import '../less/editCnsulation.less'
 import api from "../common/API"
 import {Router, Route, hashHistory} from "react-router"
 import Apply from "../js/apply/apply"//申请会诊
 import Looked from "../js/apply/daiShen/looked"//待审查看会诊
 import NewConsultation from "../js/apply/NewConsultation"//申请会诊-新增会诊
-import AddConsultation from "../js/apply/addConsultation"//申请会诊-创建副本
+// import AddConsultation from "../js/apply/addConsultation"//申请会诊-创建副本
 import EditCnsulation from "../js/apply/editCnsultation"//申请会诊-编辑会诊
 import EditReturn from "../js/apply/return/editReturn"//申请会诊-被退会诊编辑
 import Invalid from "../js/invalid/invalid"//作废会诊-查询
@@ -53,6 +53,10 @@ let auth = [
     }, {
         id: 6,
         route: "#/apply/addConsultation"
+    },
+    {
+        id: 6,
+        route: "#/apply/daiShen/looked"
     },
     {
         id: 6,
@@ -165,7 +169,7 @@ class Page extends Component {
                         <Route path="/apply/daiShen/looked/:id" component={Looked}/>
                         <Route path="/apply/return/ReturnRecord/editReturn/:id" component={EditReturn}/>
                         <Route path="/apply/newConsultation" component={NewConsultation}/>
-                        <Route path="/apply/addConsultation/:id" component={AddConsultation}/>
+                        {/*<Route path="/apply/addConsultation/:id" component={AddConsultation}/>*/}
                         <Route path="/apply/editCnsulation/:id" component={EditCnsulation}/>
                         <Route path="/invalid/invalid" component={Invalid}/>
                         <Route path="/invalid/lookInvalid/:id" component={LookInvalid}/>
@@ -188,8 +192,6 @@ class Page extends Component {
                         <Route path="/task/lookConsultationTask(/:id)" component={LookConsultationTask}/>
                         {/*task*/}
                     </Route>
-
-
                 </Router>
 
             </div>

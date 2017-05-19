@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Button, DatePicker, Input, Table, Select} from 'antd';
+import {Button, Popconfirm, Input, Table, Select} from 'antd';
 import {Link} from 'react-router';
 import "../../less/usrmgmt.less"
 import axios from "axios";
@@ -73,7 +73,12 @@ export default class UsrMgmt extends Component {
           render: (text, record, index) => (
             <span key={record.id}>
               <Link to={"usrmgmt/editUsrmgmt/" + record.userId}>编辑&nbsp;&nbsp;</Link>
-              <Link to='' onClick={this.deleteDoc.bind(this, record.userId)}>删除</Link>
+              <Popconfirm
+                  title="是否确定删除?"
+                  onConfirm={this.deleteDoc.bind(this, record.userId)} okText="是"
+                  cancelText="否">
+                         <Link to=''>删除</Link>
+               </Popconfirm>
             </span>
           )
         }

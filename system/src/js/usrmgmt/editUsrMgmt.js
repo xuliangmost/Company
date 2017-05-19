@@ -134,13 +134,16 @@ export default class AddUsrMgmt extends Component {
     let permissionIds = this.state.permissionIds;
     if (e.target.checked) {
       if (permissionIds.indexOf(id.toString()) === -1) {
-        permissionIds.push(id.toString())
+          permissionIds.push(id.toString())
       }
     } else {
       if (permissionIds.indexOf(id.toString()) !== -1) {
-        permissionIds.splice(permissionIds.indexOf(id.toString()), 1)
+          permissionIds.splice(permissionIds.indexOf(id.toString()), 1)
       }
     }
+    this.setState({
+        permissionIds
+    });
   }
 
   selectFrom(value) {

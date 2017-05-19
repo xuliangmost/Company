@@ -97,11 +97,11 @@ export default class Apply extends Component {
                         <span key={record.id}>
                             {
                                 record.status===1?<span>
-                               <Link to={"apply/editCnsulation/" + record.id}>编辑</Link>
+                               <Link to={`apply/editCnsulation/${record.id}`}>编辑</Link>
                             <Link to="" className="apply_link" onClick={() => this.deleteRecord(record.id)}>删除</Link>
-                            <Link className="apply_link" to={"apply/addConsultation/" + record.id}>创建副本</Link>
-                            </span>:record.status===2?<Link to={"apply/daiShen/looked/" + record.id}>查看</Link>:record.status===4?<span>
-                                <Link to={"apply/return/ReturnRecord/editReturn/" + record.id}>编辑</Link>
+                            {/*<Link className="apply_link" to={"apply/addConsultation/" + record.id}>创建副本</Link>*/}
+                            </span>:record.status===2?<Link to={`apply/daiShen/looked/${record.id}`}>查看</Link>:record.status===4?<span>
+                                <Link to={`apply/return/ReturnRecord/editReturn/${ record.id}`}>编辑</Link>
                                 <Link to="" className="apply_link" onClick={() => this.invalid(record.id)}>作废</Link>
                             </span>:null
                             }
@@ -125,7 +125,7 @@ export default class Apply extends Component {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/x-www-form-urlencoded UTF-8'
             },
-        }).then(function (response) {
+        }).then(function () {
             that.query(1);
 
         })
@@ -134,7 +134,7 @@ export default class Apply extends Component {
         this.query(1)
     }
 
-    push(id, index) {
+    push(id) {
 
         let that = this;
         axios.request({
@@ -147,7 +147,7 @@ export default class Apply extends Component {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/x-www-form-urlencoded UTF-8'
             },
-        }).then(function (response) {
+        }).then(function () {
             that.query();
 
         }).catch(function () {
@@ -175,7 +175,7 @@ export default class Apply extends Component {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/x-www-form-urlencoded UTF-8'
             },
-        }).then(function (response) {
+        }).then(function () {
             that.query(1);
 
         }).catch(function () {

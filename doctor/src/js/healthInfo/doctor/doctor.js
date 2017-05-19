@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Button, Select, Input, Table} from 'antd';
+import {Button, Select, Input, Table,Popconfirm} from 'antd';
 import {Link} from 'react-router';
 import "../../../less/hospital.less"
 import axios from "axios";
@@ -91,7 +91,13 @@ export default class Doctor extends Component {
           render: (text, record, index) => (
             <span key={record.id}>
               <Link to={"healthInfo/doctor/editDoctor/" + record.doctorId}>编辑&nbsp;&nbsp;</Link>
-              <Link to='' onClick={this.deleteDoc.bind(this, record.userId)}>删除</Link>
+              <Popconfirm
+                  title="是否确定删除?"
+                  onConfirm={this.deleteDoc.bind(this, record.userId)} okText="是"
+                  cancelText="否">
+                         <Link to=''>删除</Link>
+               </Popconfirm>
+
             </span>
           )
         }

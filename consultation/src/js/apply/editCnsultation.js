@@ -1,8 +1,8 @@
 import React, {Component} from "react"
-import {Button, DatePicker, Input, Table, Transfer, Icon, Upload, message, Popconfirm} from 'antd';
+import {Button, DatePicker, Input, Table, Icon, Upload, message, Popconfirm} from 'antd';
 import tool from "../../tools/checked"
 import {Link} from 'react-router';
-import "../../less/editCnsulation.less"
+// import "../../less/editCnsulation.less"
 import SelectDoctor from '../../common/selectDoctor'
 import axios from 'axios';
 import moment from 'moment';
@@ -26,6 +26,7 @@ let allData = {
     //会诊
     "consultation": {
         "hospital": "", //隶属医院
+        "hospitalname": "", //隶属医院
         "applicant": "", //会诊申请人
         "consultationName": "", //会诊名称
         "startTime": "", //会诊时间
@@ -100,7 +101,7 @@ export default class EditCnsulation extends Component {
             history2: allData.case[0].advice[0] ? allData.case[0].advice[0] : [],//当前显示的医嘱
             history1Index: 0,//当前显示的病历的下标
             history2Index: 0,//当前显示的医嘱的下标
-
+            hIds: null,
             columns: [
                 {
                     title: '开方时间',
@@ -143,7 +144,7 @@ export default class EditCnsulation extends Component {
                 {
                     this.state.history1.statusId ? <span>
                     {
-                        record.id == 0 ? <span>
+                        record.id === 0 ? <span>
                 <Button onClick={this.addPrescription.bind(this)} className="addMedicine" type="primary">新增</Button>
               </span> : <span>
                 <Button onClick={this.deletePrescription.bind(this, index)} className="addMedicine"
@@ -220,7 +221,6 @@ export default class EditCnsulation extends Component {
             selectDoctor: [],
             fileList: null,//显示的上传文件集合
             aId: null,
-            hIds: null,
         }
     }
 
@@ -266,9 +266,9 @@ export default class EditCnsulation extends Component {
             let data = [];
             let caseId = false;
             let fileList = [];
-            let saveAdvice = true
-            if (getData.case && getData.case != false) {
-                if (getData.case[0].advice != false && getData.case[0].advice[0].prescription) {
+            let saveAdvice = true;
+            if (getData.case && getData.case.length !== 0) {
+                if (getData.case[0].advice.length!==0 && getData.case[0].advice[0].prescription) {
                     getData.case[0].advice[0].prescription.map((ele) => {
                         data.push(ele);
                     });
@@ -314,6 +314,7 @@ export default class EditCnsulation extends Component {
 
     componentDidMount() {
         this.getValue();
+        console.log('didMount')
     }
 
     cancelSaveCF() {
@@ -334,7 +335,7 @@ export default class EditCnsulation extends Component {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
-        }).then(function (response) {
+        }).then(function () {
             let getData = that.state.getData;
             getData.case[that.state.history1Index].file.splice(index, 1);
             let list = getData.case[that.state.history1Index].file;
@@ -354,7 +355,7 @@ export default class EditCnsulation extends Component {
     changeHistory1(index) {        //切换病历
 
         if (!this.state.saveCase) {
-            if (index != this.state.history1Index) {
+            if (index !== this.state.history1Index) {
                 message.error("当前病历未保存!");
                 return false
             }
@@ -365,8 +366,8 @@ export default class EditCnsulation extends Component {
             return false
         }
         let data = [];
-        if (this.state.getData.case[index].advice && this.state.getData.case[index].advice != false) {
-            if (this.state.getData.case[index].advice[0].prescription && this.state.getData.case[index].advice[0].prescription != false) {
+        if (this.state.getData.case[index].advice && this.state.getData.case[index].advice.length !== 0) {
+            if (this.state.getData.case[index].advice[0].prescription && this.state.getData.case[index].advice[0].prescription.length !== 0) {
                 this.state.getData.case[index].advice[0].prescription.map((ele) => {
                     data.push(ele);
                 })
@@ -378,7 +379,7 @@ export default class EditCnsulation extends Component {
         if (this.state.getData.case[index].statusId) {
             caseShow = true;
         }
-        if (this.state.getData.case[index].file && this.state.getData.case[index].file != false) {
+        if (this.state.getData.case[index].file && this.state.getData.case[index].file.length !== 0) {
         }
         this.setState({
             history1: this.state.getData.case[index],
@@ -387,20 +388,20 @@ export default class EditCnsulation extends Component {
             history2: this.state.getData.case[index].advice ? this.state.getData.case[index].advice[0] : null,
             data: data,
             caseId: caseShow,
-            fileList: this.state.getData.case[index].file && this.state.getData.case[index].file != false ? this.state.getData.case[index].file : null,
+            fileList: this.state.getData.case[index].file && this.state.getData.case[index].file.length !== 0 ? this.state.getData.case[index].file : null,
         })
     }
 
     changeHistory2(index) {        //切换医嘱
         if (!this.state.saveAdvice) {
-            if (index != this.state.history2Index) {
+            if (index !== this.state.history2Index) {
                 message.error("当前医嘱未保存!");
                 return false
             }
         }
         let history2 = this.state.history1.advice ? this.state.history1.advice[index] : null;
         let data = [];
-        if (history2.prescription && history2.prescription != false) {
+        if (history2.prescription && history2.prescription.length !== 0) {
             history2.prescription.map((ele) => {
                 data.push(ele);
             })
@@ -850,7 +851,7 @@ export default class EditCnsulation extends Component {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
-        }).then(function (response) {
+        }).then(function () {
             getData.case[this.state.history1Index].advice[this.state.history2Index].prescription.splice(index, 1);
             data1.splice(index, 1);
             that.setState({
@@ -902,7 +903,7 @@ export default class EditCnsulation extends Component {
 
         let that = this;
         if (!that.state.saveCase) {
-            if (index != that.state.history1Index) {
+            if (index !== that.state.history1Index) {
                 alert("请先保存病历!");
                 return false
             }
@@ -924,7 +925,7 @@ export default class EditCnsulation extends Component {
                 },
             }).then(function (response) {
                 if (response.data.code === 200) {
-                    if (getData.case.length == 1) {
+                    if (getData.case.length === 1) {
                         getData.case[0] = {
                             "sn": "", //case编号
                             "hospital": "",  //case医院
@@ -973,7 +974,7 @@ export default class EditCnsulation extends Component {
                         })
                     } else {
                         getData.case.splice(index, 1);
-                        if (index == getData.case.length - 1) {
+                        if (index === getData.case.length - 1) {
 
                         } else {
                             index = index < 1 ? 0 : index - 1;
@@ -981,7 +982,7 @@ export default class EditCnsulation extends Component {
                         let history2 = getData.case[index].advice ? getData.case[index].advice[0] : null;
 
                         let data = history2 ? history2.prescription : [];
-                        if (data == false) {
+                        if (data.length === 0) {
                             data.push(that.state.oldData)
                         }
                         that.setState({
@@ -997,7 +998,7 @@ export default class EditCnsulation extends Component {
                 }
             });
         } else {
-            if (getData.case.length == 1) {
+            if (getData.case.length === 1) {
                 getData.case[0] = {
                     "sn": "", //case编号
                     "hospital": "",  //case医院
@@ -1046,7 +1047,7 @@ export default class EditCnsulation extends Component {
                 })
             } else {
                 getData.case.splice(index, 1);
-                if (index == getData.case.length - 1) {
+                if (index === getData.case.length - 1) {
 
                 } else {
                     index = index < 1 ? 0 : index - 1;
@@ -1054,7 +1055,7 @@ export default class EditCnsulation extends Component {
                 let history2 = getData.case[index].advice ? getData.case[index].advice[0] : null;
 
                 let data = history2 ? history2.prescription : [];
-                if (data == false) {
+                if (data.length === 0) {
                     data.push(that.state.oldData)
                 }
                 that.setState({
@@ -1099,7 +1100,7 @@ export default class EditCnsulation extends Component {
                     let history2 = history1.advice ? history1.advice[index] : null;
                     let data = history2 ? history2.prescription : [];
                     let saveAdvice = !history2;
-                    if (data == false) {
+                    if (data.length === 0) {
                         data.push(that.state.oldData)
                     }
                     that.setState({
@@ -1119,7 +1120,7 @@ export default class EditCnsulation extends Component {
             let history2 = history1.advice ? history1.advice[index] : null;
             let data = history2 ? history2.prescription : [];
             let saveAdvice = !history2;
-            if (data == false) {
+            if (data.length === 0) {
                 data.push(that.state.oldData)
             }
             that.setState({
@@ -1243,7 +1244,6 @@ export default class EditCnsulation extends Component {
         let that = this;
         let caseId = null;
         let Hidden = {"overflowY": "hidden"};
-        let Width = {"width": document.body.clientWidth, "height": document.body.clientHeight};
         if (this.state.history1.id) {
             caseId = this.state.history1.id.toString();
         }
@@ -1508,7 +1508,7 @@ export default class EditCnsulation extends Component {
 
                     <div className="prescribe">
                         {
-                            this.state.history1.advice && this.state.history1.advice != false ? this.state.history1.advice.map((ele, index) => {
+                            this.state.history1.advice && this.state.history1.advice.length !== 0 ? this.state.history1.advice.map((ele, index) => {
                                 return (
                                     <div key={index}>
                                         <span style={this.state.history2Index === index ? colorStyle : {}}

@@ -265,7 +265,6 @@ export default class Looked extends Component {
                 getData
             })
         }).catch(function () {
-            alert("1")
         });
     }
 
@@ -379,7 +378,6 @@ export default class Looked extends Component {
     }
 
     componentDidMount() {
-
         this.getValue();
     }
 
